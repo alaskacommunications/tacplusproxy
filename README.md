@@ -60,10 +60,14 @@ source code from the git repository.
 Browse Source:
 
    * https://github.com/alaskacommunications/tacproxy
+   * https://scm.prv.acsalaska.net/pub/scm/ipeng/tacproxy.git/
 
 Git URLs:
 
    * https://github.com/alaskacommunications/tacproxy
+   * git@github.com:alaskacommunications/tacproxy.git
+   * https://scm.prv.acsalaska.net/pub/scm/ipeng/tacproxy.git
+   * scm.prv.acsalaska.net:/pub/scm/ipeng/tacproxy.git
 
 Downloading Source:
 
