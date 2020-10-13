@@ -59,23 +59,21 @@ source code from the git repository.
 
 Browse Source:
 
-   * https://github.com/alaskacommunications/tacproxy
-   * https://scm.prv.acsalaska.net/pub/scm/ipeng/tacproxy.git/
+   * https://github.com/alaskacommunications/tacplusproxy
+   * https://scm.prv.acsalaska.net/pub/scm/ipeng/tacplusproxy.git/
 
 Git URLs:
 
-   * https://github.com/alaskacommunications/tacproxy
-   * git@github.com:alaskacommunications/tacproxy.git
-   * https://scm.prv.acsalaska.net/pub/scm/ipeng/tacproxy.git
-   * scm.prv.acsalaska.net:/pub/scm/ipeng/tacproxy.git
+   * https://github.com/alaskacommunications/tacplusproxy
+   * https://scm.prv.acsalaska.net/pub/scm/ipeng/tacplusproxy.git
 
 Downloading Source:
 
-      $ git clone https://github.com/alaskacommunications/tacproxy
+      $ git clone https://github.com/alaskacommunications/tacplusproxy
 
 Preparing Source:
 
-      $ cd tacproxy
+      $ cd tacplusproxy
       $ ./autogen.sh
 
 Compiling Source:
