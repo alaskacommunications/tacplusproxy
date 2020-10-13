@@ -1,6 +1,6 @@
 
-TACACS+ Proxy and Tools
-=======================
+TACACS+ Proxy Server and Utilities
+==================================
 
 Copyright (c) 2020 Alaska Communications
 All rights reserved.

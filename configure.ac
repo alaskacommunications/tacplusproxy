@@ -1,5 +1,5 @@
 #
-#   TACACS+ Proxy and Tools
+#   TACACS+ Proxy Server and Utilities
 #   Copyright (c) 2020 Alaska Communications  
 #   All rights reserved.
 #
@@ -43,7 +43,7 @@ AC_PREREQ(2.65)
 
 AC_COPYRIGHT([Copyright (C) 2020 Alaska Communications.])
 AC_REVISION(0.1)
-AC_INIT([TACACS+ Proxy and Tools],[0.0],[david.syzdek@acsalaska.com],[tacproxy])
+AC_INIT([TACACS+ Proxy Server and Utilities],[0.0],[david.syzdek@acsalaska.com],[tacplusproxy])
 
 AC_SUBST([RELEASE_MONTH],["August 2020"])
 
@@ -205,7 +205,7 @@ AC_OUTPUT
 
 # Show local config
 AC_MSG_NOTICE([ ])
-AC_MSG_NOTICE([   TACACS+ Proxy and Tools ($PACKAGE_VERSION)])
+AC_MSG_NOTICE([   TACACS+ Proxy Server and Utilities ($PACKAGE_VERSION)])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Use Warnings                  $USE_WARNINGS])
 AC_MSG_NOTICE([   Use Strict Warnings           $USE_STRICTWARNINGS])
