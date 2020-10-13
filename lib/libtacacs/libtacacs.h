@@ -49,7 +49,7 @@
 #endif
 
 #include <assert.h>
-#include <tacproxy.h>
+#include <tacplusproxy/tacacs.h>
 
 
 //////////////

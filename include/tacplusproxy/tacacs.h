@@ -33,8 +33,8 @@
 /*
  *  include/tacproxy.h common includes and prototypes
  */
-#ifndef _TACPROXY_H
-#define _TACPROXY_H 1
+#ifndef _TACPLUSPROXY_TACACS_H
+#define _TACPLUSPROXY_TACACS_H 1
 
 ///////////////
 //           //
