@@ -34,6 +34,35 @@
 #
 
 
+# AC_TACPROXY_DOCS
+# ______________________________________________________________________________
+AC_DEFUN_ONCE([AC_TACPROXY_DOCS],[dnl
+
+   # prerequists
+   AC_REQUIRE([AC_TACPROXY_TACPROXYD])
+   AC_REQUIRE([AC_TACPROXY_TACCLI])
+   AC_REQUIRE([AC_TACPROXY_LIBTACPROXY])
+
+   if test "x${TACPROXY_TACPROXYD}" == "xyes";then
+      TACPROXY_DOCS=yes
+   elif test "x${TACPROXY_TACCLI}" == "xyes";then
+      TACPROXY_DOCS=yes
+   elif test "x${TACPROXY_LIBTACPROXY}" == "xyes";then
+      TACPROXY_DOCS=yes
+   else
+      TACPROXY_DOCS=no
+   fi
+
+   if test "x${TACPROXY_DOCS}" == "xyes";then
+      TACPROXY_DOCS_STATUS=install
+   else
+      TACPROXY_DOCS_STATUS=skip
+   fi
+
+   AM_CONDITIONAL([TACPROXY_DOCS], [test "x$TACPROXY_DOCS" = "xyes"])
+])dnl
+
+
 # AC_TACPROXY_LIBTACPROXY
 # ______________________________________________________________________________
 AC_DEFUN_ONCE([AC_TACPROXY_LIBTACPROXY],[dnl

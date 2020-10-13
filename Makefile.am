@@ -75,9 +75,11 @@ LDADD					=
 # automake targets
 bin_PROGRAMS				=
 check_PROGRAMS				=
-doc_DATA				= doc/rfc8907.txt
+doc_DATA				=
 doxygen_DATA				=
-noinst_DATA				=
+noinst_DATA				= doc/rfc8907.txt \
+					  doc/draft-grant-tacacs-02.txt \
+					  doc/draft-ietf-opsawg-tacacs-18.txt
 EXTRA_PROGRAMS				=
 include_HEADERS				=
 info_TEXINFOS				=
@@ -91,6 +93,9 @@ man_MANS				=
 noinst_HEADERS				= include/tacproxy.h
 noinst_PROGRAMS				=
 noinst_LIBRARIES			=
+if TACPROXY_DOCS
+   doc_DATA				+= doc/rfc8907.txt
+endif
 if TACPROXY_LIBTACPROXY
    lib_LTLIBRARIES			+= lib/libtacproxy.la
    include_HEADERS			+= include/tacproxy.h
@@ -124,14 +129,12 @@ TESTS					=
 XFAIL_TESTS				=
 EXTRA_MANS				=
 EXTRA_DIST				= $(noinst_HEADERS) \
+					  $(noinst_DATA) \
 					  ChangeLog.md \
 					  COPYING.md \
 					  NEWS.md \
 					  README.md \
 					  TODO.md \
-					  doc/draft-grant-tacacs-02.txt \
-					  doc/draft-ietf-opsawg-tacacs-18.txt \
-					  doc/rfc8907.txt \
 					  lib/libtacproxy/libtacproxy.sym
 CLEANFILES				= \
 					  $(builddir)/a.out   $(srcdir)/a.out \

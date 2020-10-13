@@ -197,6 +197,7 @@ AC_TACPROXY_MOD_PGSQL
 AC_TACPROXY_MOD_RADIUS
 AC_TACPROXY_MOD_SYSLOG
 AC_TACPROXY_LIBTACPROXY
+AC_TACPROXY_DOCS
 
 # Creates outputs
 AC_CONFIG_FILES([Makefile])
@@ -223,6 +224,9 @@ AC_MSG_NOTICE([      mod_ldap                   $TACPROXY_MOD_LDAP_STATUS])
 AC_MSG_NOTICE([      mod_pgsql                  $TACPROXY_MOD_PGSQL_STATUS])
 AC_MSG_NOTICE([      mod_radius                 $TACPROXY_MOD_RADIUS_STATUS])
 AC_MSG_NOTICE([      mod_syslog                 $TACPROXY_MOD_SYSLOG_STATUS])
+AC_MSG_NOTICE([ ])
+AC_MSG_NOTICE([   Documentation:])
+AC_MSG_NOTICE([      RFC 8907                   $TACPROXY_DOCS_STATUS])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Please send suggestions to:   $PACKAGE_BUGREPORT])
 AC_MSG_NOTICE([ ])
