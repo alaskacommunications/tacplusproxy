@@ -74,6 +74,9 @@ LDADD					=
 
 # automake targets
 bin_PROGRAMS				=
+sbin_PROGRAMS				=
+libexec_PROGRAMS			=
+pkglibexec_PROGRAMS			=
 check_PROGRAMS				=
 doc_DATA				=
 doxygen_DATA				=
@@ -121,9 +124,9 @@ if TACPLUS_TACCLI
    bin_PROGRAMS				+= src/tac-cli
 #   man_MANS				+= doc/tac-cli.1
 endif
-if TACPLUS_TACPROXYD
-   bin_PROGRAMS				+= src/tac-proxyd
-#   man_MANS				+= doc/tac-proxyd.1
+if TACPLUS_DAEMON
+   pkglibexec_PROGRAMS			+= src/tacplusd
+#   man_MANS				+= doc/tacplusd.1
 endif
 
 
@@ -230,13 +233,13 @@ src_tac_cli_LDADD			= $(AM_LDADD) lib/libtacacs.la
 src_tac_cli_SOURCES			= src/cli/main.c
 
 
-### macros for src/tac-proxyd
-src_tac_proxyd_DEPENDENCIES		= Makefile lib/libtacacs.la
-src_tac_proxyd_CPPFLAGS			= -DPROGRAM_NAME="\"tac-cli\"" $(AM_CPPFLAGS)
-src_tac_proxyd_CFLAGS			= $(AM_CFLAGS)
-src_tac_proxyd_LDFLAGS			= $(AM_LDFLAGS)
-src_tac_proxyd_LDADD			= $(AM_LDADD) lib/libtacacs.la
-src_tac_proxyd_SOURCES			= src/proxyd/main.c
+### macros for src/tacplusd
+src_tacplusd_DEPENDENCIES		= Makefile lib/libtacacs.la
+src_tacplusd_CPPFLAGS			= -DPROGRAM_NAME="\"tacplusd\"" $(AM_CPPFLAGS)
+src_tacplusd_CFLAGS			= $(AM_CFLAGS)
+src_tacplusd_LDFLAGS			= $(AM_LDFLAGS)
+src_tacplusd_LDADD			= $(AM_LDADD) lib/libtacacs.la
+src_tacplusd_SOURCES			= src/daemon/main.c
 
 
 # Makefile includes

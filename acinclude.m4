@@ -39,11 +39,11 @@
 AC_DEFUN_ONCE([AC_TACPLUS_DOCS],[dnl
 
    # prerequists
-   AC_REQUIRE([AC_TACPLUS_TACPROXYD])
+   AC_REQUIRE([AC_TACPLUS_DAEMON])
    AC_REQUIRE([AC_TACPLUS_TACCLI])
    AC_REQUIRE([AC_TACPLUS_LIBTACACS])
 
-   if test "x${TACPLUS_TACPROXYD}" == "xyes";then
+   if test "x${TACPLUS_TACPLUSPROXYD}" == "xyes";then
       TACPLUS_DOCS=yes
    elif test "x${TACPLUS_TACCLI}" == "xyes";then
       TACPLUS_DOCS=yes
@@ -68,7 +68,7 @@ AC_DEFUN_ONCE([AC_TACPLUS_DOCS],[dnl
 AC_DEFUN_ONCE([AC_TACPLUS_LIBTACACS],[dnl
 
    # prerequists
-   AC_REQUIRE([AC_TACPLUS_TACPROXYD])
+   AC_REQUIRE([AC_TACPLUS_DAEMON])
    AC_REQUIRE([AC_TACPLUS_TACCLI])
 
    enableval=""
@@ -79,7 +79,7 @@ AC_DEFUN_ONCE([AC_TACPLUS_LIBTACACS],[dnl
       [ ELIBTACACS=$enableval ]
    )
 
-   if test "x${TACPLUS_TACPROXYD}" == "xyes";then
+   if test "x${TACPLUS_TACPLUSPROXYD}" == "xyes";then
       ELIBTACACS=yes
    elif test "x${TACPLUS_TACCLI}" == "xyes";then
       ELIBTACACS=yes
@@ -102,7 +102,7 @@ AC_DEFUN_ONCE([AC_TACPLUS_LIBTACACS],[dnl
 AC_DEFUN_ONCE([AC_TACPLUS_MOD_FILES],[dnl
 
    # prerequists
-   AC_REQUIRE([AC_TACPLUS_TACPROXYD])
+   AC_REQUIRE([AC_TACPLUS_DAEMON])
 
    enableval=""
    AC_ARG_ENABLE(
@@ -112,7 +112,7 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_FILES],[dnl
       [ EMODFILES=$enableval ]
    )
 
-   if test "x${TACPLUS_TACPROXYD}" == "xno";then
+   if test "x${TACPLUS_TACPLUSPROXYD}" == "xno";then
       EMODFILES=no
    fi
 
@@ -135,7 +135,7 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_FILES],[dnl
 AC_DEFUN_ONCE([AC_TACPLUS_MOD_LDAP],[dnl
 
    # prerequists
-   AC_REQUIRE([AC_TACPLUS_TACPROXYD])
+   AC_REQUIRE([AC_TACPLUS_DAEMON])
 
    enableval=""
    AC_ARG_ENABLE(
@@ -145,7 +145,7 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_LDAP],[dnl
       [ EMODLDAP=$enableval ]
    )
 
-   if test "x${TACPLUS_TACPROXYD}" == "xno";then
+   if test "x${TACPLUS_TACPLUSPROXYD}" == "xno";then
       EMODLDAP=no
    fi
 
@@ -168,7 +168,7 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_LDAP],[dnl
 AC_DEFUN_ONCE([AC_TACPLUS_MOD_PGSQL],[dnl
 
    # prerequists
-   AC_REQUIRE([AC_TACPLUS_TACPROXYD])
+   AC_REQUIRE([AC_TACPLUS_DAEMON])
 
    enableval=""
    AC_ARG_ENABLE(
@@ -179,7 +179,7 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_PGSQL],[dnl
    )
    EMODPGSQL=no # force disable of module until it is written
 
-   if test "x${TACPLUS_TACPROXYD}" == "xno";then
+   if test "x${TACPLUS_TACPLUSPROXYD}" == "xno";then
       EMODPGSQL=no
    fi
 
@@ -202,7 +202,7 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_PGSQL],[dnl
 AC_DEFUN_ONCE([AC_TACPLUS_MOD_RADIUS],[dnl
 
    # prerequists
-   AC_REQUIRE([AC_TACPLUS_TACPROXYD])
+   AC_REQUIRE([AC_TACPLUS_DAEMON])
 
    enableval=""
    AC_ARG_ENABLE(
@@ -212,7 +212,7 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_RADIUS],[dnl
       [ EMODRADIUS=$enableval ]
    )
 
-   if test "x${TACPLUS_TACPROXYD}" == "xno";then
+   if test "x${TACPLUS_TACPLUSPROXYD}" == "xno";then
       EMODRADIUS=no
    fi
 
@@ -235,7 +235,7 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_RADIUS],[dnl
 AC_DEFUN_ONCE([AC_TACPLUS_MOD_SYSLOG],[dnl
 
    # prerequists
-   AC_REQUIRE([AC_TACPLUS_TACPROXYD])
+   AC_REQUIRE([AC_TACPLUS_DAEMON])
 
    enableval=""
    AC_ARG_ENABLE(
@@ -245,7 +245,7 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_SYSLOG],[dnl
       [ EMODSYSLOG=$enableval ]
    )
 
-   if test "x${TACPLUS_TACPROXYD}" == "xno";then
+   if test "x${TACPLUS_TACPLUSPROXYD}" == "xno";then
       EMODSYSLOG=no
    fi
 
@@ -290,30 +290,29 @@ AC_DEFUN_ONCE([AC_TACPLUS_TACCLI],[dnl
 ])dnl
 
 
-# AC_TACPLUS_TACPROXYD
+# AC_TACPLUS_DAEMON
 # ______________________________________________________________________________
-AC_DEFUN_ONCE([AC_TACPLUS_TACPROXYD],[dnl
+AC_DEFUN_ONCE([AC_TACPLUS_DAEMON],[dnl
 
    enableval=""
    AC_ARG_ENABLE(
-      tac-proxyd,
-      [AS_HELP_STRING([--disable-tacproxyd], [disable building TACACS+ proxy daemon])],
-      [ ETACPROXYD=$enableval ],
-      [ ETACPROXYD=$enableval ]
+      daemon,
+      [AS_HELP_STRING([--disable-daemon], [disable building TACACS+ proxy daemon and utlities])],
+      [ EDAEMON=$enableval ],
+      [ EDAEMON=$enableval ]
    )
 
-   if test "x${ETACPROXYD}" != "xno";then
-      ETACPROXYD=yes
+   if test "x${EDAEMON}" != "xno";then
+      EDAEMON=yes
    fi
-   TACPLUS_TACPROXYD=${ETACPROXYD}
+   TACPLUS_DAEMON=${EDAEMON}
 
-   TACPLUS_TACPROXYD_STATUS="skip"
-   if test "x${ETACPROXYD}" == "xyes";then
-      TACPLUS_TACPROXYD_STATUS="install"
-      TACPLUS_LIBTACPROXY="yes"
+   TACPLUS_DAEMON_STATUS="skip"
+   if test "x${EDAEMON}" == "xyes";then
+      TACPLUS_DAEMON_STATUS="install"
    fi
 
-   AM_CONDITIONAL([TACPLUS_TACPROXYD], [test "x$TACPLUS_TACPROXYD" = "xyes"])
+   AM_CONDITIONAL([TACPLUS_DAEMON], [test "x$TACPLUS_DAEMON" = "xyes"])
 ])dnl
 
 

@@ -190,7 +190,7 @@ AC_BINDLE_GIT_PACKAGE_VERSION([contrib/bindletools/build-aux/git-package-version
 # custom configure options
 AC_BINDLE_ENABLE_WARNINGS([-Wno-padded -Wno-unknown-pragmas], [-Wpadded])
 AC_TACPLUS_TACCLI
-AC_TACPLUS_TACPROXYD
+AC_TACPLUS_DAEMON
 AC_TACPLUS_MOD_FILES
 AC_TACPLUS_MOD_LDAP
 AC_TACPLUS_MOD_PGSQL
@@ -211,11 +211,11 @@ AC_MSG_NOTICE([   Use Warnings                  $USE_WARNINGS])
 AC_MSG_NOTICE([   Use Strict Warnings           $USE_STRICTWARNINGS])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Libraries:])
-AC_MSG_NOTICE([      tacplusproxy/libtacacs.a   $TACPLUS_LIBTACACS_STATUS])
-AC_MSG_NOTICE([      tacplusproxy/libtacacs.la  $TACPLUS_LIBTACACS_STATUS])
+AC_MSG_NOTICE([      libtacacs.a                $TACPLUS_LIBTACACS_STATUS])
+AC_MSG_NOTICE([      libtacacs.la               $TACPLUS_LIBTACACS_STATUS])
 AC_MSG_NOTICE([ ])
-AC_MSG_NOTICE([   Utilities:])
-AC_MSG_NOTICE([      tac-proxyd                 $TACPLUS_TACPROXYD_STATUS])
+AC_MSG_NOTICE([   Daemon and Utilities:])
+AC_MSG_NOTICE([      tacplusd                   $TACPLUS_DAEMON_STATUS])
 AC_MSG_NOTICE([      tac-cli                    $TACPLUS_TACCLI_STATUS])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Daemon Modules:])
