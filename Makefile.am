@@ -153,7 +153,9 @@ lib_libtacproxy_la_LDFLAGS		= -rpath'$(libdir)' \
 					  -export-symbols $(srcdir)/lib/libtacproxy/libtacproxy.sym
 lib_libtacproxy_la_LIBADD		= $(AM_LIBS)
 lib_libtacproxy_la_SOURCES		= $(noinst_HEADERS) \
-					  lib/libtacproxy/test.c
+					  lib/libtacproxy/libtacproxy.h \
+					  lib/libtacproxy/lversion.c \
+					  lib/libtacproxy/lversion.h
 
 
 ### macros for lib/mod_files.la
@@ -166,8 +168,7 @@ lib_mod_files_la_LDFLAGS		= -module \
 					  -shared \
 					  $(AM_LDFLAGS)
 lib_mod_files_la_LIBADD			= $(AM_LIBS)
-lib_mod_files_la_SOURCES		= $(noinst_HEADERS) \
-					  lib/libtacproxy/test.c
+lib_mod_files_la_SOURCES		= $(noinst_HEADERS) 
 
 
 ### macros for lib/mod_ldap.la
@@ -180,8 +181,7 @@ lib_mod_ldap_la_LDFLAGS			= -module \
 					  -shared \
 					  $(AM_LDFLAGS)
 lib_mod_ldap_la_LIBADD			= $(AM_LIBS)
-lib_mod_ldap_la_SOURCES			= $(noinst_HEADERS) \
-					  lib/libtacproxy/test.c
+lib_mod_ldap_la_SOURCES			= $(noinst_HEADERS)
 
 
 ### macros for lib/mod_radius.la
@@ -194,8 +194,7 @@ lib_mod_radius_la_LDFLAGS		= -module \
 					  -shared \
 					  $(AM_LDFLAGS)
 lib_mod_radius_la_LIBADD		= $(AM_LIBS)
-lib_mod_radius_la_SOURCES		= $(noinst_HEADERS) \
-					  lib/libtacproxy/test.c
+lib_mod_radius_la_SOURCES		= $(noinst_HEADERS)
 
 
 ### macros for lib/mod_syslog.la
@@ -208,8 +207,7 @@ lib_mod_syslog_la_LDFLAGS		= -module \
 					  -shared \
 					  $(AM_LDFLAGS)
 lib_mod_syslog_la_LIBADD		= $(AM_LIBS)
-lib_mod_syslog_la_SOURCES		= $(noinst_HEADERS) \
-					  lib/libtacproxy/test.c
+lib_mod_syslog_la_SOURCES		= $(noinst_HEADERS)
 
 
 ### macros for src/tac-cli
