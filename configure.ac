@@ -43,7 +43,7 @@ AC_PREREQ(2.65)
 
 AC_COPYRIGHT([Copyright (C) 2020 Alaska Communications.])
 AC_REVISION(0.1)
-AC_INIT([TACACS+ Proxy and Tools],[0.0],[david@syzdek.net],[tacproxy])
+AC_INIT([TACACS+ Proxy and Tools],[0.0],[david.syzdek@acsalaska.com],[tacproxy])
 
 AC_SUBST([RELEASE_MONTH],["August 2020"])
 
