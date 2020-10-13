@@ -75,8 +75,7 @@ LDADD					=
 # automake targets
 bin_PROGRAMS				=
 check_PROGRAMS				=
-doc_DATA				= doc/draft-grant-tacacs-02.txt \
-					  doc/draft-ietf-opsawg-tacacs-18.txt
+doc_DATA				= doc/rfc8907.txt
 doxygen_DATA				=
 noinst_DATA				=
 EXTRA_PROGRAMS				=
@@ -132,6 +131,7 @@ EXTRA_DIST				= $(noinst_HEADERS) \
 					  TODO.md \
 					  doc/draft-grant-tacacs-02.txt \
 					  doc/draft-ietf-opsawg-tacacs-18.txt \
+					  doc/rfc8907.txt \
 					  lib/libtacproxy/libtacproxy.sym
 CLEANFILES				= \
 					  $(builddir)/a.out   $(srcdir)/a.out \
