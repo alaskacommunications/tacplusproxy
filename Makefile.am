@@ -96,8 +96,8 @@ noinst_LIBRARIES			=
 if TACPLUS_DOCS
    doc_DATA				+= doc/rfc8907.txt
 endif
-if TACPLUS_LIBTACPROXY
-   lib_LTLIBRARIES			+= lib/libtacproxy.la
+if TACPLUS_LIBTACACS
+   pkglib_LTLIBRARIES			+= lib/libtacacs.la
    include_HEADERS			+= include/tacproxy.h
 endif
 if TACPLUS_MOD_FILES
@@ -135,7 +135,7 @@ EXTRA_DIST				= $(noinst_HEADERS) \
 					  NEWS.md \
 					  README.md \
 					  TODO.md \
-					  lib/libtacproxy/libtacproxy.sym
+					  lib/libtacacs/libtacacs.sym
 CLEANFILES				= \
 					  $(builddir)/a.out   $(srcdir)/a.out \
 					  $(builddir)/*/a.out $(srcdir)/*/a.out \
@@ -149,23 +149,23 @@ CLEANFILES				= \
 					  @PACKAGE_TARNAME@-*.zip
 
 
-### macros for lib/libtacproxy.la
-lib_libtacproxy_la_DEPENDENCIES		= Makefile lib/libtacproxy/libtacproxy.sym
-lib_libtacproxy_la_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/libtacproxy
-lib_libtacproxy_la_CFLAGS		= $(AM_CFLAGS)
-lib_libtacproxy_la_LDFLAGS		= -rpath'$(libdir)' \
+### macros for lib/libtacacs.la
+lib_libtacacs_la_DEPENDENCIES		= Makefile lib/libtacacs/libtacacs.sym
+lib_libtacacs_la_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/libtacacs
+lib_libtacacs_la_CFLAGS			= $(AM_CFLAGS)
+lib_libtacacs_la_LDFLAGS		= -rpath'$(libdir)' \
 					  -version-info $(LIB_VERSION_INFO) \
 					  $(AM_LDFLAGS) \
-					  -export-symbols $(srcdir)/lib/libtacproxy/libtacproxy.sym
-lib_libtacproxy_la_LIBADD		= $(AM_LIBS)
-lib_libtacproxy_la_SOURCES		= $(noinst_HEADERS) \
-					  lib/libtacproxy/libtacproxy.h \
-					  lib/libtacproxy/lversion.c \
-					  lib/libtacproxy/lversion.h
+					  -export-symbols $(srcdir)/lib/libtacacs/libtacacs.sym
+lib_libtacacs_la_LIBADD			= $(AM_LIBS)
+lib_libtacacs_la_SOURCES		= $(noinst_HEADERS) \
+					  lib/libtacacs/libtacacs.h \
+					  lib/libtacacs/lversion.c \
+					  lib/libtacacs/lversion.h
 
 
 ### macros for lib/mod_files.la
-lib_mod_files_la_DEPENDENCIES		= Makefile lib/libtacproxy.la
+lib_mod_files_la_DEPENDENCIES		= Makefile lib/libtacacs.la
 lib_mod_files_la_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/mod_files
 lib_mod_files_la_CFLAGS			= $(AM_CFLAGS)
 lib_mod_files_la_LDFLAGS		= -module \
@@ -178,7 +178,7 @@ lib_mod_files_la_SOURCES		= $(noinst_HEADERS)
 
 
 ### macros for lib/mod_ldap.la
-lib_mod_ldap_la_DEPENDENCIES		= Makefile lib/libtacproxy.la
+lib_mod_ldap_la_DEPENDENCIES		= Makefile lib/libtacacs.la
 lib_mod_ldap_la_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/mod_ldap
 lib_mod_ldap_la_CFLAGS			= $(AM_CFLAGS)
 lib_mod_ldap_la_LDFLAGS			= -module \
@@ -191,7 +191,7 @@ lib_mod_ldap_la_SOURCES			= $(noinst_HEADERS)
 
 
 ### macros for lib/mod_radius.la
-lib_mod_radius_la_DEPENDENCIES		= Makefile lib/libtacproxy.la
+lib_mod_radius_la_DEPENDENCIES		= Makefile lib/libtacacs.la
 lib_mod_radius_la_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/mod_radius
 lib_mod_radius_la_CFLAGS		= $(AM_CFLAGS)
 lib_mod_radius_la_LDFLAGS		= -module \
@@ -204,7 +204,7 @@ lib_mod_radius_la_SOURCES		= $(noinst_HEADERS)
 
 
 ### macros for lib/mod_syslog.la
-lib_mod_syslog_la_DEPENDENCIES		= Makefile lib/libtacproxy.la
+lib_mod_syslog_la_DEPENDENCIES		= Makefile lib/libtacacs.la
 lib_mod_syslog_la_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/mod_syslog
 lib_mod_syslog_la_CFLAGS		= $(AM_CFLAGS)
 lib_mod_syslog_la_LDFLAGS		= -module \
@@ -217,20 +217,20 @@ lib_mod_syslog_la_SOURCES		= $(noinst_HEADERS)
 
 
 ### macros for src/tac-cli
-src_tac_cli_DEPENDENCIES		= Makefile lib/libtacproxy.la
+src_tac_cli_DEPENDENCIES		= Makefile lib/libtacacs.la
 src_tac_cli_CPPFLAGS			= -DPROGRAM_NAME="\"tac-cli\"" $(AM_CPPFLAGS)
 src_tac_cli_CFLAGS			= $(AM_CFLAGS)
 src_tac_cli_LDFLAGS			= $(AM_LDFLAGS)
-src_tac_cli_LDADD			= $(AM_LDADD) lib/libtacproxy.la
+src_tac_cli_LDADD			= $(AM_LDADD) lib/libtacacs.la
 src_tac_cli_SOURCES			= src/cli/main.c
 
 
 ### macros for src/tac-proxyd
-src_tac_proxyd_DEPENDENCIES		= Makefile lib/libtacproxy.la
+src_tac_proxyd_DEPENDENCIES		= Makefile lib/libtacacs.la
 src_tac_proxyd_CPPFLAGS			= -DPROGRAM_NAME="\"tac-cli\"" $(AM_CPPFLAGS)
 src_tac_proxyd_CFLAGS			= $(AM_CFLAGS)
 src_tac_proxyd_LDFLAGS			= $(AM_LDFLAGS)
-src_tac_proxyd_LDADD			= $(AM_LDADD) lib/libtacproxy.la
+src_tac_proxyd_LDADD			= $(AM_LDADD) lib/libtacacs.la
 src_tac_proxyd_SOURCES			= src/proxyd/main.c
 
 

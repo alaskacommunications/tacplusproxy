@@ -31,10 +31,10 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /*
- *  include/tacproxy.h common includes and prototypes
+ *  lib/libtacacs/lversion.h version prototypes
  */
-#define _LIB_LIBTACPROXY_LVERSION_C 1
-#include "lversion.h"
+#ifndef _LIB_LIBTACACS_LVERSION_H
+#define _LIB_LIBTACACS_LVERSION_H 1
 
 ///////////////
 //           //
@@ -42,6 +42,8 @@
 //           //
 ///////////////
 #pragma mark - Headers
+
+#include "libtacacs.h"
 
 
 //////////////
@@ -76,32 +78,4 @@
 #pragma mark - Prototypes
 
 
-/////////////////
-//             //
-//  Functions  //
-//             //
-/////////////////
-#pragma mark - Functions
-
-const char * tacproxy_lib_info( uint32_t * agep, uint32_t * currentp,
-   uint32_t * revisionp )
-{
-   if ((currentp))  *currentp  = LIB_VERSION_CURRENT;
-   if ((agep))      *agep      = LIB_VERSION_AGE;
-   if ((revisionp)) *revisionp = LIB_VERSION_REVISION;
-   return(LIB_VERSION_INFO);
-}
-
-
-const char * tacproxy_version( uint32_t * majorp, uint32_t * minorp,
-   uint32_t * patchp, const char ** buildp )
-{
-   if ((majorp)) *majorp = GIT_PACKAGE_MAJOR;
-   if ((minorp)) *minorp = GIT_PACKAGE_MINOR;
-   if ((patchp)) *patchp = GIT_PACKAGE_PATCH;
-   if ((buildp)) *buildp = GIT_PACKAGE_BUILD;
-   return(GIT_PACKAGE_VERSION_BUILD);
-}
-
-
-/* end of source*/
+#endif /* end of header */

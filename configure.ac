@@ -196,7 +196,7 @@ AC_TACPLUS_MOD_LDAP
 AC_TACPLUS_MOD_PGSQL
 AC_TACPLUS_MOD_RADIUS
 AC_TACPLUS_MOD_SYSLOG
-AC_TACPLUS_LIBTACPROXY
+AC_TACPLUS_LIBTACACS
 AC_TACPLUS_DOCS
 
 # Creates outputs
@@ -211,8 +211,8 @@ AC_MSG_NOTICE([   Use Warnings                  $USE_WARNINGS])
 AC_MSG_NOTICE([   Use Strict Warnings           $USE_STRICTWARNINGS])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Libraries:])
-AC_MSG_NOTICE([      libtacproxy.a              $TACPLUS_LIBTACPLUS_STATUS])
-AC_MSG_NOTICE([      libtacproxy.la             $TACPLUS_LIBTACPLUS_STATUS])
+AC_MSG_NOTICE([      tacplusproxy/libtacacs.a   $TACPLUS_LIBTACACS_STATUS])
+AC_MSG_NOTICE([      tacplusproxy/libtacacs.la  $TACPLUS_LIBTACACS_STATUS])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Utilities:])
 AC_MSG_NOTICE([      tac-proxyd                 $TACPLUS_TACPROXYD_STATUS])

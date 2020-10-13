@@ -33,8 +33,8 @@
 /*
  *  include/tacproxy.h common includes and prototypes
  */
-#ifndef _LIBTACPROXY_H
-#define _LIBTACPROXY_H 1
+#ifndef _LIB_LIBTACACS_LIBTACACS_H
+#define _LIB_LIBTACACS_LIBTACACS_H 1
 
 ///////////////
 //           //

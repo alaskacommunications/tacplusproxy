@@ -41,7 +41,7 @@ AC_DEFUN_ONCE([AC_TACPLUS_DOCS],[dnl
    # prerequists
    AC_REQUIRE([AC_TACPLUS_TACPROXYD])
    AC_REQUIRE([AC_TACPLUS_TACCLI])
-   AC_REQUIRE([AC_TACPLUS_LIBTACPROXY])
+   AC_REQUIRE([AC_TACPLUS_LIBTACACS])
 
    if test "x${TACPLUS_TACPROXYD}" == "xyes";then
       TACPLUS_DOCS=yes
@@ -63,9 +63,9 @@ AC_DEFUN_ONCE([AC_TACPLUS_DOCS],[dnl
 ])dnl
 
 
-# AC_TACPLUS_LIBTACPROXY
+# AC_TACPLUS_LIBTACACS
 # ______________________________________________________________________________
-AC_DEFUN_ONCE([AC_TACPLUS_LIBTACPROXY],[dnl
+AC_DEFUN_ONCE([AC_TACPLUS_LIBTACACS],[dnl
 
    # prerequists
    AC_REQUIRE([AC_TACPLUS_TACPROXYD])
@@ -73,27 +73,27 @@ AC_DEFUN_ONCE([AC_TACPLUS_LIBTACPROXY],[dnl
 
    enableval=""
    AC_ARG_ENABLE(
-      libtacproxy,
-      [AS_HELP_STRING([--enable-libtacproxy], [enable building libraries])],
-      [ ELIBTACPROXY=$enableval ],
-      [ ELIBTACPROXY=$enableval ]
+      libtacacs,
+      [AS_HELP_STRING([--enable-libtacacs], [enable building TACACS+ protocol library])],
+      [ ELIBTACACS=$enableval ],
+      [ ELIBTACACS=$enableval ]
    )
 
    if test "x${TACPLUS_TACPROXYD}" == "xyes";then
-      ELIBTACPROXY=yes
+      ELIBTACACS=yes
    elif test "x${TACPLUS_TACCLI}" == "xyes";then
-      ELIBTACPROXY=yes
+      ELIBTACACS=yes
    fi
 
-   if test "x${ELIBTACPROXY}" == "xyes";then
-      TACPLUS_LIBTACPROXY=yes
-      TACPLUS_LIBTACPLUS_STATUS=install
+   if test "x${ELIBTACACS}" == "xyes";then
+      TACPLUS_LIBTACACS=yes
+      TACPLUS_LIBTACACS_STATUS=install
    else
-      TACPLUS_LIBTACPROXY=no
-      TACPLUS_LIBTACPLUS_STATUS=skip
+      TACPLUS_LIBTACACS=no
+      TACPLUS_LIBTACACS_STATUS=skip
    fi
 
-   AM_CONDITIONAL([TACPLUS_LIBTACPROXY], [test "x$TACPLUS_LIBTACPROXY" = "xyes"])
+   AM_CONDITIONAL([TACPLUS_LIBTACACS], [test "x$TACPLUS_LIBTACACS" = "xyes"])
 ])dnl
 
 
