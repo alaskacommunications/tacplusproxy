@@ -34,12 +34,13 @@
 #
 
 
-# AC_TACPROXY_LTLIBTACPROXY_LA
+# AC_TACPROXY_LIBTACPROXY
 # ______________________________________________________________________________
-AC_DEFUN_ONCE([AC_TACPROXY_LTLIBTACPROXY_LA],[dnl
+AC_DEFUN_ONCE([AC_TACPROXY_LIBTACPROXY],[dnl
 
    # prerequists
    AC_REQUIRE([AC_TACPROXY_TACPROXYD])
+   AC_REQUIRE([AC_TACPROXY_TACCLI])
 
    enableval=""
    AC_ARG_ENABLE(
@@ -51,39 +52,19 @@ AC_DEFUN_ONCE([AC_TACPROXY_LTLIBTACPROXY_LA],[dnl
 
    if test "x${TACPROXY_TACPROXYD}" == "xyes";then
       ELIBTACPROXY=yes
-   fi
-
-   TACPROXY_LTLIBTACPROXY_LA_STATUS="install"
-   if test "x${ELIBTACPROXY}" != "xyes";then
-      ELIBTACPROXY=no
-      TACPROXY_LTLIBTACPROXY_LA_STATUS="skip"
-   fi
-   TACPROXY_LTLIBTACPROXY_LA=${ELIBTACPROXY}
-
-   AM_CONDITIONAL([TACPROXY_LTLIBTACPROXY_LA], [test "x$TACPROXY_LTLIBTACPROXY_LA" = "xyes"])
-])dnl
-
-
-# AC_TACPROXY_LIBTACPROXY_A
-# ______________________________________________________________________________
-AC_DEFUN_ONCE([AC_TACPROXY_LIBTACPROXY_A],[dnl
-
-   # prerequists
-   AC_REQUIRE([AC_TACPROXY_LTLIBTACPROXY_LA])
-   AC_REQUIRE([AC_TACPROXY_TACCLI])
-
-   if test "x${TACPROXY_LTLIBTACPROXY_LA}" == "xyes";then
-      TACPROXY_LIBTACPROXY_A=yes
-      TACPROXY_LIBTACPROXY_A_STATUS=install
    elif test "x${TACPROXY_TACCLI}" == "xyes";then
-      TACPROXY_LIBTACPROXY_A=yes
-      TACPROXY_LIBTACPROXY_A_STATUS=build
-   else
-      TACPROXY_LIBTACPROXY_A=no
-      TACPROXY_LIBTACPROXY_A_STATUS=skip
+      ELIBTACPROXY=yes
    fi
 
-   AM_CONDITIONAL([TACPROXY_LIBTACPROXY_A], [test "x$TACPROXY_LIBTACPROXY_A" = "xyes"])
+   if test "x${ELIBTACPROXY}" == "xyes";then
+      TACPROXY_LIBTACPROXY=yes
+      TACPROXY_LIBTACPROXY_STATUS=install
+   else
+      TACPROXY_LIBTACPROXY=no
+      TACPROXY_LIBTACPROXY_STATUS=skip
+   fi
+
+   AM_CONDITIONAL([TACPROXY_LIBTACPROXY], [test "x$TACPROXY_LIBTACPROXY" = "xyes"])
 ])dnl
 
 
@@ -286,7 +267,7 @@ AC_DEFUN_ONCE([AC_TACPROXY_TACPROXYD],[dnl
 
    enableval=""
    AC_ARG_ENABLE(
-      tacproxyd,
+      tac-proxyd,
       [AS_HELP_STRING([--disable-tacproxyd], [disable building TACACS+ proxy daemon])],
       [ ETACPROXYD=$enableval ],
       [ ETACPROXYD=$enableval ]

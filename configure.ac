@@ -196,8 +196,7 @@ AC_TACPROXY_MOD_LDAP
 AC_TACPROXY_MOD_PGSQL
 AC_TACPROXY_MOD_RADIUS
 AC_TACPROXY_MOD_SYSLOG
-AC_TACPROXY_LTLIBTACPROXY_LA
-AC_TACPROXY_LIBTACPROXY_A
+AC_TACPROXY_LIBTACPROXY
 
 # Creates outputs
 AC_CONFIG_FILES([Makefile])
@@ -211,11 +210,11 @@ AC_MSG_NOTICE([   Use Warnings                  $USE_WARNINGS])
 AC_MSG_NOTICE([   Use Strict Warnings           $USE_STRICTWARNINGS])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Libraries:])
-AC_MSG_NOTICE([      libtacproxy.a              $TACPROXY_LIBTACPROXY_A_STATUS])
-AC_MSG_NOTICE([      libtacproxy.la             $TACPROXY_LTLIBTACPROXY_LA_STATUS])
+AC_MSG_NOTICE([      libtacproxy.a              $TACPROXY_LIBTACPROXY_STATUS])
+AC_MSG_NOTICE([      libtacproxy.la             $TACPROXY_LIBTACPROXY_STATUS])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Utilities:])
-AC_MSG_NOTICE([      tacproxyd                  $TACPROXY_TACPROXYD_STATUS])
+AC_MSG_NOTICE([      tac-proxyd                 $TACPROXY_TACPROXYD_STATUS])
 AC_MSG_NOTICE([      tac-cli                    $TACPROXY_TACCLI_STATUS])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Daemon Modules:])
