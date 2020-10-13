@@ -189,15 +189,15 @@ AC_BINDLE_GIT_PACKAGE_VERSION([contrib/bindletools/build-aux/git-package-version
 
 # custom configure options
 AC_BINDLE_ENABLE_WARNINGS([-Wno-padded -Wno-unknown-pragmas], [-Wpadded])
-AC_TACPROXY_TACCLI
-AC_TACPROXY_TACPROXYD
-AC_TACPROXY_MOD_FILES
-AC_TACPROXY_MOD_LDAP
-AC_TACPROXY_MOD_PGSQL
-AC_TACPROXY_MOD_RADIUS
-AC_TACPROXY_MOD_SYSLOG
-AC_TACPROXY_LIBTACPROXY
-AC_TACPROXY_DOCS
+AC_TACPLUS_TACCLI
+AC_TACPLUS_TACPROXYD
+AC_TACPLUS_MOD_FILES
+AC_TACPLUS_MOD_LDAP
+AC_TACPLUS_MOD_PGSQL
+AC_TACPLUS_MOD_RADIUS
+AC_TACPLUS_MOD_SYSLOG
+AC_TACPLUS_LIBTACPROXY
+AC_TACPLUS_DOCS
 
 # Creates outputs
 AC_CONFIG_FILES([Makefile])
@@ -211,22 +211,22 @@ AC_MSG_NOTICE([   Use Warnings                  $USE_WARNINGS])
 AC_MSG_NOTICE([   Use Strict Warnings           $USE_STRICTWARNINGS])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Libraries:])
-AC_MSG_NOTICE([      libtacproxy.a              $TACPROXY_LIBTACPROXY_STATUS])
-AC_MSG_NOTICE([      libtacproxy.la             $TACPROXY_LIBTACPROXY_STATUS])
+AC_MSG_NOTICE([      libtacproxy.a              $TACPLUS_LIBTACPLUS_STATUS])
+AC_MSG_NOTICE([      libtacproxy.la             $TACPLUS_LIBTACPLUS_STATUS])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Utilities:])
-AC_MSG_NOTICE([      tac-proxyd                 $TACPROXY_TACPROXYD_STATUS])
-AC_MSG_NOTICE([      tac-cli                    $TACPROXY_TACCLI_STATUS])
+AC_MSG_NOTICE([      tac-proxyd                 $TACPLUS_TACPROXYD_STATUS])
+AC_MSG_NOTICE([      tac-cli                    $TACPLUS_TACCLI_STATUS])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Daemon Modules:])
-AC_MSG_NOTICE([      mod_files                  $TACPROXY_MOD_FILES_STATUS])
-AC_MSG_NOTICE([      mod_ldap                   $TACPROXY_MOD_LDAP_STATUS])
-AC_MSG_NOTICE([      mod_pgsql                  $TACPROXY_MOD_PGSQL_STATUS])
-AC_MSG_NOTICE([      mod_radius                 $TACPROXY_MOD_RADIUS_STATUS])
-AC_MSG_NOTICE([      mod_syslog                 $TACPROXY_MOD_SYSLOG_STATUS])
+AC_MSG_NOTICE([      mod_files                  $TACPLUS_MOD_FILES_STATUS])
+AC_MSG_NOTICE([      mod_ldap                   $TACPLUS_MOD_LDAP_STATUS])
+AC_MSG_NOTICE([      mod_pgsql                  $TACPLUS_MOD_PGSQL_STATUS])
+AC_MSG_NOTICE([      mod_radius                 $TACPLUS_MOD_RADIUS_STATUS])
+AC_MSG_NOTICE([      mod_syslog                 $TACPLUS_MOD_SYSLOG_STATUS])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Documentation:])
-AC_MSG_NOTICE([      RFC 8907                   $TACPROXY_DOCS_STATUS])
+AC_MSG_NOTICE([      RFC 8907                   $TACPLUS_DOCS_STATUS])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Please send suggestions to:   $PACKAGE_BUGREPORT])
 AC_MSG_NOTICE([ ])

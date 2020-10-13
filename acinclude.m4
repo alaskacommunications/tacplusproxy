@@ -34,42 +34,42 @@
 #
 
 
-# AC_TACPROXY_DOCS
+# AC_TACPLUS_DOCS
 # ______________________________________________________________________________
-AC_DEFUN_ONCE([AC_TACPROXY_DOCS],[dnl
+AC_DEFUN_ONCE([AC_TACPLUS_DOCS],[dnl
 
    # prerequists
-   AC_REQUIRE([AC_TACPROXY_TACPROXYD])
-   AC_REQUIRE([AC_TACPROXY_TACCLI])
-   AC_REQUIRE([AC_TACPROXY_LIBTACPROXY])
+   AC_REQUIRE([AC_TACPLUS_TACPROXYD])
+   AC_REQUIRE([AC_TACPLUS_TACCLI])
+   AC_REQUIRE([AC_TACPLUS_LIBTACPROXY])
 
-   if test "x${TACPROXY_TACPROXYD}" == "xyes";then
-      TACPROXY_DOCS=yes
-   elif test "x${TACPROXY_TACCLI}" == "xyes";then
-      TACPROXY_DOCS=yes
-   elif test "x${TACPROXY_LIBTACPROXY}" == "xyes";then
-      TACPROXY_DOCS=yes
+   if test "x${TACPLUS_TACPROXYD}" == "xyes";then
+      TACPLUS_DOCS=yes
+   elif test "x${TACPLUS_TACCLI}" == "xyes";then
+      TACPLUS_DOCS=yes
+   elif test "x${TACPLUS_LIBTACPROXY}" == "xyes";then
+      TACPLUS_DOCS=yes
    else
-      TACPROXY_DOCS=no
+      TACPLUS_DOCS=no
    fi
 
-   if test "x${TACPROXY_DOCS}" == "xyes";then
-      TACPROXY_DOCS_STATUS=install
+   if test "x${TACPLUS_DOCS}" == "xyes";then
+      TACPLUS_DOCS_STATUS=install
    else
-      TACPROXY_DOCS_STATUS=skip
+      TACPLUS_DOCS_STATUS=skip
    fi
 
-   AM_CONDITIONAL([TACPROXY_DOCS], [test "x$TACPROXY_DOCS" = "xyes"])
+   AM_CONDITIONAL([TACPLUS_DOCS], [test "x$TACPLUS_DOCS" = "xyes"])
 ])dnl
 
 
-# AC_TACPROXY_LIBTACPROXY
+# AC_TACPLUS_LIBTACPROXY
 # ______________________________________________________________________________
-AC_DEFUN_ONCE([AC_TACPROXY_LIBTACPROXY],[dnl
+AC_DEFUN_ONCE([AC_TACPLUS_LIBTACPROXY],[dnl
 
    # prerequists
-   AC_REQUIRE([AC_TACPROXY_TACPROXYD])
-   AC_REQUIRE([AC_TACPROXY_TACCLI])
+   AC_REQUIRE([AC_TACPLUS_TACPROXYD])
+   AC_REQUIRE([AC_TACPLUS_TACCLI])
 
    enableval=""
    AC_ARG_ENABLE(
@@ -79,30 +79,30 @@ AC_DEFUN_ONCE([AC_TACPROXY_LIBTACPROXY],[dnl
       [ ELIBTACPROXY=$enableval ]
    )
 
-   if test "x${TACPROXY_TACPROXYD}" == "xyes";then
+   if test "x${TACPLUS_TACPROXYD}" == "xyes";then
       ELIBTACPROXY=yes
-   elif test "x${TACPROXY_TACCLI}" == "xyes";then
+   elif test "x${TACPLUS_TACCLI}" == "xyes";then
       ELIBTACPROXY=yes
    fi
 
    if test "x${ELIBTACPROXY}" == "xyes";then
-      TACPROXY_LIBTACPROXY=yes
-      TACPROXY_LIBTACPROXY_STATUS=install
+      TACPLUS_LIBTACPROXY=yes
+      TACPLUS_LIBTACPLUS_STATUS=install
    else
-      TACPROXY_LIBTACPROXY=no
-      TACPROXY_LIBTACPROXY_STATUS=skip
+      TACPLUS_LIBTACPROXY=no
+      TACPLUS_LIBTACPLUS_STATUS=skip
    fi
 
-   AM_CONDITIONAL([TACPROXY_LIBTACPROXY], [test "x$TACPROXY_LIBTACPROXY" = "xyes"])
+   AM_CONDITIONAL([TACPLUS_LIBTACPROXY], [test "x$TACPLUS_LIBTACPROXY" = "xyes"])
 ])dnl
 
 
-# AC_TACPROXY_MOD_FILES
+# AC_TACPLUS_MOD_FILES
 # ______________________________________________________________________________
-AC_DEFUN_ONCE([AC_TACPROXY_MOD_FILES],[dnl
+AC_DEFUN_ONCE([AC_TACPLUS_MOD_FILES],[dnl
 
    # prerequists
-   AC_REQUIRE([AC_TACPROXY_TACPROXYD])
+   AC_REQUIRE([AC_TACPLUS_TACPROXYD])
 
    enableval=""
    AC_ARG_ENABLE(
@@ -112,30 +112,30 @@ AC_DEFUN_ONCE([AC_TACPROXY_MOD_FILES],[dnl
       [ EMODFILES=$enableval ]
    )
 
-   if test "x${TACPROXY_TACPROXYD}" == "xno";then
+   if test "x${TACPLUS_TACPROXYD}" == "xno";then
       EMODFILES=no
    fi
 
    if test "x${EMODFILES}" != "xno";then
       EMODFILES=yes
    fi
-   TACPROXY_MOD_FILES=${EMODFILES}
+   TACPLUS_MOD_FILES=${EMODFILES}
 
-   TACPROXY_MOD_FILES_STATUS="skip"
+   TACPLUS_MOD_FILES_STATUS="skip"
    if test "x${EMODFILES}" == "xyes";then
-      TACPROXY_MOD_FILES_STATUS="install"
+      TACPLUS_MOD_FILES_STATUS="install"
    fi
 
-   AM_CONDITIONAL([TACPROXY_MOD_FILES], [test "x$TACPROXY_MOD_FILES" = "xyes"])
+   AM_CONDITIONAL([TACPLUS_MOD_FILES], [test "x$TACPLUS_MOD_FILES" = "xyes"])
 ])dnl
 
 
-# AC_TACPROXY_MOD_LDAP
+# AC_TACPLUS_MOD_LDAP
 # ______________________________________________________________________________
-AC_DEFUN_ONCE([AC_TACPROXY_MOD_LDAP],[dnl
+AC_DEFUN_ONCE([AC_TACPLUS_MOD_LDAP],[dnl
 
    # prerequists
-   AC_REQUIRE([AC_TACPROXY_TACPROXYD])
+   AC_REQUIRE([AC_TACPLUS_TACPROXYD])
 
    enableval=""
    AC_ARG_ENABLE(
@@ -145,30 +145,30 @@ AC_DEFUN_ONCE([AC_TACPROXY_MOD_LDAP],[dnl
       [ EMODLDAP=$enableval ]
    )
 
-   if test "x${TACPROXY_TACPROXYD}" == "xno";then
+   if test "x${TACPLUS_TACPROXYD}" == "xno";then
       EMODLDAP=no
    fi
 
    if test "x${EMODLDAP}" != "xno";then
       EMODLDAP=yes
    fi
-   TACPROXY_MOD_LDAP=${EMODLDAP}
+   TACPLUS_MOD_LDAP=${EMODLDAP}
 
-   TACPROXY_MOD_LDAP_STATUS="skip"
+   TACPLUS_MOD_LDAP_STATUS="skip"
    if test "x${EMODLDAP}" == "xyes";then
-      TACPROXY_MOD_LDAP_STATUS="install"
+      TACPLUS_MOD_LDAP_STATUS="install"
    fi
 
-   AM_CONDITIONAL([TACPROXY_MOD_LDAP], [test "x$TACPROXY_MOD_LDAP" = "xyes"])
+   AM_CONDITIONAL([TACPLUS_MOD_LDAP], [test "x$TACPLUS_MOD_LDAP" = "xyes"])
 ])dnl
 
 
-# AC_TACPROXY_MOD_PGSQL
+# AC_TACPLUS_MOD_PGSQL
 # ______________________________________________________________________________
-AC_DEFUN_ONCE([AC_TACPROXY_MOD_PGSQL],[dnl
+AC_DEFUN_ONCE([AC_TACPLUS_MOD_PGSQL],[dnl
 
    # prerequists
-   AC_REQUIRE([AC_TACPROXY_TACPROXYD])
+   AC_REQUIRE([AC_TACPLUS_TACPROXYD])
 
    enableval=""
    AC_ARG_ENABLE(
@@ -179,30 +179,30 @@ AC_DEFUN_ONCE([AC_TACPROXY_MOD_PGSQL],[dnl
    )
    EMODPGSQL=no # force disable of module until it is written
 
-   if test "x${TACPROXY_TACPROXYD}" == "xno";then
+   if test "x${TACPLUS_TACPROXYD}" == "xno";then
       EMODPGSQL=no
    fi
 
    if test "x${EMODPGSQL}" != "xno";then
       EMODPGSQL=yes
    fi
-   TACPROXY_MOD_PGSQL=${EMODPGSQL}
+   TACPLUS_MOD_PGSQL=${EMODPGSQL}
 
-   TACPROXY_MOD_PGSQL_STATUS="skip"
+   TACPLUS_MOD_PGSQL_STATUS="skip"
    if test "x${EMODPGSQL}" == "xyes";then
-      TACPROXY_MOD_PGSQL_STATUS="install"
+      TACPLUS_MOD_PGSQL_STATUS="install"
    fi
 
-   AM_CONDITIONAL([TACPROXY_MOD_PGSQL], [test "x$TACPROXY_MOD_PGSQL" = "xyes"])
+   AM_CONDITIONAL([TACPLUS_MOD_PGSQL], [test "x$TACPLUS_MOD_PGSQL" = "xyes"])
 ])dnl
 
 
-# AC_TACPROXY_MOD_RADIUS
+# AC_TACPLUS_MOD_RADIUS
 # ______________________________________________________________________________
-AC_DEFUN_ONCE([AC_TACPROXY_MOD_RADIUS],[dnl
+AC_DEFUN_ONCE([AC_TACPLUS_MOD_RADIUS],[dnl
 
    # prerequists
-   AC_REQUIRE([AC_TACPROXY_TACPROXYD])
+   AC_REQUIRE([AC_TACPLUS_TACPROXYD])
 
    enableval=""
    AC_ARG_ENABLE(
@@ -212,30 +212,30 @@ AC_DEFUN_ONCE([AC_TACPROXY_MOD_RADIUS],[dnl
       [ EMODRADIUS=$enableval ]
    )
 
-   if test "x${TACPROXY_TACPROXYD}" == "xno";then
+   if test "x${TACPLUS_TACPROXYD}" == "xno";then
       EMODRADIUS=no
    fi
 
    if test "x${EMODRADIUS}" != "xno";then
       EMODRADIUS=yes
    fi
-   TACPROXY_MOD_RADIUS=${EMODRADIUS}
+   TACPLUS_MOD_RADIUS=${EMODRADIUS}
 
-   TACPROXY_MOD_RADIUS_STATUS="skip"
+   TACPLUS_MOD_RADIUS_STATUS="skip"
    if test "x${EMODRADIUS}" == "xyes";then
-      TACPROXY_MOD_RADIUS_STATUS="install"
+      TACPLUS_MOD_RADIUS_STATUS="install"
    fi
 
-   AM_CONDITIONAL([TACPROXY_MOD_RADIUS], [test "x$TACPROXY_MOD_RADIUS" = "xyes"])
+   AM_CONDITIONAL([TACPLUS_MOD_RADIUS], [test "x$TACPLUS_MOD_RADIUS" = "xyes"])
 ])dnl
 
 
-# AC_TACPROXY_MOD_SYSLOG
+# AC_TACPLUS_MOD_SYSLOG
 # ______________________________________________________________________________
-AC_DEFUN_ONCE([AC_TACPROXY_MOD_SYSLOG],[dnl
+AC_DEFUN_ONCE([AC_TACPLUS_MOD_SYSLOG],[dnl
 
    # prerequists
-   AC_REQUIRE([AC_TACPROXY_TACPROXYD])
+   AC_REQUIRE([AC_TACPLUS_TACPROXYD])
 
    enableval=""
    AC_ARG_ENABLE(
@@ -245,27 +245,27 @@ AC_DEFUN_ONCE([AC_TACPROXY_MOD_SYSLOG],[dnl
       [ EMODSYSLOG=$enableval ]
    )
 
-   if test "x${TACPROXY_TACPROXYD}" == "xno";then
+   if test "x${TACPLUS_TACPROXYD}" == "xno";then
       EMODSYSLOG=no
    fi
 
    if test "x${EMODSYSLOG}" != "xno";then
       EMODSYSLOG=yes
    fi
-   TACPROXY_MOD_SYSLOG=${EMODSYSLOG}
+   TACPLUS_MOD_SYSLOG=${EMODSYSLOG}
 
-   TACPROXY_MOD_SYSLOG_STATUS="skip"
+   TACPLUS_MOD_SYSLOG_STATUS="skip"
    if test "x${EMODSYSLOG}" == "xyes";then
-      TACPROXY_MOD_SYSLOG_STATUS="install"
+      TACPLUS_MOD_SYSLOG_STATUS="install"
    fi
 
-   AM_CONDITIONAL([TACPROXY_MOD_SYSLOG], [test "x$TACPROXY_MOD_SYSLOG" = "xyes"])
+   AM_CONDITIONAL([TACPLUS_MOD_SYSLOG], [test "x$TACPLUS_MOD_SYSLOG" = "xyes"])
 ])dnl
 
 
-# AC_TACPROXY_TACCLI
+# AC_TACPLUS_TACCLI
 # ______________________________________________________________________________
-AC_DEFUN_ONCE([AC_TACPROXY_TACCLI],[dnl
+AC_DEFUN_ONCE([AC_TACPLUS_TACCLI],[dnl
 
    enableval=""
    AC_ARG_ENABLE(
@@ -278,21 +278,21 @@ AC_DEFUN_ONCE([AC_TACPROXY_TACCLI],[dnl
    if test "x${ETACCLI}" != "xyes";then
       ETACCLI=no
    fi
-   TACPROXY_TACCLI=${ETACPROXYD}
+   TACPLUS_TACCLI=${ETACPROXYD}
 
-   TACPROXY_TACCLI_STATUS="skip"
+   TACPLUS_TACCLI_STATUS="skip"
    if test "x${ETACCLI}" == "xyes";then
-      TACPROXY_TACCLI_STATUS="install"
-      TACPROXY_TACCLI="yes"
+      TACPLUS_TACCLI_STATUS="install"
+      TACPLUS_TACCLI="yes"
    fi
 
-   AM_CONDITIONAL([TACPROXY_TACCLI], [test "x$TACPROXY_TACCLI" = "xyes"])
+   AM_CONDITIONAL([TACPLUS_TACCLI], [test "x$TACPLUS_TACCLI" = "xyes"])
 ])dnl
 
 
-# AC_TACPROXY_TACPROXYD
+# AC_TACPLUS_TACPROXYD
 # ______________________________________________________________________________
-AC_DEFUN_ONCE([AC_TACPROXY_TACPROXYD],[dnl
+AC_DEFUN_ONCE([AC_TACPLUS_TACPROXYD],[dnl
 
    enableval=""
    AC_ARG_ENABLE(
@@ -305,15 +305,15 @@ AC_DEFUN_ONCE([AC_TACPROXY_TACPROXYD],[dnl
    if test "x${ETACPROXYD}" != "xno";then
       ETACPROXYD=yes
    fi
-   TACPROXY_TACPROXYD=${ETACPROXYD}
+   TACPLUS_TACPROXYD=${ETACPROXYD}
 
-   TACPROXY_TACPROXYD_STATUS="skip"
+   TACPLUS_TACPROXYD_STATUS="skip"
    if test "x${ETACPROXYD}" == "xyes";then
-      TACPROXY_TACPROXYD_STATUS="install"
-      TACPROXY_LIBTACPROXY="yes"
+      TACPLUS_TACPROXYD_STATUS="install"
+      TACPLUS_LIBTACPROXY="yes"
    fi
 
-   AM_CONDITIONAL([TACPROXY_TACPROXYD], [test "x$TACPROXY_TACPROXYD" = "xyes"])
+   AM_CONDITIONAL([TACPLUS_TACPROXYD], [test "x$TACPLUS_TACPROXYD" = "xyes"])
 ])dnl
 
 

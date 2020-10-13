@@ -93,30 +93,30 @@ man_MANS				=
 noinst_HEADERS				= include/tacproxy.h
 noinst_PROGRAMS				=
 noinst_LIBRARIES			=
-if TACPROXY_DOCS
+if TACPLUS_DOCS
    doc_DATA				+= doc/rfc8907.txt
 endif
-if TACPROXY_LIBTACPROXY
+if TACPLUS_LIBTACPROXY
    lib_LTLIBRARIES			+= lib/libtacproxy.la
    include_HEADERS			+= include/tacproxy.h
 endif
-if TACPROXY_MOD_FILES
+if TACPLUS_MOD_FILES
    pkglib_LTLIBRARIES			+= lib/mod_files.la
 endif
-if TACPROXY_MOD_LDAP
+if TACPLUS_MOD_LDAP
    pkglib_LTLIBRARIES			+= lib/mod_ldap.la
 endif
-if TACPROXY_MOD_RADIUS
+if TACPLUS_MOD_RADIUS
    pkglib_LTLIBRARIES			+= lib/mod_radius.la
 endif
-if TACPROXY_MOD_SYSLOG
+if TACPLUS_MOD_SYSLOG
    pkglib_LTLIBRARIES			+= lib/mod_syslog.la
 endif
-if TACPROXY_TACCLI
+if TACPLUS_TACCLI
    bin_PROGRAMS				+= src/tac-cli
 #   man_MANS				+= doc/tac-cli.1
 endif
-if TACPROXY_TACPROXYD
+if TACPLUS_TACPROXYD
    bin_PROGRAMS				+= src/tac-proxyd
 #   man_MANS				+= doc/tac-proxyd.1
 endif
