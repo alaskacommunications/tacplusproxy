@@ -216,7 +216,7 @@ src_tac_cli_CPPFLAGS			= -DPROGRAM_NAME="\"tac-cli\"" $(AM_CPPFLAGS)
 src_tac_cli_CFLAGS			= $(AM_CFLAGS)
 src_tac_cli_LDFLAGS			= $(AM_LDFLAGS)
 src_tac_cli_LDADD			= $(AM_LDADD) lib/libtacproxy.la
-src_tac_cli_SOURCES			= src/test.c
+src_tac_cli_SOURCES			= src/cli/main.c
 
 
 ### macros for src/tac-proxyd
@@ -225,7 +225,7 @@ src_tac_proxyd_CPPFLAGS			= -DPROGRAM_NAME="\"tac-cli\"" $(AM_CPPFLAGS)
 src_tac_proxyd_CFLAGS			= $(AM_CFLAGS)
 src_tac_proxyd_LDFLAGS			= $(AM_LDFLAGS)
 src_tac_proxyd_LDADD			= $(AM_LDADD) lib/libtacproxy.la
-src_tac_proxyd_SOURCES			= src/test.c
+src_tac_proxyd_SOURCES			= src/proxyd/main.c
 
 
 # Makefile includes
