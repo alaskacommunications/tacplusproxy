@@ -45,6 +45,7 @@
 
 
 #include <inttypes.h>
+#include <tacplusproxy/cdefs.h>
 
 
 //////////////
@@ -53,42 +54,6 @@
 //          //
 //////////////
 #pragma mark - Macros
-
-// Exports function type
-#undef TACPROXY_C_DECLS
-#undef TACPROXY_BEGIN_C_DECLS
-#undef TACPROXY_END_C_DECLS
-#undef _TACPROXY_I
-#undef _TACPROXY_F
-#undef _TACPROXY_V
-#if defined(__cplusplus) || defined(c_plusplus)
-#   define _TACPROXY_I             extern "C" inline
-#   define TACPROXY_C_DECLS        "C"             ///< exports as C functions
-#   define TACPROXY_BEGIN_C_DECLS  extern "C" {    ///< exports as C functions
-#   define TACPROXY_END_C_DECLS    }               ///< exports as C functions
-#else
-#   define _TACPROXY_I             inline
-#   define TACPROXY_C_DECLS        /* empty */     ///< exports as C functions
-#   define TACPROXY_BEGIN_C_DECLS  /* empty */     ///< exports as C functions
-#   define TACPROXY_END_C_DECLS    /* empty */     ///< exports as C functions
-#endif
-#ifdef WIN32
-#   ifdef _LIB_LIBTACPROXY_H
-#      define _TACPROXY_F   extern TACPROXY_C_DECLS __declspec(dllexport)   ///< used for library calls
-#      define _TACPROXY_V   extern TACPROXY_C_DECLS __declspec(dllexport)   ///< used for library calls
-#   else
-#      define _TACPROXY_F   extern TACPROXY_C_DECLS __declspec(dllimport)   ///< used for library calls
-#      define _TACPROXY_V   extern TACPROXY_C_DECLS __declspec(dllimport)   ///< used for library calls
-#   endif
-#else
-#   ifdef _LIB_LIBTACPROXY_H
-#      define _TACPROXY_F   /* empty */                                      ///< used for library calls
-#      define _TACPROXY_V   extern TACPROXY_C_DECLS                         ///< used for library calls
-#   else
-#      define _TACPROXY_F   extern TACPROXY_C_DECLS                         ///< used for library calls
-#      define _TACPROXY_V   extern TACPROXY_C_DECLS                         ///< used for library calls
-#   endif
-#endif
 
 
 ///////////////////
@@ -200,20 +165,20 @@
 //              //
 //////////////////
 #pragma mark - Prototypes
-TACPROXY_BEGIN_C_DECLS
+TACPP_BEGIN_C_DECLS
 
 //-------------------//
 // version functions //
 //-------------------//
 #pragma mark version functions
 
-_TACPROXY_F const char *
+_TACPP_F const char *
 tacproxy_lib_info(
          uint32_t *                    agep,
          uint32_t *                    currentp,
          uint32_t *                    revisionp );
 
-_TACPROXY_F const char *
+_TACPP_F const char *
 tacproxy_version(
          uint32_t *                    majorp,
          uint32_t *                    minorp,
@@ -221,5 +186,5 @@ tacproxy_version(
          const char **                 buildp );
 
 
-TACPROXY_END_C_DECLS
+TACPP_END_C_DECLS
 #endif /* end of header */

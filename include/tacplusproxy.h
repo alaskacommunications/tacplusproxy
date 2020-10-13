@@ -33,8 +33,8 @@
 /*
  *  include/tacproxy.h common includes and prototypes
  */
-#ifndef _LIB_LIBTACACS_LIBTACACS_H
-#define _LIB_LIBTACACS_LIBTACACS_H 1
+#ifndef _TACPLUSPROXY_H
+#define _TACPLUSPROXY_H 1
 
 ///////////////
 //           //
@@ -43,64 +43,8 @@
 ///////////////
 #pragma mark - Headers
 
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <assert.h>
+#include <tacplusproxy/cdefs.h>
 #include <tacplusproxy/tacacs.h>
 
 
-//////////////
-//          //
-//  Macros  //
-//          //
-//////////////
-#pragma mark - Macros
-
-
-///////////////////
-//               //
-//  Definitions  //
-//               //
-///////////////////
-#pragma mark - Definitions
-
-struct tacproxy_header
-{
-   uint8_t   version;
-   uint8_t   type;
-   uint8_t   seq_no;
-   uint8_t   flags;
-   uint32_t  session_id;
-   uint32_t  length;
-};
-
-
-struct tacproxy_packet
-{
-   struct tacproxy_header hdr;
-   uint8_t                bdy[];
-};
-
-
-/////////////////
-//             //
-//  Datatypes  //
-//             //
-/////////////////
-#pragma mark - Datatypes
-
-
-//////////////////
-//              //
-//  Prototypes  //
-//              //
-//////////////////
-#pragma mark - Prototypes
-TACPP_BEGIN_C_DECLS
-
-
-TACPP_END_C_DECLS
 #endif /* end of header */

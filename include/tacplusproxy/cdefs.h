@@ -33,23 +33,8 @@
 /*
  *  include/tacproxy.h common includes and prototypes
  */
-#ifndef _LIB_LIBTACACS_LIBTACACS_H
-#define _LIB_LIBTACACS_LIBTACACS_H 1
-
-///////////////
-//           //
-//  Headers  //
-//           //
-///////////////
-#pragma mark - Headers
-
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <assert.h>
-#include <tacplusproxy/tacacs.h>
+#ifndef _TACPLUSPROXY_CDEFS_H
+#define _TACPLUSPROXY_CDEFS_H 1
 
 
 //////////////
@@ -59,48 +44,41 @@
 //////////////
 #pragma mark - Macros
 
-
-///////////////////
-//               //
-//  Definitions  //
-//               //
-///////////////////
-#pragma mark - Definitions
-
-struct tacproxy_header
-{
-   uint8_t   version;
-   uint8_t   type;
-   uint8_t   seq_no;
-   uint8_t   flags;
-   uint32_t  session_id;
-   uint32_t  length;
-};
-
-
-struct tacproxy_packet
-{
-   struct tacproxy_header hdr;
-   uint8_t                bdy[];
-};
-
-
-/////////////////
-//             //
-//  Datatypes  //
-//             //
-/////////////////
-#pragma mark - Datatypes
-
-
-//////////////////
-//              //
-//  Prototypes  //
-//              //
-//////////////////
-#pragma mark - Prototypes
-TACPP_BEGIN_C_DECLS
+// Exports function type
+#undef TACPP_C_DECLS
+#undef TACPP_BEGIN_C_DECLS
+#undef TACPP_END_C_DECLS
+#undef _TACPP_I
+#undef _TACPP_F
+#undef _TACPP_V
+#if defined(__cplusplus) || defined(c_plusplus)
+#   define _TACPP_I             extern "C" inline
+#   define TACPP_C_DECLS        "C"                                   ///< exports as C functions
+#   define TACPP_BEGIN_C_DECLS  extern "C" {                          ///< exports as C functions
+#   define TACPP_END_C_DECLS    }                                     ///< exports as C functions
+#else
+#   define _TACPP_I             inline
+#   define TACPP_C_DECLS        /* empty */                           ///< exports as C functions
+#   define TACPP_BEGIN_C_DECLS  /* empty */                           ///< exports as C functions
+#   define TACPP_END_C_DECLS    /* empty */                           ///< exports as C functions
+#endif
+#ifdef WIN32
+#   ifdef _LIB_LIBTACPP_H
+#      define _TACPP_F   extern TACPP_C_DECLS __declspec(dllexport)   ///< used for library calls
+#      define _TACPP_V   extern TACPP_C_DECLS __declspec(dllexport)   ///< used for library calls
+#   else
+#      define _TACPP_F   extern TACPP_C_DECLS __declspec(dllimport)   ///< used for library calls
+#      define _TACPP_V   extern TACPP_C_DECLS __declspec(dllimport)   ///< used for library calls
+#   endif
+#else
+#   ifdef _LIB_LIBTACPP_H
+#      define _TACPP_F   /* empty */                                  ///< used for library calls
+#      define _TACPP_V   extern TACPP_C_DECLS                         ///< used for library calls
+#   else
+#      define _TACPP_F   extern TACPP_C_DECLS                         ///< used for library calls
+#      define _TACPP_V   extern TACPP_C_DECLS                         ///< used for library calls
+#   endif
+#endif
 
 
-TACPP_END_C_DECLS
 #endif /* end of header */

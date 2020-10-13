@@ -46,7 +46,7 @@
 #include <config.h>
 #endif
 
-#include <tacplusproxy/tacacs.h>
+#include <tacplusproxy.h>
 #include <getopt.h>
 #include <assert.h>
 #include <stdio.h>
