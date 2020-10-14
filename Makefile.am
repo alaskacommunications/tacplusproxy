@@ -120,9 +120,9 @@ endif
 if TACPLUS_MOD_SYSLOG
    pkglib_LTLIBRARIES			+= lib/mod_syslog.la
 endif
-if TACPLUS_TACCLI
-   bin_PROGRAMS				+= src/tac-cli
-#   man_MANS				+= doc/tac-cli.1
+if TACPLUS_CLIENT
+   bin_PROGRAMS				+= src/tacplus
+#   man_MANS				+= doc/tacplus.1
 endif
 if TACPLUS_DAEMON
    pkglibexec_PROGRAMS			+= src/tacplusd
@@ -224,13 +224,13 @@ lib_mod_syslog_la_LIBADD		= $(AM_LIBS)
 lib_mod_syslog_la_SOURCES		= $(noinst_HEADERS)
 
 
-### macros for src/tac-cli
-src_tac_cli_DEPENDENCIES		= Makefile lib/libtacacs.la
-src_tac_cli_CPPFLAGS			= -DPROGRAM_NAME="\"tac-cli\"" $(AM_CPPFLAGS)
-src_tac_cli_CFLAGS			= $(AM_CFLAGS)
-src_tac_cli_LDFLAGS			= $(AM_LDFLAGS)
-src_tac_cli_LDADD			= $(AM_LDADD) lib/libtacacs.la
-src_tac_cli_SOURCES			= src/cli/main.c
+### macros for src/tacplus
+src_tacplus_DEPENDENCIES		= Makefile lib/libtacacs.la
+src_tacplus_CPPFLAGS			= -DPROGRAM_NAME="\"tacplus\"" $(AM_CPPFLAGS)
+src_tacplus_CFLAGS			= $(AM_CFLAGS)
+src_tacplus_LDFLAGS			= $(AM_LDFLAGS)
+src_tacplus_LDADD			= $(AM_LDADD) lib/libtacacs.la
+src_tacplus_SOURCES			= src/client/main.c
 
 
 ### macros for src/tacplusd

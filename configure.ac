@@ -189,7 +189,7 @@ AC_BINDLE_GIT_PACKAGE_VERSION([contrib/bindletools/build-aux/git-package-version
 
 # custom configure options
 AC_BINDLE_ENABLE_WARNINGS([-Wno-padded -Wno-unknown-pragmas], [-Wpadded])
-AC_TACPLUS_TACCLI
+AC_TACPLUS_CLIENT
 AC_TACPLUS_DAEMON
 AC_TACPLUS_MOD_FILES
 AC_TACPLUS_MOD_LDAP
@@ -216,7 +216,7 @@ AC_MSG_NOTICE([      libtacacs.la               $TACPLUS_LIBTACACS_STATUS])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Daemon and Utilities:])
 AC_MSG_NOTICE([      tacplusd                   $TACPLUS_DAEMON_STATUS])
-AC_MSG_NOTICE([      tac-cli                    $TACPLUS_TACCLI_STATUS])
+AC_MSG_NOTICE([      tacplus                    $TACPLUS_CLIENT_STATUS])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Daemon Modules:])
 AC_MSG_NOTICE([      mod_files                  $TACPLUS_MOD_FILES_STATUS])

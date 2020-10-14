@@ -40,12 +40,12 @@ AC_DEFUN_ONCE([AC_TACPLUS_DOCS],[dnl
 
    # prerequists
    AC_REQUIRE([AC_TACPLUS_DAEMON])
-   AC_REQUIRE([AC_TACPLUS_TACCLI])
+   AC_REQUIRE([AC_TACPLUS_CLIENT])
    AC_REQUIRE([AC_TACPLUS_LIBTACACS])
 
    if test "x${TACPLUS_TACPLUSPROXYD}" == "xyes";then
       TACPLUS_DOCS=yes
-   elif test "x${TACPLUS_TACCLI}" == "xyes";then
+   elif test "x${TACPLUS_CLIENT}" == "xyes";then
       TACPLUS_DOCS=yes
    elif test "x${TACPLUS_LIBTACPROXY}" == "xyes";then
       TACPLUS_DOCS=yes
@@ -69,7 +69,7 @@ AC_DEFUN_ONCE([AC_TACPLUS_LIBTACACS],[dnl
 
    # prerequists
    AC_REQUIRE([AC_TACPLUS_DAEMON])
-   AC_REQUIRE([AC_TACPLUS_TACCLI])
+   AC_REQUIRE([AC_TACPLUS_CLIENT])
 
    enableval=""
    AC_ARG_ENABLE(
@@ -81,7 +81,7 @@ AC_DEFUN_ONCE([AC_TACPLUS_LIBTACACS],[dnl
 
    if test "x${TACPLUS_TACPLUSPROXYD}" == "xyes";then
       ELIBTACACS=yes
-   elif test "x${TACPLUS_TACCLI}" == "xyes";then
+   elif test "x${TACPLUS_CLIENT}" == "xyes";then
       ELIBTACACS=yes
    fi
 
@@ -263,30 +263,30 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_SYSLOG],[dnl
 ])dnl
 
 
-# AC_TACPLUS_TACCLI
+# AC_TACPLUS_CLIENT
 # ______________________________________________________________________________
-AC_DEFUN_ONCE([AC_TACPLUS_TACCLI],[dnl
+AC_DEFUN_ONCE([AC_TACPLUS_CLIENT],[dnl
 
    enableval=""
    AC_ARG_ENABLE(
-      tac-cli,
-      [AS_HELP_STRING([--enable-tac-cli], [enable building TACACS+ client utility])],
-      [ ETACCLI=$enableval ],
-      [ ETACCLI=$enableval ]
+      client,
+      [AS_HELP_STRING([--enable-client], [enable building TACACS+ client utilities])],
+      [ ECLIENT=$enableval ],
+      [ ECLIENT=$enableval ]
    )
 
-   if test "x${ETACCLI}" != "xyes";then
-      ETACCLI=no
+   if test "x${ECLIENT}" != "xyes";then
+      ECLIENT=no
    fi
-   TACPLUS_TACCLI=${ETACPROXYD}
+   TACPLUS_CLIENT=${ETACPROXYD}
 
-   TACPLUS_TACCLI_STATUS="skip"
-   if test "x${ETACCLI}" == "xyes";then
-      TACPLUS_TACCLI_STATUS="install"
-      TACPLUS_TACCLI="yes"
+   TACPLUS_CLIENT_STATUS="skip"
+   if test "x${ECLIENT}" == "xyes";then
+      TACPLUS_CLIENT_STATUS="install"
+      TACPLUS_CLIENT="yes"
    fi
 
-   AM_CONDITIONAL([TACPLUS_TACCLI], [test "x$TACPLUS_TACCLI" = "xyes"])
+   AM_CONDITIONAL([TACPLUS_CLIENT], [test "x$TACPLUS_CLIENT" = "xyes"])
 ])dnl
 
 
