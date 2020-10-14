@@ -79,17 +79,28 @@ AC_DEFUN_ONCE([AC_TACPLUS_LIBTACACS],[dnl
       [ ELIBTACACS=$enableval ]
    )
 
-   if test "x${TACPLUS_DAEMON}" == "xyes";then
-      ELIBTACACS=yes
-   elif test "x${TACPLUS_CLIENT}" == "xyes";then
-      ELIBTACACS=yes
-   fi
-
-   if test "x${ELIBTACACS}" == "xyes";then
+   # processes argument
+   if test "x${ELIBTACACS}" == "xno";then
+      if test "x${TACPLUS_DAEMON}" == "xyes";then
+         AC_MSG_ERROR([--enable-daemon requires --enable-libtacacs])
+      elif test "x${TACPLUS_CLIENT}" == "xyes";then
+         AC_MSG_ERROR([--enable-client requires --enable-libtacacs])
+      fi
+      TACPLUS_LIBTACACS=no
+   elif test "x${ELIBTACACS}" == "xyes";then
       TACPLUS_LIBTACACS=yes
-      TACPLUS_LIBTACACS_STATUS=install
+   elif test "x${TACPLUS_DAEMON}" == "xyes";then
+      TACPLUS_LIBTACACS=yes
+   elif test "x${TACPLUS_CLIENT}" == "xyes";then
+      TACPLUS_LIBTACACS=yes
    else
       TACPLUS_LIBTACACS=no
+   fi
+
+   # determines status message
+   if test "x${TACPLUS_LIBTACACS}" == "xyes";then
+      TACPLUS_LIBTACACS_STATUS=install
+   else
       TACPLUS_LIBTACACS_STATUS=skip
    fi
 
