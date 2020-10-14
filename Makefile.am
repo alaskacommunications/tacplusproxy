@@ -63,7 +63,7 @@ AM_CPPFLAGS				= -O2 \
 ACLOCAL_AMFLAGS				= -I m4 -W all -W error
 AM_MAKEINFOFLAGS                        = --no-split
 AM_DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings \
-					  --enable-tac-cli \
+					  --enable-client \
 					  CFLAGS="$(CFLAGS)" \
 					  CPPFLAGS="$(CPPFLAGS)" \
 					  LDFLAGS="$(LDFLAGS)"
@@ -161,7 +161,7 @@ CLEANFILES				= \
 lib_libtacacs_la_DEPENDENCIES		= Makefile lib/libtacacs/libtacacs.sym
 lib_libtacacs_la_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/libtacacs
 lib_libtacacs_la_CFLAGS			= $(AM_CFLAGS)
-lib_libtacacs_la_LDFLAGS		= -rpath '$(pkglibdir)'\
+lib_libtacacs_la_LDFLAGS		= -rpath '$(pkglibdir)' \
 					  -version-info $(LIB_VERSION_INFO) \
 					  $(AM_LDFLAGS) \
 					  -export-symbols $(srcdir)/lib/libtacacs/libtacacs.sym
