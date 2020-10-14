@@ -115,14 +115,17 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_FILES],[dnl
    # processes argument
    if test "x${EMODFILES}" == "xno";then
       TACPLUS_MOD_FILES=no
-   elif test "x${EMODFILES}" == "xyes" && test "x${TACPLUS_DAEMON}" == "xno";then
-      AC_MSG_ERROR([--enable-mod-files requires --enable-daemon])
+   elif test "x${TACPLUS_DAEMON}" == "xno";then
+      if test "x${EMODFILES}" == "xyes";then
+         AC_MSG_ERROR([--enable-mod-files requires --enable-daemon])
+      fi
+      TACPLUS_MOD_FILES=no
    else
-      TACPLUS_MOD_FILES=${TACPLUS_DAEMON}
+      TACPLUS_MOD_FILES=yes
    fi
 
    # determines status message
-   if test "x${EMODFILES}" == "xyes";then
+   if test "x${TACPLUS_MOD_FILES}" == "xyes";then
       TACPLUS_MOD_FILES_STATUS="install"
    else
       TACPLUS_MOD_FILES_STATUS="skip"
