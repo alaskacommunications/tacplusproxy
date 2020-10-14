@@ -295,14 +295,17 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_SYSLOG],[dnl
    # processes argument
    if test "x${EMODSYSLOG}" == "xno";then
       TACPLUS_MOD_SYSLOG=no
-   elif test "x${EMODSYSLOG}" == "xyes" && test "x${TACPLUS_DAEMON}" == "xno";then
-      AC_MSG_ERROR([--enable-mod-syslog requires --enable-daemon])
+   elif test "x${TACPLUS_DAEMON}" == "xno";then
+      if test "x${EMODSYSLOG}" == "xyes";then
+         AC_MSG_ERROR([--enable-mod-syslog requires --enable-daemon])
+      fi
+      TACPLUS_MOD_SYSLOG=no
    else
-      TACPLUS_MOD_SYSLOG=${TACPLUS_DAEMON}
+      TACPLUS_MOD_SYSLOG=yes
    fi
 
    # determines status message
-   if test "x${EMODSYSLOG}" == "xyes";then
+   if test "x${TACPLUS_MOD_SYSLOG}" == "xyes";then
       TACPLUS_MOD_SYSLOG_STATUS="install"
    else
       TACPLUS_MOD_SYSLOG_STATUS="skip"
