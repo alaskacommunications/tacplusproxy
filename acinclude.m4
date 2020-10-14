@@ -257,14 +257,17 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_RADIUS],[dnl
    # processes argument
    if test "x${EMODRADIUS}" == "xno";then
       TACPLUS_MOD_RADIUS=no
-   elif test "x${EMODRADIUS}" == "xyes" && test "x${TACPLUS_DAEMON}" == "xno";then
-      AC_MSG_ERROR([--enable-mod-radius requires --enable-daemon])
+   elif test "x${TACPLUS_DAEMON}" == "xno";then
+      if test "x${EMODRADIUS}" == "xyes";then
+         AC_MSG_ERROR([--enable-mod-radius requires --enable-daemon])
+      fi
+      TACPLUS_MOD_RADIUS=no
    else
-      TACPLUS_MOD_RADIUS=${TACPLUS_DAEMON}
+      TACPLUS_MOD_RADIUS=yes
    fi
 
    # determines status message
-   if test "x${EMODRADIUS}" == "xyes";then
+   if test "x${TACPLUS_MOD_RADIUS}" == "xyes";then
       TACPLUS_MOD_RADIUS_STATUS="install"
    else
       TACPLUS_MOD_RADIUS_STATUS="skip"
