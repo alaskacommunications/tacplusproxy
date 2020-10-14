@@ -206,30 +206,34 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_PGSQL],[dnl
    AC_REQUIRE([AC_TACPLUS_DAEMON])
 
    enableval=""
-   AC_ARG_ENABLE(
-      mod-pgsql,
-      [AS_HELP_STRING([--enable-mod-pgsql], [disable building mod_pgsql])],
-      [ EMODPGSQL=$enableval ],
-      [ EMODPGSQL=$enableval ]
-   )
+   #AC_ARG_ENABLE(
+   #   mod-pgsql,
+   #   [AS_HELP_STRING([--enable-mod-pgsql], [disable building mod_pgsql])],
+   #   [ EMODPGSQL=$enableval ],
+   #   [ EMODPGSQL=$enableval ]
+   #)
 
    # processes argument
    if test "x${EMODPGSQL}" == "xno";then
       TACPLUS_MOD_PGSQL=no
-   elif test "x${EMODPGSQL}" == "xyes" && test "x${TACPLUS_DAEMON}" == "xno";then
-      AC_MSG_ERROR([--enable-mod-pgsql requires --enable-daemon])
+   elif test "x${TACPLUS_DAEMON}" == "xno";then
+      if test "x${EMODPGSQL}" == "xyes";then
+         AC_MSG_ERROR([--enable-mod-pgsql requires --enable-daemon])
+      fi
    else
-      TACPLUS_MOD_PGSQL=${TACPLUS_DAEMON}
+      TACPLUS_MOD_PGSQL=yes
    fi
 
-   TACPLUS_MOD_PGSQL=no # force disable of module until it is written
-
    # determines status message
-   if test "x${EMODPGSQL}" == "xyes";then
+   if test "x${TACPLUS_MOD_PGSQL}" == "xyes";then
       TACPLUS_MOD_PGSQL_STATUS="install"
    else
       TACPLUS_MOD_PGSQL_STATUS="skip"
    fi
+
+   # force disable of module until it is written
+   TACPLUS_MOD_PGSQL=no
+   TACPLUS_MOD_PGSQL_STATUS=n/a
 
    AM_CONDITIONAL([TACPLUS_MOD_PGSQL], [test "x$TACPLUS_MOD_PGSQL" = "xyes"])
 ])dnl
