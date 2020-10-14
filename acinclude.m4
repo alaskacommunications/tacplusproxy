@@ -352,13 +352,11 @@ AC_DEFUN_ONCE([AC_TACPLUS_DAEMON],[dnl
    )
 
    if test "x${EDAEMON}" != "xno";then
-      EDAEMON=yes
-   fi
-   TACPLUS_DAEMON=${EDAEMON}
-
-   TACPLUS_DAEMON_STATUS="skip"
-   if test "x${EDAEMON}" == "xyes";then
       TACPLUS_DAEMON_STATUS="install"
+      TACPLUS_DAEMON=yes
+   else
+      TACPLUS_DAEMON_STATUS="skip"
+      TACPLUS_DAEMON=no
    fi
 
    AM_CONDITIONAL([TACPLUS_DAEMON], [test "x$TACPLUS_DAEMON" = "xyes"])
