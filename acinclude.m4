@@ -43,11 +43,11 @@ AC_DEFUN_ONCE([AC_TACPLUS_DOCS],[dnl
    AC_REQUIRE([AC_TACPLUS_CLIENT])
    AC_REQUIRE([AC_TACPLUS_LIBTACACS])
 
-   if test "x${TACPLUS_TACPLUSPROXYD}" == "xyes";then
+   if test "x${TACPLUS_DAEMON}" == "xyes";then
       TACPLUS_DOCS=yes
    elif test "x${TACPLUS_CLIENT}" == "xyes";then
       TACPLUS_DOCS=yes
-   elif test "x${TACPLUS_LIBTACPROXY}" == "xyes";then
+   elif test "x${TACPLUS_LIBTACACS}" == "xyes";then
       TACPLUS_DOCS=yes
    else
       TACPLUS_DOCS=no
@@ -79,7 +79,7 @@ AC_DEFUN_ONCE([AC_TACPLUS_LIBTACACS],[dnl
       [ ELIBTACACS=$enableval ]
    )
 
-   if test "x${TACPLUS_TACPLUSPROXYD}" == "xyes";then
+   if test "x${TACPLUS_DAEMON}" == "xyes";then
       ELIBTACACS=yes
    elif test "x${TACPLUS_CLIENT}" == "xyes";then
       ELIBTACACS=yes
@@ -112,18 +112,20 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_FILES],[dnl
       [ EMODFILES=$enableval ]
    )
 
-   if test "x${TACPLUS_TACPLUSPROXYD}" == "xno";then
-      EMODFILES=no
+   # processes argument
+   if test "x${EMODFILES}" == "xno";then
+      TACPLUS_MOD_FILES=no
+   elif test "x${EMODFILES}" == "xyes" && test "x${TACPLUS_DAEMON}" == "xno";then
+      AC_MSG_ERROR([--enable-mod-files requires --enable-daemon])
+   else
+      TACPLUS_MOD_FILES=${TACPLUS_DAEMON}
    fi
 
-   if test "x${EMODFILES}" != "xno";then
-      EMODFILES=yes
-   fi
-   TACPLUS_MOD_FILES=${EMODFILES}
-
-   TACPLUS_MOD_FILES_STATUS="skip"
+   # determines status message
    if test "x${EMODFILES}" == "xyes";then
       TACPLUS_MOD_FILES_STATUS="install"
+   else
+      TACPLUS_MOD_FILES_STATUS="skip"
    fi
 
    AM_CONDITIONAL([TACPLUS_MOD_FILES], [test "x$TACPLUS_MOD_FILES" = "xyes"])
@@ -145,18 +147,20 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_LDAP],[dnl
       [ EMODLDAP=$enableval ]
    )
 
-   if test "x${TACPLUS_TACPLUSPROXYD}" == "xno";then
-      EMODLDAP=no
+   # processes argument
+   if test "x${EMODLDAP}" == "xno";then
+      TACPLUS_MOD_LDAP=no
+   elif test "x${EMODLDAP}" == "xyes" && test "x${TACPLUS_DAEMON}" == "xno";then
+      AC_MSG_ERROR([--enable-mod-ldap requires --enable-daemon])
+   else
+      TACPLUS_MOD_LDAP=${TACPLUS_DAEMON}
    fi
 
-   if test "x${EMODLDAP}" != "xno";then
-      EMODLDAP=yes
-   fi
-   TACPLUS_MOD_LDAP=${EMODLDAP}
-
-   TACPLUS_MOD_LDAP_STATUS="skip"
+   # determines status message
    if test "x${EMODLDAP}" == "xyes";then
       TACPLUS_MOD_LDAP_STATUS="install"
+   else
+      TACPLUS_MOD_LDAP_STATUS="skip"
    fi
 
    AM_CONDITIONAL([TACPLUS_MOD_LDAP], [test "x$TACPLUS_MOD_LDAP" = "xyes"])
@@ -177,20 +181,23 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_PGSQL],[dnl
       [ EMODPGSQL=$enableval ],
       [ EMODPGSQL=$enableval ]
    )
-   EMODPGSQL=no # force disable of module until it is written
 
-   if test "x${TACPLUS_TACPLUSPROXYD}" == "xno";then
-      EMODPGSQL=no
+   # processes argument
+   if test "x${EMODPGSQL}" == "xno";then
+      TACPLUS_MOD_PGSQL=no
+   elif test "x${EMODPGSQL}" == "xyes" && test "x${TACPLUS_DAEMON}" == "xno";then
+      AC_MSG_ERROR([--enable-mod-pgsql requires --enable-daemon])
+   else
+      TACPLUS_MOD_PGSQL=${TACPLUS_DAEMON}
    fi
 
-   if test "x${EMODPGSQL}" != "xno";then
-      EMODPGSQL=yes
-   fi
-   TACPLUS_MOD_PGSQL=${EMODPGSQL}
+   TACPLUS_MOD_PGSQL=no # force disable of module until it is written
 
-   TACPLUS_MOD_PGSQL_STATUS="skip"
+   # determines status message
    if test "x${EMODPGSQL}" == "xyes";then
       TACPLUS_MOD_PGSQL_STATUS="install"
+   else
+      TACPLUS_MOD_PGSQL_STATUS="skip"
    fi
 
    AM_CONDITIONAL([TACPLUS_MOD_PGSQL], [test "x$TACPLUS_MOD_PGSQL" = "xyes"])
@@ -212,18 +219,20 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_RADIUS],[dnl
       [ EMODRADIUS=$enableval ]
    )
 
-   if test "x${TACPLUS_TACPLUSPROXYD}" == "xno";then
-      EMODRADIUS=no
+   # processes argument
+   if test "x${EMODRADIUS}" == "xno";then
+      TACPLUS_MOD_RADIUS=no
+   elif test "x${EMODRADIUS}" == "xyes" && test "x${TACPLUS_DAEMON}" == "xno";then
+      AC_MSG_ERROR([--enable-mod-radius requires --enable-daemon])
+   else
+      TACPLUS_MOD_RADIUS=${TACPLUS_DAEMON}
    fi
 
-   if test "x${EMODRADIUS}" != "xno";then
-      EMODRADIUS=yes
-   fi
-   TACPLUS_MOD_RADIUS=${EMODRADIUS}
-
-   TACPLUS_MOD_RADIUS_STATUS="skip"
+   # determines status message
    if test "x${EMODRADIUS}" == "xyes";then
       TACPLUS_MOD_RADIUS_STATUS="install"
+   else
+      TACPLUS_MOD_RADIUS_STATUS="skip"
    fi
 
    AM_CONDITIONAL([TACPLUS_MOD_RADIUS], [test "x$TACPLUS_MOD_RADIUS" = "xyes"])
@@ -245,18 +254,20 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_SYSLOG],[dnl
       [ EMODSYSLOG=$enableval ]
    )
 
-   if test "x${TACPLUS_TACPLUSPROXYD}" == "xno";then
-      EMODSYSLOG=no
+   # processes argument
+   if test "x${EMODSYSLOG}" == "xno";then
+      TACPLUS_MOD_SYSLOG=no
+   elif test "x${EMODSYSLOG}" == "xyes" && test "x${TACPLUS_DAEMON}" == "xno";then
+      AC_MSG_ERROR([--enable-mod-syslog requires --enable-daemon])
+   else
+      TACPLUS_MOD_SYSLOG=${TACPLUS_DAEMON}
    fi
 
-   if test "x${EMODSYSLOG}" != "xno";then
-      EMODSYSLOG=yes
-   fi
-   TACPLUS_MOD_SYSLOG=${EMODSYSLOG}
-
-   TACPLUS_MOD_SYSLOG_STATUS="skip"
+   # determines status message
    if test "x${EMODSYSLOG}" == "xyes";then
       TACPLUS_MOD_SYSLOG_STATUS="install"
+   else
+      TACPLUS_MOD_SYSLOG_STATUS="skip"
    fi
 
    AM_CONDITIONAL([TACPLUS_MOD_SYSLOG], [test "x$TACPLUS_MOD_SYSLOG" = "xyes"])
