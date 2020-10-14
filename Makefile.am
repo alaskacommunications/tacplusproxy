@@ -42,6 +42,7 @@ DIST_SUBDIRS				= $(subdirs)
 
 # directory locations
 doxygendir				= $(docdir)/doxygen
+moddir					= $(pkglibexecdir)/modules
 
 
 # GNU make options
@@ -88,6 +89,7 @@ include_HEADERS				=
 info_TEXINFOS				=
 lib_LIBRARIES				=
 lib_LTLIBRARIES				=
+mod_LTLIBRARIES				=
 pkglib_LTLIBRARIES			=
 noinst_LTLIBRARIES			=
 EXTRA_LIBRARIES				=
@@ -109,16 +111,16 @@ if TACPLUS_LIBTACACS
    pkginclude_HEADERS			+= include/tacplusproxy/tacacs.h
 endif
 if TACPLUS_MOD_FILES
-   pkglib_LTLIBRARIES			+= lib/mod_files.la
+   mod_LTLIBRARIES			+= lib/mod_files.la
 endif
 if TACPLUS_MOD_LDAP
-   pkglib_LTLIBRARIES			+= lib/mod_ldap.la
+   mod_LTLIBRARIES			+= lib/mod_ldap.la
 endif
 if TACPLUS_MOD_RADIUS
-   pkglib_LTLIBRARIES			+= lib/mod_radius.la
+   mod_LTLIBRARIES			+= lib/mod_radius.la
 endif
 if TACPLUS_MOD_SYSLOG
-   pkglib_LTLIBRARIES			+= lib/mod_syslog.la
+   mod_LTLIBRARIES			+= lib/mod_syslog.la
 endif
 if TACPLUS_CLIENT
    bin_PROGRAMS				+= src/tacplus
