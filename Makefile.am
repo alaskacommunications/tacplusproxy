@@ -41,7 +41,6 @@ DIST_SUBDIRS				= $(subdirs)
 
 
 # directory locations
-doxygendir				= $(docdir)/doxygen
 moddir					= $(pkglibexecdir)/modules
 
 
@@ -80,7 +79,6 @@ libexec_PROGRAMS			=
 pkglibexec_PROGRAMS			=
 check_PROGRAMS				=
 doc_DATA				=
-doxygen_DATA				=
 noinst_DATA				= doc/rfc8907.txt \
 					  doc/draft-grant-tacacs-02.txt \
 					  doc/draft-ietf-opsawg-tacacs-18.txt
