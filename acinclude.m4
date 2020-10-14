@@ -150,14 +150,42 @@ AC_DEFUN_ONCE([AC_TACPLUS_MOD_LDAP],[dnl
    # processes argument
    if test "x${EMODLDAP}" == "xno";then
       TACPLUS_MOD_LDAP=no
-   elif test "x${EMODLDAP}" == "xyes" && test "x${TACPLUS_DAEMON}" == "xno";then
-      AC_MSG_ERROR([--enable-mod-ldap requires --enable-daemon])
+   elif test "x${TACPLUS_DAEMON}" == "xno";then
+      if test "x${EMODLDAP}" == "xyes";then
+         AC_MSG_ERROR([--enable-mod-ldap requires --enable-daemon])
+      fi
+      TACPLUS_MOD_LDAP=no
    else
-      TACPLUS_MOD_LDAP=${TACPLUS_DAEMON}
+      HAVE_LDAP=yes
+      AC_CHECK_HEADERS([ldap.h],,            [HAVE_LDAP=no])
+      AC_CHECK_TYPES([LDAPURLDesc],,         [HAVE_LDAP=no],[#include <ldap.h>])
+      AC_SEARCH_LIBS([ldap_dn2str],          ldap,,[HAVE_LDAP=no], [-llber])
+      AC_SEARCH_LIBS([ldap_dnfree],          ldap,,[HAVE_LDAP=no], [-llber])
+      AC_SEARCH_LIBS([ldap_explode_dn],      ldap,,[HAVE_LDAP=no], [-llber])
+      AC_SEARCH_LIBS([ldap_first_entry],     ldap,,[HAVE_LDAP=no], [-llber])
+      AC_SEARCH_LIBS([ldap_free_urldesc],    ldap,,[HAVE_LDAP=no], [-llber])
+      AC_SEARCH_LIBS([ldap_get_dn],          ldap,,[HAVE_LDAP=no], [-llber])
+      AC_SEARCH_LIBS([ldap_initialize],      ldap,,[HAVE_LDAP=no], [-llber])
+      AC_SEARCH_LIBS([ldap_result],          ldap,,[HAVE_LDAP=no], [-llber])
+      AC_SEARCH_LIBS([ldap_sasl_bind_s],     ldap,,[HAVE_LDAP=no], [-llber])
+      AC_SEARCH_LIBS([ldap_search_ext],      ldap,,[HAVE_LDAP=no], [-llber])
+      AC_SEARCH_LIBS([ldap_set_option],      ldap,,[HAVE_LDAP=no], [-llber])
+      AC_SEARCH_LIBS([ldap_str2dn],          ldap,,[HAVE_LDAP=no], [-llber])
+      AC_SEARCH_LIBS([ldap_unbind_ext_s],    ldap,,[HAVE_LDAP=no], [-llber])
+      AC_SEARCH_LIBS([ldap_url_parse],       ldap,,[HAVE_LDAP=no], [-llber])
+      AC_SEARCH_LIBS([ldap_value_free],      ldap,,[HAVE_LDAP=no], [-llber])
+      if test "x${HAVE_LDAP}" == "xno";then
+         if test "x${EMODLDAP}" == "xyes";then
+            AC_MSG_ERROR([mod_ldap requires OpenLDAP])
+         else
+            AC_MSG_NOTICE([OpenLDAP not found or unusable, skipping mod_ldap])
+         fi
+      fi
+      TACPLUS_MOD_LDAP=${HAVE_LDAP}
    fi
 
    # determines status message
-   if test "x${EMODLDAP}" == "xyes";then
+   if test "x${TACPLUS_MOD_LDAP}" == "xyes";then
       TACPLUS_MOD_LDAP_STATUS="install"
    else
       TACPLUS_MOD_LDAP_STATUS="skip"

@@ -129,7 +129,6 @@ AC_TYPE_UINT8_T
 AC_TYPE_UINT16_T
 AC_TYPE_UINT32_T
 AC_TYPE_UINT64_T
-#AC_CHECK_TYPES([LDAPURLDesc],,         [AC_MSG_ERROR([missing required datatype])],[#include <ldap.h>])
 
 # check for required functions
 AC_CHECK_FUNCS([bzero],          [], [AC_MSG_ERROR([missing required functions])])
@@ -150,21 +149,6 @@ AC_CHECK_FUNCS([strtoull],       [], [AC_MSG_ERROR([missing required functions])
 
 # check for required libraries
 AC_SEARCH_LIBS([getopt_long],          c gnugetopt,,AC_MSG_ERROR([missing required function]))
-AC_SEARCH_LIBS([ldap_dn2str],          ldap,,AC_MSG_ERROR([missing required function]), [-llber])
-AC_SEARCH_LIBS([ldap_dnfree],          ldap,,AC_MSG_ERROR([missing required function]), [-llber])
-AC_SEARCH_LIBS([ldap_explode_dn],      ldap,,AC_MSG_ERROR([missing required function]), [-llber])
-AC_SEARCH_LIBS([ldap_first_entry],     ldap,,AC_MSG_ERROR([missing required function]), [-llber])
-AC_SEARCH_LIBS([ldap_free_urldesc],    ldap,,AC_MSG_ERROR([missing required function]), [-llber])
-AC_SEARCH_LIBS([ldap_get_dn],          ldap,,AC_MSG_ERROR([missing required function]), [-llber])
-AC_SEARCH_LIBS([ldap_initialize],      ldap,,AC_MSG_ERROR([missing required function]), [-llber])
-AC_SEARCH_LIBS([ldap_result],          ldap,,AC_MSG_ERROR([missing required function]), [-llber])
-AC_SEARCH_LIBS([ldap_sasl_bind_s],     ldap,,AC_MSG_ERROR([missing required function]), [-llber])
-AC_SEARCH_LIBS([ldap_search_ext],      ldap,,AC_MSG_ERROR([missing required function]), [-llber])
-AC_SEARCH_LIBS([ldap_set_option],      ldap,,AC_MSG_ERROR([missing required function]), [-llber])
-AC_SEARCH_LIBS([ldap_str2dn],          ldap,,AC_MSG_ERROR([missing required function]), [-llber])
-AC_SEARCH_LIBS([ldap_unbind_ext_s],    ldap,,AC_MSG_ERROR([missing required function]), [-llber])
-AC_SEARCH_LIBS([ldap_url_parse],       ldap,,AC_MSG_ERROR([missing required function]), [-llber])
-AC_SEARCH_LIBS([ldap_value_free],      ldap,,AC_MSG_ERROR([missing required function]), [-llber])
 AC_SEARCH_LIBS([socket],               socket,,AC_MSG_ERROR([missing required function]), [-lresolv])
 
 # check for headers
@@ -172,7 +156,6 @@ AC_CHECK_HEADER_STDBOOL
 AC_CHECK_HEADERS([arpa/inet.h],,       [AC_MSG_ERROR([missing required header])])
 AC_CHECK_HEADERS([fcntl.h],,           [AC_MSG_ERROR([missing required header])])
 AC_CHECK_HEADERS([termios.h],,         [AC_MSG_ERROR([missing required header])])
-AC_CHECK_HEADERS([ldap.h],,            [AC_MSG_ERROR([missing required header])])
 AC_CHECK_HEADERS([getopt.h],,          [AC_MSG_ERROR([missing required header])])
 AC_CHECK_HEADERS([signal.h],,          [AC_MSG_ERROR([missing required header])])
 AC_CHECK_HEADERS([sys/socket.h],,      [AC_MSG_ERROR([missing required header])])
