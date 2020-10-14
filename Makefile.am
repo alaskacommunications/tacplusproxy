@@ -161,7 +161,7 @@ CLEANFILES				= \
 lib_libtacacs_la_DEPENDENCIES		= Makefile lib/libtacacs/libtacacs.sym
 lib_libtacacs_la_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/libtacacs
 lib_libtacacs_la_CFLAGS			= $(AM_CFLAGS)
-lib_libtacacs_la_LDFLAGS		= -rpath'$(libdir)' \
+lib_libtacacs_la_LDFLAGS		= -rpath '$(pkglibdir)'\
 					  -version-info $(LIB_VERSION_INFO) \
 					  $(AM_LDFLAGS) \
 					  -export-symbols $(srcdir)/lib/libtacacs/libtacacs.sym
