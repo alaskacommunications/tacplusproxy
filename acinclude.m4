@@ -328,12 +328,9 @@ AC_DEFUN_ONCE([AC_TACPLUS_CLIENT],[dnl
    )
 
    if test "x${ECLIENT}" != "xyes";then
-      ECLIENT=no
-   fi
-   TACPLUS_CLIENT=${ETACPROXYD}
-
-   TACPLUS_CLIENT_STATUS="skip"
-   if test "x${ECLIENT}" == "xyes";then
+      TACPLUS_CLIENT_STATUS="skip"
+      TACPLUS_CLIENT="no"
+   else
       TACPLUS_CLIENT_STATUS="install"
       TACPLUS_CLIENT="yes"
    fi
