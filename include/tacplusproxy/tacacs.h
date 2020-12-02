@@ -167,24 +167,6 @@
 #pragma mark - Prototypes
 TACPP_BEGIN_C_DECLS
 
-//-------------------//
-// version functions //
-//-------------------//
-#pragma mark version functions
-
-_TACPP_F const char *
-tacproxy_lib_info(
-         uint32_t *                    agep,
-         uint32_t *                    currentp,
-         uint32_t *                    revisionp );
-
-_TACPP_F const char *
-tacproxy_version(
-         uint32_t *                    majorp,
-         uint32_t *                    minorp,
-         uint32_t *                    patchp,
-         const char **                 buildp );
-
 
 TACPP_END_C_DECLS
 #endif /* end of header */

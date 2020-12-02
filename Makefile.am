@@ -168,8 +168,6 @@ lib_libtacacs_la_LDFLAGS		= -rpath '$(pkglibdir)' \
 lib_libtacacs_la_LIBADD			= $(AM_LIBS)
 lib_libtacacs_la_SOURCES		= $(noinst_HEADERS) \
 					  lib/libtacacs/libtacacs.h \
-					  lib/libtacacs/lversion.c \
-					  lib/libtacacs/lversion.h
 
 
 ### macros for lib/mod_files.la
