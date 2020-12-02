@@ -78,12 +78,27 @@
 #define TACACS_URL_ERR_MEM              TACACS_ENOMEM    ///< can't allocate memory space
 
 
+#define TACACS_DEFAULT_HOST		"localhost"
+#define TACACS_DEFAULT_PORT		49
+
+
 /////////////////
 //             //
 //  Datatypes  //
 //             //
 /////////////////
 #pragma mark - Datatypes
+
+/// TACACS URL description
+typedef struct tacacs_url_desc TACACSURLDesc;
+
+/// TACACS URL
+struct tacacs_url_desc
+{
+   char *                          tud_scheme;
+   char *                          tud_host;
+   int                             tud_port;
+};
 
 
 //////////////////
@@ -102,6 +117,25 @@ TACPP_BEGIN_C_DECLS
 _TACPP_F const char *
 tacacs_err2string(
        int                             err );
+
+
+//---------------//
+// URL functions //
+//---------------//
+#pragma mark - URL functions
+
+_TACPP_F void
+tacacs_free_urldesc(
+       TACACSURLDesc *                 tudp );
+
+_TACPP_F int
+tacacs_is_ldap_url(
+       const char *                    url );
+
+_TACPP_F int
+tacacs_url_parse(
+       const char *                    url,
+       TACACSURLDesc **                tudpp );
 
 
 TACPP_END_C_DECLS

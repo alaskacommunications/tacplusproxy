@@ -33,4 +33,9 @@
 #
 # error functions
 tacacs_err2string
+#
+# URL functions
+tacacs_free_urldesc
+tacacs_is_ldap_url
+tacacs_url_parse
 # end of symbol export file
