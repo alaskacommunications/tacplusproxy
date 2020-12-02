@@ -172,6 +172,8 @@ lib_libtacacs_la_SOURCES		= $(noinst_HEADERS) \
 					  lib/libtacacs/lerror.c \
 					  lib/libtacacs/lerror.h \
 					  lib/libtacacs/libtacacs.h \
+					  lib/libtacacs/lmemory.c \
+					  lib/libtacacs/lmemory.h \
 					  lib/libtacacs/lurl.c \
 					  lib/libtacacs/lurl.h
 

@@ -31,10 +31,10 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /*
- *  include/tacproxy.h common includes and prototypes
+ *  lib/libtacacs/lversion.c version functions
  */
-#ifndef _LIB_LIBTACACS_LIBTACACS_H
-#define _LIB_LIBTACACS_LIBTACACS_H 1
+#define _LIB_LIBTACACS_LMEMORY_C 1
+#include "lmemory.h"
 
 ///////////////
 //           //
@@ -43,13 +43,9 @@
 ///////////////
 #pragma mark - Headers
 
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <assert.h>
-#include <tacplusproxy/tacacs.h>
+#include <stdlib.h>
+#include <string.h>
+#include <strings.h>
 
 
 //////////////
@@ -67,30 +63,6 @@
 ///////////////////
 #pragma mark - Definitions
 
-struct tacacs_state
-{
-   char *                          url;
-   TACACSURLDesc *                 tudp;
-};
-
-
-struct tacproxy_header
-{
-   uint8_t   version;
-   uint8_t   type;
-   uint8_t   seq_no;
-   uint8_t   flags;
-   uint32_t  session_id;
-   uint32_t  length;
-};
-
-
-struct tacproxy_packet
-{
-   struct tacproxy_header hdr;
-   uint8_t                bdy[];
-};
-
 
 /////////////////
 //             //
@@ -106,8 +78,69 @@ struct tacproxy_packet
 //              //
 //////////////////
 #pragma mark - Prototypes
-TACPP_BEGIN_C_DECLS
 
 
-TACPP_END_C_DECLS
-#endif /* end of header */
+/////////////////
+//             //
+//  Functions  //
+//             //
+/////////////////
+#pragma mark - Functions
+
+int tacacs_initialize( TACACS ** tdp, const char * url )
+{
+   int      rc;
+   TACACS * td;
+
+   assert(tdp != NULL);
+
+   *tdp = NULL;
+
+   // initialize memory
+   if ((td = malloc(sizeof(TACACS))) == NULL)
+   {
+      return(TACACS_ENOMEM);
+   };
+   bzero(td, sizeof(TACACS));
+
+
+   // verify and saves URI
+   if ((url))
+   {
+      if ((td->url = strdup(url)) == NULL)
+      {
+         tacacs_unbind(td);
+         return(TACACS_ENOMEM);
+      };
+      if ((rc = tacacs_url_parse(url, &td->tudp)) != TACACS_SUCCESS)
+      {
+         tacacs_unbind(td);
+         return(rc);
+      };
+   };
+
+
+   // saves memory
+   *tdp = td;
+
+   return(0);
+}
+
+
+int tacacs_unbind( TACACS * td )
+{
+   assert(td != NULL);
+
+   // free URI
+   if ((td->url))      free(td->url);
+   if ((td->tudp))     tacacs_free_urldesc(td->tudp);
+
+   // free TACACS struct
+   bzero(td, sizeof(TACACS));
+   free(td);
+
+   return(0);
+}
+
+
+/* end of source*/

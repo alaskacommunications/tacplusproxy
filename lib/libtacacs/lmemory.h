@@ -31,10 +31,10 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /*
- *  include/tacproxy.h common includes and prototypes
+ *  lib/libtacacs/lversion.h version prototypes
  */
-#ifndef _TACPLUSPROXY_TACACS_H
-#define _TACPLUSPROXY_TACACS_H 1
+#ifndef _LIB_LIBTACACS_LMEMORY_H
+#define _LIB_LIBTACACS_LMEMORY_H 1
 
 ///////////////
 //           //
@@ -43,10 +43,7 @@
 ///////////////
 #pragma mark - Headers
 
-
-#include <inttypes.h>
-#include <tacplusproxy/tac_plus.h>
-#include <tacplusproxy/cdefs.h>
+#include "libtacacs.h"
 
 
 //////////////
@@ -64,23 +61,6 @@
 ///////////////////
 #pragma mark - Definitions
 
-#define TACACS_SUCCESS                  0x00    ///< Success
-#define TACACS_ENOMEM                   0x01    ///< Cannot allocate memory
-#define TACACS_EBADURL                  0x02    ///< Bad URL
-#define TACACS_EUNKNOWN                 -1      ///< Unknown error
-
-
-#define TACACS_URL_SUCCESS              0x00             ///< Success
-#define TACACS_URL_ERR_BADSCHEME        0x40000001       ///< unsupported or unknown URI scheme
-#define TACACS_URL_ERR_BADHOST          0x40000002       ///< invalid host
-#define TACACS_URL_ERR_BADPORT          0x40000003       ///< invalid port
-#define TACACS_URL_ERR_BADURL           TACACS_EBADURL   ///< bad URL port
-#define TACACS_URL_ERR_MEM              TACACS_ENOMEM    ///< can't allocate memory space
-
-
-#define TACACS_DEFAULT_HOST		"localhost"
-#define TACACS_DEFAULT_PORT		49
-
 
 /////////////////
 //             //
@@ -89,20 +69,6 @@
 /////////////////
 #pragma mark - Datatypes
 
-/// internal libtacacs.la state data
-typedef struct tacacs_state TACACS;
-
-/// TACACS URL description
-typedef struct tacacs_url_desc TACACSURLDesc;
-
-/// TACACS URL
-struct tacacs_url_desc
-{
-   char *                          tud_scheme;
-   char *                          tud_host;
-   int                             tud_port;
-};
-
 
 //////////////////
 //              //
@@ -110,51 +76,6 @@ struct tacacs_url_desc
 //              //
 //////////////////
 #pragma mark - Prototypes
-TACPP_BEGIN_C_DECLS
-
-//-----------------//
-// error functions //
-//-----------------//
-#pragma mark - error functions
-
-_TACPP_F const char *
-tacacs_err2string(
-       int                             err );
 
 
-//------------------//
-// memory functions //
-//------------------//
-#pragma mark - memory functions
-
-_TACPP_F int
-tacacs_initialize(
-       TACACS **                       tdp,
-       const char *                    url );
-
-_TACPP_F int
-tacacs_unbind(
-       TACACS *                        td );
-
-
-//---------------//
-// URL functions //
-//---------------//
-#pragma mark - URL functions
-
-_TACPP_F void
-tacacs_free_urldesc(
-       TACACSURLDesc *                 tudp );
-
-_TACPP_F int
-tacacs_is_ldap_url(
-       const char *                    url );
-
-_TACPP_F int
-tacacs_url_parse(
-       const char *                    url,
-       TACACSURLDesc **                tudpp );
-
-
-TACPP_END_C_DECLS
 #endif /* end of header */

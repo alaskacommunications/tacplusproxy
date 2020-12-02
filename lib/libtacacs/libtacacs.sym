@@ -34,6 +34,10 @@
 # error functions
 tacacs_err2string
 #
+# Memory Functions
+tacacs_initialize
+tacacs_unbind
+#
 # URL functions
 tacacs_free_urldesc
 tacacs_is_ldap_url
