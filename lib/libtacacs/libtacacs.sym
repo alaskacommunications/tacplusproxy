@@ -31,4 +31,6 @@
 #   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 #
+# error functions
+tacacs_err2string
 # end of symbol export file

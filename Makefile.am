@@ -169,6 +169,8 @@ lib_libtacacs_la_LDFLAGS		= -rpath '$(pkglibdir)' \
 					  -export-symbols $(srcdir)/lib/libtacacs/libtacacs.sym
 lib_libtacacs_la_LIBADD			= $(AM_LIBS)
 lib_libtacacs_la_SOURCES		= $(noinst_HEADERS) \
+					  lib/libtacacs/lerror.c \
+					  lib/libtacacs/lerror.h \
 					  lib/libtacacs/libtacacs.h \
 
 

@@ -31,10 +31,10 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /*
- *  include/tacproxy.h common includes and prototypes
+ *  lib/libtacacs/lversion.c version functions
  */
-#ifndef _TACPLUSPROXY_TACACS_H
-#define _TACPLUSPROXY_TACACS_H 1
+#define _LIB_LIBTACACS_LERROR_C 1
+#include "lerror.h"
 
 ///////////////
 //           //
@@ -43,10 +43,9 @@
 ///////////////
 #pragma mark - Headers
 
-
-#include <inttypes.h>
-#include <tacplusproxy/tac_plus.h>
-#include <tacplusproxy/cdefs.h>
+#include <stdlib.h>
+#include <string.h>
+#include <strings.h>
 
 
 //////////////
@@ -56,6 +55,9 @@
 //////////////
 #pragma mark - Macros
 
+#undef ERR2MSG
+#define ERR2MSG(num, message) case num: return( message ); break
+
 
 ///////////////////
 //               //
@@ -63,19 +65,6 @@
 //               //
 ///////////////////
 #pragma mark - Definitions
-
-#define TACACS_SUCCESS                  0x00    ///< Success
-#define TACACS_ENOMEM                   0x01    ///< Cannot allocate memory
-#define TACACS_EBADURL                  0x02    ///< Bad URL
-#define TACACS_EUNKNOWN                 -1      ///< Unknown error
-
-
-#define TACACS_URL_SUCCESS              0x00             ///< Success
-#define TACACS_URL_ERR_BADSCHEME        0x40000001       ///< unsupported or unknown URI scheme
-#define TACACS_URL_ERR_BADHOST          0x40000002       ///< invalid host
-#define TACACS_URL_ERR_BADPORT          0x40000003       ///< invalid port
-#define TACACS_URL_ERR_BADURL           TACACS_EBADURL   ///< bad URL port
-#define TACACS_URL_ERR_MEM              TACACS_ENOMEM    ///< can't allocate memory space
 
 
 /////////////////
@@ -92,17 +81,33 @@
 //              //
 //////////////////
 #pragma mark - Prototypes
-TACPP_BEGIN_C_DECLS
-
-//-----------------//
-// error functions //
-//-----------------//
-#pragma mark - error functions
-
-_TACPP_F const char *
-tacacs_err2string(
-       int                             err );
 
 
-TACPP_END_C_DECLS
-#endif /* end of header */
+/////////////////
+//             //
+//  Functions  //
+//             //
+/////////////////
+#pragma mark - Functions
+
+const char * tacacs_err2string( int err )
+{
+   switch(err)
+   {
+      ERR2MSG( TACACS_SUCCESS,       "Success" );
+      ERR2MSG( TACACS_ENOMEM,        "Cannot allocate memory" );
+      ERR2MSG( TACACS_EBADURL,       "Bad URL" );
+
+      ERR2MSG( TACACS_URL_ERR_BADSCHEME, "invalid URL scheme" );
+      ERR2MSG( TACACS_URL_ERR_BADHOST,   "invalid URL hostname" );
+      ERR2MSG( TACACS_URL_ERR_BADPORT,   "invalid URL port" );
+
+      default:
+      break;
+   };
+
+   return("Unknown error");
+}
+
+
+/* end of source*/
