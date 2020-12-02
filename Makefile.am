@@ -95,6 +95,7 @@ EXTRA_LTLIBRARIES			=
 man_MANS				=
 noinst_HEADERS				= include/tacplusproxy.h \
 					  include/tacplusproxy/cdefs.h \
+					  include/tacplusproxy/tac_plus.h \
 					  include/tacplusproxy/tacacs.h
 pkginclude_HEADERS			=
 noinst_PROGRAMS				=
@@ -106,6 +107,7 @@ if TACPLUS_LIBTACACS
    pkglib_LTLIBRARIES			+= lib/libtacacs.la
    include_HEADERS			+= include/tacplusproxy.h
    pkginclude_HEADERS			+= include/tacplusproxy/cdefs.h
+   pkginclude_HEADERS			+= include/tacplusproxy/tac_plus.h
    pkginclude_HEADERS			+= include/tacplusproxy/tacacs.h
 endif
 if TACPLUS_MOD_FILES
