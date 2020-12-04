@@ -194,5 +194,19 @@ tacacs_url_parse(
        TACACSURLDesc **                tudpp );
 
 
+//-------------------//
+// version functions //
+//-------------------//
+#pragma mark - version functions
+
+_TACPP_F const char *
+tacacs_api_version(
+       void );
+
+_TACPP_F const char *
+tacacs_version(
+       void );
+
+
 TACPP_END_C_DECLS
 #endif /* end of header */

@@ -44,4 +44,8 @@ tacacs_unbind
 tacacs_free_urldesc
 tacacs_is_ldap_url
 tacacs_url_parse
+#
+# Version functions
+tacacs_api_version
+tacacs_version
 # end of symbol export file

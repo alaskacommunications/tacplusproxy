@@ -244,6 +244,9 @@ int my_debug( TACPLUSCFG * cfg )
    int        i;
    char *     str;
 
+   printf("%-20s %s\n", "Library Version:", tacacs_version() );
+   printf("%-20s %s\n", "Library API:",     tacacs_api_version() );
+
    tacacs_get_option(cfg->td, TACACS_OPT_KEEPALIVE_IDLE, &i);
    my_debug_int( "Keepalive Idle:", i );
 

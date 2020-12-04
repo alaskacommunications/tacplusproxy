@@ -177,7 +177,9 @@ lib_libtacacs_la_SOURCES		= $(noinst_HEADERS) \
 					  lib/libtacacs/lmemory.c \
 					  lib/libtacacs/lmemory.h \
 					  lib/libtacacs/lurl.c \
-					  lib/libtacacs/lurl.h
+					  lib/libtacacs/lurl.h \
+					  lib/libtacacs/lversion.c \
+					  lib/libtacacs/lversion.h
 
 
 ### macros for lib/mod_files.la
