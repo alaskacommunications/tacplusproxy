@@ -47,6 +47,8 @@
 #endif
 
 #include <tacplusproxy/tacacs.h>
+#include <pwd.h>
+#include <unistd.h>
 #include <getopt.h>
 #include <assert.h>
 #include <stdio.h>
@@ -75,6 +77,7 @@ struct tacplus_cfg
    int                      silent;
    int                      verbose;
    int                      debug;
+   int                      prompt;
    const char *             prog_name;
    TACACS *                 td;
 };
@@ -137,10 +140,11 @@ int main(int argc, char * argv[])
    int              rc;
    int              c;
    int              opt_index;
+   char *           str;
    char *           prog_name;
    TACPLUSCFG *     cfg;
 
-   static char          short_options[]   = "dH:hqvV";
+   static char          short_options[]   = "dH:hqvVWw:";
    static struct option long_options[]    =
    {
       { "debug",         no_argument,       0, 'd' },
@@ -189,7 +193,13 @@ int main(int argc, char * argv[])
          break;
 
          case 'H':
-         return(0);
+         if ((rc = tacacs_set_option(cfg->td, TACACS_OPT_URL, optarg)) != TACACS_SUCCESS)
+         {
+            fprintf(stderr, "%s: %s\n", prog_name, tacacs_err2string(rc));
+            my_free_cfg(cfg);
+            return(1);
+         };
+         break;
 
          case 'h':
          my_usage(prog_name);
@@ -209,6 +219,19 @@ int main(int argc, char * argv[])
          cfg->silent = 0;
          break;
 
+         case 'W':
+         cfg->prompt = 1;
+         break;
+
+         case 'w':
+         if ((rc = tacacs_set_option(cfg->td, TACACS_OPT_SECRET, optarg)) != TACACS_SUCCESS)
+         {
+            fprintf(stderr, "%s: %s\n", prog_name, tacacs_err2string(rc));
+            my_free_cfg(cfg);
+            return(1);
+         };
+         break;
+
          // argument error
          case '?':
          fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
@@ -218,6 +241,24 @@ int main(int argc, char * argv[])
          default:
          fprintf(stderr, "%s: unrecognized option `--%c'\n", PROGRAM_NAME, c);
          fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+         return(1);
+      };
+   };
+
+
+   // prompt for secret
+   if ((cfg->prompt))
+   {
+      if ((str = getpass("Enter TACACS Secret: ")) == NULL)
+      {
+         fprintf(stderr, "%s: %s\n", prog_name, tacacs_err2string(TACACS_ENOMEM));
+         my_free_cfg(cfg);
+         return(1);
+      };
+      if ((rc = tacacs_set_option(cfg->td, TACACS_OPT_SECRET, str)) != TACACS_SUCCESS)
+      {
+         fprintf(stderr, "%s: %s\n", prog_name, tacacs_err2string(rc));
+         my_free_cfg(cfg);
          return(1);
       };
    };
@@ -328,6 +369,8 @@ void my_usage(const char * prog_name)
    printf("  -q, --quiet, --silent     do not print messages\n");
    printf("  -v, --verbose             print verbose messages\n");
    printf("  -V, --version             print version number and exit\n");
+   printf("  -W                        prompt for TACACS server secret\n");
+   printf("  -w secret                 TACACS server secret\n");
    printf("\n");
    return;
 }
