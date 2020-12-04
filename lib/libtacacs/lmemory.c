@@ -238,8 +238,8 @@ int tacacs_initialize( TACACS ** tdp, const char * url )
    td->s = -1;
 
 
-   // apply default values
-   if ((rc = tacacs_defaults(td)) != TACACS_SUCCESS)
+   // parse configurations
+   if ((rc = tacacs_conf(td)) != TACACS_SUCCESS)
    {
       tacacs_unbind(td);
       return(rc);

@@ -48,6 +48,22 @@
 #include <strings.h>
 
 
+//////////////////
+//              //
+//  Prototypes  //
+//              //
+//////////////////
+#pragma mark - Prototypes
+
+_TACPP_F int
+tacacs_conf_defaults(
+       TACACS *                        td );
+
+_TACPP_F int
+tacacs_conf_variables(
+       TACACS *                        td );
+
+
 /////////////////
 //             //
 //  Functions  //
@@ -55,7 +71,27 @@
 /////////////////
 #pragma mark - Functions
 
-int tacacs_defaults( TACACS * td)
+int tacacs_conf( TACACS * td )
+{
+   int        rc;
+   char *     str;
+
+   assert(td != NULL);
+
+   if ((str = getenv("TACACSNOINIT")) != NULL)
+      return(TACACS_SUCCESS);
+
+   if ((rc = tacacs_conf_defaults(td)) != TACACS_SUCCESS)
+      return(rc);
+
+   if ((rc = tacacs_conf_variables(td)) != TACACS_SUCCESS)
+      return(rc);
+
+   return(TACACS_SUCCESS);
+}
+
+
+int tacacs_conf_defaults( TACACS * td)
 {
    int rc;
    int ival;
@@ -94,6 +130,75 @@ int tacacs_defaults( TACACS * td)
    if ((rc = tacacs_set_option(td, TACACS_OPT_URL, TACACS_DFLT_URL)) != TACACS_SUCCESS)
       return(rc);
 
+
+   return(TACACS_SUCCESS);
+}
+
+
+int tacacs_conf_variables( TACACS * td )
+{
+   int       rc;
+   int       i;
+   char *    val;
+
+   assert(td != NULL);
+
+   if ((val = getenv("TACACSKEEPALIVE_IDLE")) != NULL)
+   {
+      i = atoi(val);
+      if ((rc = tacacs_set_option(td, TACACS_OPT_KEEPALIVE_IDLE, &i)) != TACACS_SUCCESS)
+         return(rc);
+   };
+   if ((val = getenv("TACACSKEEPALIVE_INTERVAL")) != NULL)
+   {
+      i = atoi(val);
+      if ((rc = tacacs_set_option(td, TACACS_OPT_KEEPALIVE_INTERVAL, &i)) != TACACS_SUCCESS)
+         return(rc);
+   };
+   if ((val = getenv("TACACSKEEPALIVE_PROBES")) != NULL)
+   {
+      i = atoi(val);
+      if ((rc = tacacs_set_option(td, TACACS_OPT_KEEPALIVE_PROBES, &i)) != TACACS_SUCCESS)
+         return(rc);
+   };
+   if ((val = getenv("TACACSNETWORK_TIMEOUT")) != NULL)
+   {
+      i = atoi(val);
+      if ((rc = tacacs_set_option(td, TACACS_OPT_NETWORK_TIMEOUT, &i)) != TACACS_SUCCESS)
+         return(rc);
+   };
+   if ((val = getenv("TACACSTIMEOUT")) != NULL)
+   {
+      i = atoi(val);
+      if ((rc = tacacs_set_option(td, TACACS_OPT_TIMEOUT, &i)) != TACACS_SUCCESS)
+         return(rc);
+   };
+   if ((val = getenv("TACACSSECRET")) != NULL)
+   {
+      if ((rc = tacacs_set_option(td, TACACS_OPT_SECRET, val)) != TACACS_SUCCESS)
+         return(rc);
+   };
+   if ((val = getenv("TACACSRESTART")) != NULL)
+   {
+      i = TACACS_OPT_OFF;
+      if (!(strcasecmp(val, "on")))
+         i = TACACS_OPT_ON;
+      if ((rc = tacacs_set_option(td, TACACS_OPT_RESTART, &i)) != TACACS_SUCCESS)
+         return(rc);
+   };
+   if ((val = getenv("TACACSUNENCRYPTED")) != NULL)
+   {
+      i = TACACS_OPT_ON;
+      if (!(strcasecmp(val, "off")))
+         i = TACACS_OPT_OFF;
+      if ((rc = tacacs_set_option(td, TACACS_OPT_UNENCRYPTED, &i)) != TACACS_SUCCESS)
+         return(rc);
+   };
+   if ((val = getenv("TACACSURL")) != NULL)
+   {
+      if ((rc = tacacs_set_option(td, TACACS_OPT_URL, val)) != TACACS_SUCCESS)
+         return(rc);
+   };
 
    return(TACACS_SUCCESS);
 }

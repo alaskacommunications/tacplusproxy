@@ -56,7 +56,7 @@
 #pragma mark - Prototypes
 
 _TACPP_F int
-tacacs_defaults(
+tacacs_conf(
        TACACS *                        td );
 
 
