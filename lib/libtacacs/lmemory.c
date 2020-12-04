@@ -209,7 +209,6 @@ int tacacs_get_option_string( TACACS * td, char ** outvalue, const char * invalu
 
    assert(td       != NULL);
    assert(outvalue != NULL);
-   assert(invalue  != NULL);
 
    str = NULL;
    if ((invalue))
