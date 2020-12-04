@@ -192,7 +192,7 @@ int tacacs_url_parse( const char * curl, TACACSURLDesc ** tudpp )
 
 
    // set default values
-   tudp->tud_port = TACACS_DEFAULT_PORT;
+   tudp->tud_port = TACACS_PORT;
 
 
    // tests for end of URL

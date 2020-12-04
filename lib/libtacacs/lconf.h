@@ -1,6 +1,6 @@
 /*
  *  TACACS+ Proxy Server and Utilities
- *  Copyright (c) 2020 Alaska Communications  
+ *  Copyright (c) 2020 Alaska Communications
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -31,10 +31,10 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /*
- *  lib/libtacacs/lversion.c version functions
+ *  lib/libtacacs/lversion.h version prototypes
  */
-#define _LIB_LIBTACACS_LERROR_C 1
-#include "lerror.h"
+#ifndef _LIB_LIBTACACS_LCONF_H
+#define _LIB_LIBTACACS_LCONF_H 1
 
 ///////////////
 //           //
@@ -43,36 +43,9 @@
 ///////////////
 #pragma mark - Headers
 
-#include <stdlib.h>
-#include <string.h>
-#include <strings.h>
+#include <stdio.h>
 
-
-//////////////
-//          //
-//  Macros  //
-//          //
-//////////////
-#pragma mark - Macros
-
-#undef ERR2MSG
-#define ERR2MSG(num, message) case num: return( message ); break
-
-
-///////////////////
-//               //
-//  Definitions  //
-//               //
-///////////////////
-#pragma mark - Definitions
-
-
-/////////////////
-//             //
-//  Datatypes  //
-//             //
-/////////////////
-#pragma mark - Datatypes
+#include "libtacacs.h"
 
 
 //////////////////
@@ -82,34 +55,9 @@
 //////////////////
 #pragma mark - Prototypes
 
-
-/////////////////
-//             //
-//  Functions  //
-//             //
-/////////////////
-#pragma mark - Functions
-
-const char * tacacs_err2string( int err )
-{
-   switch(err)
-   {
-      ERR2MSG( TACACS_SUCCESS,       "Success" );
-      ERR2MSG( TACACS_ENOMEM,        "Cannot allocate memory" );
-      ERR2MSG( TACACS_EBADURL,       "Bad URL" );
-      ERR2MSG( TACACS_EBADOPT,       "Bad TACACS option" );
+_TACPP_F int
+tacacs_defaults(
+       TACACS *                        td );
 
 
-      ERR2MSG( TACACS_URL_ERR_BADSCHEME, "invalid URL scheme" );
-      ERR2MSG( TACACS_URL_ERR_BADHOST,   "invalid URL hostname" );
-      ERR2MSG( TACACS_URL_ERR_BADPORT,   "invalid URL port" );
-
-      default:
-      break;
-   };
-
-   return("Unknown error");
-}
-
-
-/* end of source*/
+#endif /* end of header */

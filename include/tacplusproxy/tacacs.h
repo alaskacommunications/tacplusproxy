@@ -64,22 +64,48 @@
 ///////////////////
 #pragma mark - Definitions
 
-#define TACACS_SUCCESS                  0x00    ///< Success
-#define TACACS_ENOMEM                   0x01    ///< Cannot allocate memory
-#define TACACS_EBADURL                  0x02    ///< Bad URL
-#define TACACS_EUNKNOWN                 -1      ///< Unknown error
+#define TACACS_PORT                    49
 
 
-#define TACACS_URL_SUCCESS              0x00             ///< Success
-#define TACACS_URL_ERR_BADSCHEME        0x40000001       ///< unsupported or unknown URI scheme
-#define TACACS_URL_ERR_BADHOST          0x40000002       ///< invalid host
-#define TACACS_URL_ERR_BADPORT          0x40000003       ///< invalid port
-#define TACACS_URL_ERR_BADURL           TACACS_EBADURL   ///< bad URL port
-#define TACACS_URL_ERR_MEM              TACACS_ENOMEM    ///< can't allocate memory space
+#define TACACS_SUCCESS                 0x00     ///< Success
+#define TACACS_ENOMEM                  0x01     ///< Cannot allocate memory
+#define TACACS_EBADURL                 0x02     ///< Bad URL
+#define TACACS_EBADOPT                 0x03     ///< Bad TACACS option
+#define TACACS_EUNKNOWN                -1       ///< Unknown error
 
 
-#define TACACS_DEFAULT_HOST		"localhost"
-#define TACACS_DEFAULT_PORT		49
+#define TACACS_URL_SUCCESS             0x00              ///< Success
+#define TACACS_URL_ERR_BADSCHEME       0x40000001        ///< unsupported or unknown URI scheme
+#define TACACS_URL_ERR_BADHOST         0x40000002        ///< invalid host
+#define TACACS_URL_ERR_BADPORT         0x40000003        ///< invalid port
+#define TACACS_URL_ERR_BADURL          TACACS_EBADURL    ///< bad URL port
+#define TACACS_URL_ERR_MEM             TACACS_ENOMEM     ///< can't allocate memory space
+
+
+#define TACACS_OPT_URL                 1  ///< URL of TACACS+ Server
+#define TACACS_OPT_NETWORK_TIMEOUT     2  ///< Timeout in seconds for connect and poll() operations
+#define TACACS_OPT_RESTART             3  ///< should should  implicitly  restart connections
+#define TACACS_OPT_KEEPALIVE_IDLE      4  ///< seconds a connection is idle before sending keepalive probes
+#define TACACS_OPT_KEEPALIVE_PROBES    5  ///< maximum number of keepalive probes TCP to send before dropping the connection
+#define TACACS_OPT_KEEPALIVE_INTERVAL  6  ///< the interval in seconds between keepalive probes
+#define TACACS_OPT_SOCKET              7
+#define TACACS_OPT_TIMEOUT             8
+#define TACACS_OPT_UNENCRYPTED         9
+#define TACACS_OPT_SECRET             10
+
+
+#define TACACS_OPT_OFF                 0
+#define TACACS_OPT_ON                  1
+
+
+#define TACACS_DFLT_KEEPALIVE_IDLE     300
+#define TACACS_DFLT_KEEPALIVE_INTERVAL 75
+#define TACACS_DFLT_KEEPALIVE_PROBES   9
+#define TACACS_DFLT_NETWORK_TIMEOUT    10
+#define TACACS_DFLT_RESTART            TACACS_OPT_OFF
+#define TACACS_DFLT_TIMEOUT            120
+#define TACACS_DFLT_UNENCRYPTED        TACACS_OPT_ON
+#define TACACS_DFLT_URL                "tacacs://localhost/"
 
 
 /////////////////
@@ -128,9 +154,21 @@ tacacs_err2string(
 #pragma mark - memory functions
 
 _TACPP_F int
+tacacs_get_option(
+       TACACS *                        td,
+       int                             option,
+       void *                          outvalue );
+
+_TACPP_F int
 tacacs_initialize(
        TACACS **                       tdp,
        const char *                    url );
+
+_TACPP_F int
+tacacs_set_option(
+       TACACS *                        td,
+       int                             option,
+       const void *                    invalue );
 
 _TACPP_F int
 tacacs_unbind(

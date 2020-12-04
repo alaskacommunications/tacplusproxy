@@ -67,9 +67,30 @@
 ///////////////////
 #pragma mark - Definitions
 
+#define TACACS_FLG_LIBSOCKET       0x01  ///< socket opened by library
+#define TACACS_FLG_SERVER          0x02  ///< library processing as server
+#define TACACS_FLG_RESTART         0x04
+#define TACACS_FLG_UNENCRYPTED     0x08
+
+
+/////////////////
+//             //
+//  Datatypes  //
+//             //
+/////////////////
+#pragma mark - Datatypes
+
 struct tacacs_state
 {
+   int                             s;
+   int                             timeout;
+   int                             network_timeout;
+   int                             keepalive_idle;
+   int                             keepalive_probes;
+   int                             keepalive_interval;
+   uint64_t                        flags;
    char *                          url;
+   char *                          secret;
    TACACSURLDesc *                 tudp;
 };
 
@@ -90,14 +111,6 @@ struct tacproxy_packet
    struct tacproxy_header hdr;
    uint8_t                bdy[];
 };
-
-
-/////////////////
-//             //
-//  Datatypes  //
-//             //
-/////////////////
-#pragma mark - Datatypes
 
 
 //////////////////

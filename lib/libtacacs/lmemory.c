@@ -1,6 +1,6 @@
 /*
  *  TACACS+ Proxy Server and Utilities
- *  Copyright (c) 2020 Alaska Communications  
+ *  Copyright (c) 2020 Alaska Communications
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -46,6 +46,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>
+#include <unistd.h>
+
+#include "lconf.h"
 
 
 //////////////
@@ -79,6 +82,52 @@
 //////////////////
 #pragma mark - Prototypes
 
+int
+tacacs_get_option_flag(
+       TACACS *                        td,
+       int *                           outvalue,
+       uint64_t                        flag );
+
+int
+tacacs_get_option_int(
+       TACACS *                        td,
+       int *                           outvalue,
+       int                             invalue );
+
+int
+tacacs_get_option_string(
+       TACACS *                        td,
+       char **                         outvalue,
+       const char *                    invalue );
+
+int
+tacacs_set_option_flag(
+       TACACS *                        td,
+       const int *                     invalue,
+       uint64_t                        flag );
+
+int
+tacacs_set_option_int(
+       TACACS *                        td,
+       const int *                     invalue,
+       int *                           outvalue );
+
+int
+tacacs_set_option_string(
+       TACACS *                        td,
+       const char *                    invalue,
+       char **                         outvalue );
+
+int
+tacacs_set_option_socket(
+       TACACS *                        td,
+       const int *                     invalue );
+
+int
+tacacs_set_option_url(
+       TACACS *                        td,
+       const char *                    invalue );
+
 
 /////////////////
 //             //
@@ -86,6 +135,91 @@
 //             //
 /////////////////
 #pragma mark - Functions
+
+int tacacs_get_option( TACACS * td, int option, void * outvalue )
+{
+   assert(td       != NULL);
+   assert(outvalue != NULL);
+
+   switch(option)
+   {
+      case TACACS_OPT_KEEPALIVE_IDLE:
+      return(tacacs_get_option_int(td, outvalue, td->keepalive_idle));
+
+      case TACACS_OPT_KEEPALIVE_INTERVAL:
+      return(tacacs_get_option_int(td, outvalue, td->keepalive_interval));
+
+      case TACACS_OPT_KEEPALIVE_PROBES:
+      return(tacacs_get_option_int(td, outvalue, td->keepalive_probes));
+
+      case TACACS_OPT_NETWORK_TIMEOUT:
+      return(tacacs_get_option_int(td, outvalue, td->network_timeout));
+
+      case TACACS_OPT_RESTART:
+      return(tacacs_get_option_flag(td, outvalue, TACACS_FLG_RESTART));
+
+      case TACACS_OPT_SECRET:
+      return(tacacs_get_option_string(td, outvalue, td->secret));
+
+      case TACACS_OPT_SOCKET:
+      return(tacacs_get_option_int(td, outvalue, td->s));
+
+      case TACACS_OPT_TIMEOUT:
+      return(tacacs_get_option_int(td, outvalue, td->timeout));
+
+      case TACACS_OPT_UNENCRYPTED:
+      return(tacacs_get_option_flag(td, outvalue, TACACS_FLG_UNENCRYPTED));
+
+      case TACACS_OPT_URL:
+      return(tacacs_get_option_string(td, outvalue, td->url));
+
+      default:
+      break;
+   };
+
+   return(TACACS_EBADOPT);
+}
+
+
+int tacacs_get_option_flag( TACACS * td, int * outvalue, uint64_t flag )
+{
+   assert(td       != NULL);
+   assert(outvalue != NULL);
+
+   *outvalue = ((td->flags & flag) == 0) ? TACACS_OPT_OFF : TACACS_OPT_ON;
+
+   return(TACACS_SUCCESS);
+}
+
+
+int tacacs_get_option_int( TACACS * td, int * outvalue, int invalue )
+{
+   assert(td       != NULL);
+   assert(outvalue != NULL);
+
+   *outvalue = invalue;
+
+   return(TACACS_SUCCESS);
+}
+
+
+int tacacs_get_option_string( TACACS * td, char ** outvalue, const char * invalue )
+{
+   char * str;
+
+   assert(td       != NULL);
+   assert(outvalue != NULL);
+   assert(invalue  != NULL);
+
+   str = NULL;
+   if ((invalue))
+      if ((str = strdup(invalue)) == NULL)
+         return(TACACS_ENOMEM);
+   *outvalue = str;
+
+   return(TACACS_SUCCESS);
+}
+
 
 int tacacs_initialize( TACACS ** tdp, const char * url )
 {
@@ -102,17 +236,21 @@ int tacacs_initialize( TACACS ** tdp, const char * url )
       return(TACACS_ENOMEM);
    };
    bzero(td, sizeof(TACACS));
+   td->s = -1;
+
+
+   // apply default values
+   if ((rc = tacacs_defaults(td)) != TACACS_SUCCESS)
+   {
+      tacacs_unbind(td);
+      return(rc);
+   };
 
 
    // verify and saves URI
    if ((url))
    {
-      if ((td->url = strdup(url)) == NULL)
-      {
-         tacacs_unbind(td);
-         return(TACACS_ENOMEM);
-      };
-      if ((rc = tacacs_url_parse(url, &td->tudp)) != TACACS_SUCCESS)
+      if ((rc = tacacs_set_option(td, TACACS_OPT_URL, url)) != TACACS_SUCCESS)
       {
          tacacs_unbind(td);
          return(rc);
@@ -127,13 +265,170 @@ int tacacs_initialize( TACACS ** tdp, const char * url )
 }
 
 
+int tacacs_set_option( TACACS * td, int option, const void * invalue )
+{
+   assert(invalue  != NULL);
+   assert(td       != NULL);
+
+   switch(option)
+   {
+      case TACACS_OPT_KEEPALIVE_IDLE:
+      return(tacacs_set_option_int(td, invalue, &td->keepalive_idle));
+
+      case TACACS_OPT_KEEPALIVE_INTERVAL:
+      return(tacacs_set_option_int(td, invalue, &td->keepalive_interval));
+
+      case TACACS_OPT_KEEPALIVE_PROBES:
+      return(tacacs_set_option_int(td, invalue, &td->keepalive_probes));
+
+      case TACACS_OPT_NETWORK_TIMEOUT:
+      return(tacacs_set_option_int(td, invalue, &td->network_timeout));
+
+      case TACACS_OPT_RESTART:
+      return(tacacs_set_option_flag(td, invalue, TACACS_FLG_RESTART));
+
+      case TACACS_OPT_SECRET:
+      return(tacacs_set_option_string(td, invalue, &td->secret));
+
+      case TACACS_OPT_SOCKET:
+      return(tacacs_set_option_socket(td, invalue));
+
+      case TACACS_OPT_TIMEOUT:
+      return(tacacs_set_option_int(td, invalue, &td->timeout));
+
+      case TACACS_OPT_UNENCRYPTED:
+      return(tacacs_set_option_flag(td, invalue, TACACS_FLG_UNENCRYPTED));
+
+      case TACACS_OPT_URL:
+      return(tacacs_set_option_url(td, invalue));
+
+      default:
+      break;
+   };
+
+   return(TACACS_EBADOPT);
+}
+
+
+int tacacs_set_option_flag( TACACS * td, const int * invalue, uint64_t flag )
+{
+   assert(td       != NULL);
+   assert(invalue  != NULL);
+
+   switch(*invalue)
+   {
+      case TACACS_OPT_ON:
+      td->flags |= flag;
+      break;
+
+      case TACACS_OPT_OFF:
+      td->flags &= ~flag;
+      break;
+
+      default:
+      return(TACACS_EUNKNOWN);
+   };
+
+   return(TACACS_SUCCESS);
+}
+
+
+int tacacs_set_option_int( TACACS * td, const int * invalue, int * outvalue )
+{
+   assert(td       != NULL);
+   assert(outvalue != NULL);
+
+   *outvalue  = *invalue;
+
+   return(TACACS_SUCCESS);
+}
+
+
+int tacacs_set_option_string( TACACS * td, const char * invalue, char ** outvalue )
+{
+   char *      str;
+
+   assert(td       != NULL);
+   assert(outvalue != NULL);
+
+   // copies secret
+   if ((str = strdup(invalue)) == NULL)
+      return(TACACS_ENOMEM);
+
+   // free old secret
+   if ((td->secret))
+      free(td->secret);
+
+   // saves new secret
+   td->secret =  str;
+   td->flags  &= ~((uint64_t)TACACS_FLG_UNENCRYPTED);
+
+   return(TACACS_SUCCESS);
+}
+
+
+int tacacs_set_option_socket( TACACS * td, const int * invalue)
+{
+   assert(td       != NULL);
+
+   // closes existing socket
+   if ((td->flags & TACACS_FLG_LIBSOCKET) == TACACS_FLG_LIBSOCKET)
+      if (td->s != -1)
+         close(td->s);
+
+   // stores external socket
+   td->flags  &= ~((uint64_t)TACACS_FLG_LIBSOCKET);
+   td->s       = *invalue;
+
+   return(TACACS_SUCCESS);
+}
+
+
+int tacacs_set_option_url( TACACS * td, const char * invalue )
+{
+   int                  rc;
+   char *               str;
+   TACACSURLDesc *      tudp;
+
+   assert(td       != NULL);
+
+
+   // parses URL
+   if ((rc = tacacs_url_parse(invalue, &tudp)) != TACACS_SUCCESS)
+      return(rc);
+   if ((str = strdup(invalue)) == NULL)
+   {
+      tacacs_free_urldesc(tudp);
+      return(TACACS_ENOMEM);
+   };
+
+
+   // saves value
+   if ((td->url))
+      free(td->url);
+   td->url = str;
+   if ((td->tudp))
+      tacacs_free_urldesc(td->tudp);
+   td->tudp = tudp;
+
+
+   return(TACACS_SUCCESS);
+}
+
+
 int tacacs_unbind( TACACS * td )
 {
    assert(td != NULL);
 
    // free URI
-   if ((td->url))      free(td->url);
+   if ((td->secret))   free(td->secret);
    if ((td->tudp))     tacacs_free_urldesc(td->tudp);
+   if ((td->url))      free(td->url);
+
+   // closes socket
+   if ((td->flags & TACACS_FLG_LIBSOCKET) == TACACS_FLG_LIBSOCKET)
+      if (td->s != -1)
+         close(td->s);
 
    // free TACACS struct
    bzero(td, sizeof(TACACS));

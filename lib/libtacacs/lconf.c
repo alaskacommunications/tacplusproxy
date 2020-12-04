@@ -1,6 +1,6 @@
 /*
  *  TACACS+ Proxy Server and Utilities
- *  Copyright (c) 2020 Alaska Communications  
+ *  Copyright (c) 2020 Alaska Communications
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -33,8 +33,8 @@
 /*
  *  lib/libtacacs/lversion.c version functions
  */
-#define _LIB_LIBTACACS_LERROR_C 1
-#include "lerror.h"
+#define _LIB_LIBTACACS_LCONF_C 1
+#include "lconf.h"
 
 ///////////////
 //           //
@@ -48,41 +48,6 @@
 #include <strings.h>
 
 
-//////////////
-//          //
-//  Macros  //
-//          //
-//////////////
-#pragma mark - Macros
-
-#undef ERR2MSG
-#define ERR2MSG(num, message) case num: return( message ); break
-
-
-///////////////////
-//               //
-//  Definitions  //
-//               //
-///////////////////
-#pragma mark - Definitions
-
-
-/////////////////
-//             //
-//  Datatypes  //
-//             //
-/////////////////
-#pragma mark - Datatypes
-
-
-//////////////////
-//              //
-//  Prototypes  //
-//              //
-//////////////////
-#pragma mark - Prototypes
-
-
 /////////////////
 //             //
 //  Functions  //
@@ -90,25 +55,47 @@
 /////////////////
 #pragma mark - Functions
 
-const char * tacacs_err2string( int err )
+int tacacs_defaults( TACACS * td)
 {
-   switch(err)
-   {
-      ERR2MSG( TACACS_SUCCESS,       "Success" );
-      ERR2MSG( TACACS_ENOMEM,        "Cannot allocate memory" );
-      ERR2MSG( TACACS_EBADURL,       "Bad URL" );
-      ERR2MSG( TACACS_EBADOPT,       "Bad TACACS option" );
+   int rc;
+   int ival;
+
+   assert(td != NULL);
 
 
-      ERR2MSG( TACACS_URL_ERR_BADSCHEME, "invalid URL scheme" );
-      ERR2MSG( TACACS_URL_ERR_BADHOST,   "invalid URL hostname" );
-      ERR2MSG( TACACS_URL_ERR_BADPORT,   "invalid URL port" );
+   ival = TACACS_DFLT_KEEPALIVE_IDLE;
+   if ((rc = tacacs_set_option(td, TACACS_OPT_KEEPALIVE_IDLE, &ival)) != TACACS_SUCCESS)
+      return(rc);
 
-      default:
-      break;
-   };
+   ival = TACACS_DFLT_KEEPALIVE_INTERVAL;
+   if ((rc = tacacs_set_option(td, TACACS_OPT_KEEPALIVE_INTERVAL, &ival)) != TACACS_SUCCESS)
+      return(rc);
 
-   return("Unknown error");
+   ival = TACACS_DFLT_KEEPALIVE_PROBES;
+   if ((rc = tacacs_set_option(td, TACACS_OPT_KEEPALIVE_PROBES, &ival)) != TACACS_SUCCESS)
+      return(rc);
+
+   ival = TACACS_DFLT_NETWORK_TIMEOUT;
+   if ((rc = tacacs_set_option(td, TACACS_OPT_NETWORK_TIMEOUT, &ival)) != TACACS_SUCCESS)
+      return(rc);
+
+   ival = TACACS_DFLT_RESTART;
+   if ((rc = tacacs_set_option(td, TACACS_OPT_RESTART, &ival)) != TACACS_SUCCESS)
+      return(rc);
+
+   ival = TACACS_DFLT_TIMEOUT;
+   if ((rc = tacacs_set_option(td, TACACS_OPT_TIMEOUT, &ival)) != TACACS_SUCCESS)
+      return(rc);
+
+   ival = TACACS_DFLT_UNENCRYPTED;
+   if ((rc = tacacs_set_option(td, TACACS_OPT_UNENCRYPTED, &ival)) != TACACS_SUCCESS)
+      return(rc);
+
+   if ((rc = tacacs_set_option(td, TACACS_OPT_URL, TACACS_DFLT_URL)) != TACACS_SUCCESS)
+      return(rc);
+
+
+   return(TACACS_SUCCESS);
 }
 
 
