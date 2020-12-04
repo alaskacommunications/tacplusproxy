@@ -46,10 +46,13 @@
 #include <config.h>
 #endif
 
-#include <tacplusproxy.h>
+#include <tacplusproxy/tacacs.h>
 #include <getopt.h>
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <strings.h>
 
 
 ///////////////////
@@ -67,6 +70,16 @@
 /////////////////
 #pragma mark - Datatypes
 
+struct tacplus_cfg
+{
+   int                      silent;
+   int                      verbose;
+   int                      debug;
+   const char *             prog_name;
+   TACACS *                 td;
+};
+typedef struct tacplus_cfg TACPLUSCFG;
+
 
 //////////////////
 //              //
@@ -75,9 +88,41 @@
 //////////////////
 #pragma mark - Prototypes
 
-int main(int argc, char *argv[]);
-void my_usage(void);
-void my_version(void);
+int
+main(
+       int                             argc,
+       char *                          argv[] );
+
+int
+my_debug(
+       TACPLUSCFG *                    td );
+
+void
+my_debug_bool(
+       const char *                    fld,
+       int                             i );
+
+void
+my_debug_int(
+       const char *                    fld,
+       int                             i );
+
+void
+my_debug_str(
+       const char *                    fld,
+       char *                          str );
+
+void
+my_free_cfg(
+       TACPLUSCFG *                    cfg );
+
+void
+my_usage(
+       const char *                    prog_name );
+
+void
+my_version(
+       void );
 
 
 /////////////////
@@ -89,17 +134,46 @@ void my_version(void);
 
 int main(int argc, char * argv[])
 {
-   int            c;
-   int            opt_index;
+   int              rc;
+   int              c;
+   int              opt_index;
+   char *           prog_name;
+   TACPLUSCFG *     cfg;
 
-   static char          short_options[]   = "hvV";
+   static char          short_options[]   = "dH:hqvV";
    static struct option long_options[]    =
    {
+      { "debug",         no_argument,       0, 'd' },
       { "help",          no_argument,       0, 'h' },
+      { "quiet",         no_argument,       0, 'q' },
+      { "silent",        no_argument,       0, 'q' },
       { "verbose",       no_argument,       0, 'v' },
       { "version",       no_argument,       0, 'V' },
       { NULL,            0,                 0, 0   }
    };
+
+
+   // determine program name
+   if ((prog_name = rindex(argv[0], '/')) == NULL)
+      prog_name = argv[0];
+   else
+      prog_name = &prog_name[1];
+
+
+   // initialize TACACS handle
+   if ((cfg = malloc(sizeof(TACPLUSCFG))) == NULL)
+   {
+      fprintf(stderr, "%s: out of virtual memory\n", prog_name);
+      return(1);
+   };
+   bzero(cfg, sizeof(TACPLUSCFG));
+   if ((rc = tacacs_initialize(&cfg->td, NULL)) != TACACS_SUCCESS)
+   {
+      fprintf(stderr, "%s: %s\n", prog_name, tacacs_err2string(rc));
+      my_free_cfg(cfg);
+      return(1);
+   };
+
 
    // loops through args
    while((c = getopt_long(argc, argv, short_options, long_options, &opt_index)) != -1)
@@ -110,15 +184,29 @@ int main(int argc, char * argv[])
          case 0:        /* long options toggles */
          break;
 
-         case 'h':
-         my_usage();
+         case 'd':
+         cfg->debug++;
+         break;
+
+         case 'H':
          return(0);
+
+         case 'h':
+         my_usage(prog_name);
+         return(0);
+
+         case 'q':
+         cfg->silent  = 1;
+         cfg->verbose = 0;
+         break;
 
          case 'V':
          my_version();
          return(0);
 
          case 'v':
+         cfg->verbose++;
+         cfg->silent = 0;
          break;
 
          // argument error
@@ -134,17 +222,108 @@ int main(int argc, char * argv[])
       };
    };
 
+
+   // print debug information
+   if ((cfg->debug))
+   {
+      my_debug(cfg);
+      my_free_cfg(cfg);
+      return(0);
+   };
+
+
+   my_free_cfg(cfg);
+
+
    return(0);
 }
 
 
-/// prints program usage and exits
-void my_usage(void)
+int my_debug( TACPLUSCFG * cfg )
 {
-   printf("Usage: %s [OPTIONS]\n", PROGRAM_NAME);
+   int        i;
+   char *     str;
+
+   tacacs_get_option(cfg->td, TACACS_OPT_KEEPALIVE_IDLE, &i);
+   my_debug_int( "Keepalive Idle:", i );
+
+   tacacs_get_option(cfg->td, TACACS_OPT_KEEPALIVE_INTERVAL, &i);
+   my_debug_int( "Keepalive Interval:", i );
+
+   tacacs_get_option(cfg->td, TACACS_OPT_KEEPALIVE_PROBES, &i);
+   my_debug_int( "Keepalive Probes:", i );
+
+   tacacs_get_option(cfg->td, TACACS_OPT_NETWORK_TIMEOUT, &i);
+   my_debug_int( "Network Timeout:", i );
+
+   tacacs_get_option(cfg->td, TACACS_OPT_TIMEOUT, &i);
+   my_debug_int( "Request Timeout:", i );
+
+   tacacs_get_option(cfg->td, TACACS_OPT_RESTART, &i);
+   my_debug_bool( "Restart:", i );
+
+   tacacs_get_option(cfg->td, TACACS_OPT_SECRET, &str);
+   my_debug_str( "Secret:", str );
+
+   tacacs_get_option(cfg->td, TACACS_OPT_UNENCRYPTED, &i);
+   my_debug_bool( "Unencrypted:", i );
+
+   tacacs_get_option(cfg->td, TACACS_OPT_URL, &str);
+   my_debug_str( "URL:", str );
+
+   return(0);
+}
+
+
+void my_debug_bool( const char * fld, int i)
+{
+   printf("%-20s %s\n", fld, ((i == TACACS_OPT_ON) ? "on" : "off"));
+   return;
+}
+
+
+void my_debug_int( const char * fld, int i)
+{
+   printf("%-20s %i\n", fld, i);
+   return;
+}
+
+
+void my_debug_str( const char * fld, char * str)
+{
+   if (!(str))
+   {
+      printf("%-20s \"\"\n", fld);
+      return;
+   };
+   printf("%-20s \"%s\"\n", fld, str);
+   free(str);
+   return;
+}
+
+
+/// frees configuration struct
+void my_free_cfg(TACPLUSCFG * cfg)
+{
+   assert(cfg != NULL);
+
+   if ((cfg->td)) tacacs_unbind(cfg->td);
+   bzero(cfg, sizeof(TACPLUSCFG));
+   free(cfg);
+
+   return;
+}
+
+
+/// prints program usage and exits
+void my_usage(const char * prog_name)
+{
+   printf("Usage: %s [OPTIONS]\n", prog_name);
    printf("OPTIONS:\n");
+   printf("  -H url                    TACACS server URL\n");
    printf("  -h, --help                print this help and exit\n");
-   printf("  -v, --verbose             run in verbose mode\n");
+   printf("  -q, --quiet, --silent     do not print messages\n");
+   printf("  -v, --verbose             print verbose messages\n");
    printf("  -V, --version             print version number and exit\n");
    printf("\n");
    return;
