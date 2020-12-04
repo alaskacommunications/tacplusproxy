@@ -1,6 +1,6 @@
 /*
  *  TACACS+ Proxy Server and Utilities
- *  Copyright (c) 2020 Alaska Communications  
+ *  Copyright (c) 2020 Alaska Communications
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without

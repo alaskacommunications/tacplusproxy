@@ -1,6 +1,6 @@
 #
 #   TACACS+ Proxy Server and Utilities
-#   Copyright (c) 2020 Alaska Communications  
+#   Copyright (c) 2020 Alaska Communications
 #   All rights reserved.
 #
 #   Redistribution and use in source and binary forms, with or without
@@ -190,7 +190,7 @@ lib_mod_files_la_LDFLAGS		= -module \
 					  -shared \
 					  $(AM_LDFLAGS)
 lib_mod_files_la_LIBADD			= $(AM_LIBS)
-lib_mod_files_la_SOURCES		= $(noinst_HEADERS) 
+lib_mod_files_la_SOURCES		= $(noinst_HEADERS)
 
 
 ### macros for lib/mod_ldap.la

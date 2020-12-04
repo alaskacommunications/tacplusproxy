@@ -1,6 +1,6 @@
 #
 #   TACACS+ Proxy Server and Utilities
-#   Copyright (c) 2020 Alaska Communications  
+#   Copyright (c) 2020 Alaska Communications
 #   All rights reserved.
 #
 #   Redistribution and use in source and binary forms, with or without
@@ -67,7 +67,7 @@ AC_CANONICAL_TARGET
 # configures for automake
 AM_INIT_AUTOMAKE(gnu std-options subdir-objects foreign)
 
-# Compilers                                                       
+# Compilers
 AC_PROG_CC
 #AC_PROG_OBJC
 AC_PROG_CXX
