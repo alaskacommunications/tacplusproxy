@@ -2,7 +2,7 @@
 TACACS+ Proxy Server and Utilities
 ==================================
 
-Copyright (c) 2020 Alaska Communications
+Copyright (c) David M. Syzdek <david@syzdek.net>
 All rights reserved.
 
 2020-10-12

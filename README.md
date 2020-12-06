@@ -2,7 +2,7 @@
 TACACS+ Proxy Server and Utilities
 ==================================
 
-Copyright (c) 2020 Alaska Communications
+Copyright (c) 2020 David M. Syzdek <david@syzdek.net>
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -59,17 +59,19 @@ source code from the git repository.
 
 Browse Source:
 
+   * https://github.com/syzdek/tacplusproxy
    * https://github.com/alaskacommunications/tacplusproxy
    * https://scm.prv.acsalaska.net/pub/scm/ipeng/tacplusproxy.git/
 
 Git URLs:
 
+   * https://github.com/syzdek/tacplusproxy
    * https://github.com/alaskacommunications/tacplusproxy
    * https://scm.prv.acsalaska.net/pub/scm/ipeng/tacplusproxy.git
 
 Downloading Source:
 
-      $ git clone https://github.com/alaskacommunications/tacplusproxy
+      $ git clone https://github.com/syzdek/tacplusproxy
 
 Preparing Source:
 

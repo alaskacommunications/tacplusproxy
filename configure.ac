@@ -1,6 +1,6 @@
 #
 #   TACACS+ Proxy Server and Utilities
-#   Copyright (c) 2020 Alaska Communications
+#   Copyright (c) 2020 David M. Syzdek <david@syzdek.net>
 #   All rights reserved.
 #
 #   Redistribution and use in source and binary forms, with or without
@@ -41,13 +41,13 @@
 
 AC_PREREQ(2.65)
 
-AC_COPYRIGHT([Copyright (C) 2020 Alaska Communications.])
+AC_COPYRIGHT([Copyright (C) 2020 David M. Syzdek <david@syzdek.net>.])
 AC_REVISION(0.1)
-AC_INIT([TACACS+ Proxy Server and Utilities],[0.0],[david.syzdek@acsalaska.com],[tacplusproxy])
+AC_INIT([TACACS+ Proxy Server and Utilities],[0.0],[david@syzdek.net],[tacplusproxy])
 
 AC_SUBST([RELEASE_MONTH],["August 2020"])
 
-PACKAGE_COPYRIGHT="Copyright (C) 2020 Alaska Communications."
+PACKAGE_COPYRIGHT="Copyright (C) 2020 David M. Syzdek <david@syzdek.net>."
 AC_DEFINE_UNQUOTED(PACKAGE_COPYRIGHT, ["${PACKAGE_COPYRIGHT}"], [Copyright notice.])
 AC_SUBST([PACKAGE_COPYRIGHT], [${PACKAGE_COPYRIGHT}])
 
