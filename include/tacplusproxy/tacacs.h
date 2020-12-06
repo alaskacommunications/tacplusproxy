@@ -116,7 +116,7 @@
 #pragma mark - Datatypes
 
 /// internal libtacacs.la state data
-typedef struct tacacs_state TACACS;
+typedef struct tacacs TACACS;
 
 /// TACACS URL description
 typedef struct tacacs_url_desc TACACSURLDesc;

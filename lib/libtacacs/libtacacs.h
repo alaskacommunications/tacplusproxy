@@ -80,7 +80,7 @@
 /////////////////
 #pragma mark - Datatypes
 
-struct tacacs_state
+struct tacacs
 {
    int                             s;
    int                             timeout;
