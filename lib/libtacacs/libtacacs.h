@@ -80,6 +80,16 @@
 /////////////////
 #pragma mark - Datatypes
 
+/// TACACS URL
+struct tacacs_url_desc
+{
+   char *                          tud_scheme;
+   char *                          tud_host;
+   int                             tud_port;
+   int                             pad_int;
+};
+
+
 struct tacacs
 {
    int                             s;

@@ -121,14 +121,6 @@ typedef struct tacacs TACACS;
 /// TACACS URL description
 typedef struct tacacs_url_desc TACACSURLDesc;
 
-/// TACACS URL
-struct tacacs_url_desc
-{
-   char *                          tud_scheme;
-   char *                          tud_host;
-   int                             tud_port;
-};
-
 
 //////////////////
 //              //
