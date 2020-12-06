@@ -1,0 +1,182 @@
+.\"
+.\" TACACS+ Proxy Server and Utilities
+.\" Copyright (c) 2020 Alaska Communications
+.\" All rights reserved.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions are
+.\" met:
+.\"
+.\"    1. Redistributions of source code must retain the above copyright
+.\"       notice, this list of conditions and the following disclaimer.
+.\"
+.\"    2. Redistributions in binary form must reproduce the above copyright
+.\"       notice, this list of conditions and the following disclaimer in the
+.\"       documentation and/or other materials provided with the distribution.
+.\"
+.\"    3. Neither the name of the copyright holder nor the names of its
+.\"       contributors may be used to endorse or promote products derived from
+.\"       this software without specific prior written permission.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+.\" IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+.\" THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+.\" PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+.\" CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+.\" EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+.\" PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+.\" PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+.\" LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+.\" NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+.\" SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+.\"
+.\" doc/tacacs.conf.5.in - man page for tacacs.conf
+.\"
+.TH "TACACS.CONF" "5" "@RELEASE_MONTH@" "@PACKAGE_NAME@" "File Formats"
+.SH NAME
+tacacs.conf, .tacacsrc \- TACACS configuration file/environment variables
+
+.SH SYNOPSIS
+@sysconfdir@/tacacs.conf, tacacsrc, .tacacsrc, $TACACS<option-name>
+
+.SH DESCRIPTION
+If the environment variable \fBTACACSNOINIT\fR is defined, all defaulting is
+disabled.
+
+The \fItacacs.conf\fR configuration file is used to set system-wide defaults to
+be applied when running \fITACACS\fR clients.
+
+Users may create an optional configuration file, \fItacacsrc\fR or
+\fI.tacacsrc\fR, in their home directory which will be used to override the
+system-wide defaults file. 
+
+Additional configuration files can be specified using the \fBTACACSCONF\fR and
+\fBTACACSRC\fR environment variables. \fBTACACSCONF\fR may be set to the path
+of a configuration file. This path can be absolute or relative to the current
+working directory. The \fBTACACSRC\fR, if defined, should be the basename
+of a file in the user's home directory.
+
+Environmental variables may also be used to augment the file based
+defaults. The name of the variable is the option name with an added
+prefix of \fBTACACS\fR. For example, to define \fBURL\fR via the environment,
+set the variable \fBTACACSURL\fR to the desired value.
+
+Thus the following files and variables are read, in order:
+.nf
+    variable     $TACACSNOINIT, and if that is not set:
+    system file  @sysconfdir@/tacacs.conf,
+    user files   $HOME/tacacsrc,  $HOME/.tacacsrc
+    system file  $TACACSCONF,
+    user files   $HOME/$TACACSRC, $HOME/.$TACACSRC
+    variables    $TACACS<uppercase option name>.
+.fi
+Settings late in the list override earlier ones.
+
+.SH SYNTAX
+The configuration options are case-insensitive; their value, on a case
+by case basis, may be case-sensitive.
+
+Blank lines are ignored. Lines beginning with a hash mark (`#') are comments,
+and ignored.
+
+Valid lines are made of an option's name followed by white space and a value.
+The value starts with the first non-white space character after the option's
+name, and terminates with the first white space character unless the value is
+encapsulated in either single quotes or double quotes. If a value contains
+a white space character, the value must be encapsulated in either double quotes
+of single quotes. If a value contains a single quote character, the value must
+be encapsulated in double quotes. If a value contains a double quote
+character, the value must be encapsulated in single quotes. A value may not
+contain both single quotes and double quotes. Lines may only contain one
+option and one value.  Lines may be terminated by comments. Invalid lines
+are silently ignored.
+
+For example,
+
+.nf
+        # Wrong - requires quotes:
+        URL     tacacs:// tacplus://
+
+        # Right - quoted URLs
+        URL     "tacacs:// tacplus://"
+
+        # Right - comments terminating line
+        secret  "mySecretKey"  # default secret
+.fi
+
+.SH OPTIONS
+The different configuration options are:
+
+.TP
+\fBKEEPALIVE_IDLE\fR \fIseconds\fR
+Sets the number of seconds a connection needs to remain idle before TCP starts
+sending keepalive probes.
+
+.TP
+\fBKEEPALIVE_INTERVAL\fR \fIseconds\fR
+Sets the interval in seconds between individual keepalive probes.
+
+.TP
+\fBKEEPALIVE_PROBES\fR \fImaximum\fR
+Sets the maximum number of keepalive probes TCP should send before dropping the
+connection.
+
+.TP
+\fBNETWORK_TIMEOUT\fR \fIseconds\fR
+Specifies the timeout (in seconds) after which the poll(2)/select(2) following
+a connect(2) returns in case of no activity.
+
+.TP
+\fBSECRET\fR \fIstring\fR
+Sets TACACS secret to \fIstring\fR.
+
+.TP
+\fBTIMEOUT\fR \fIseconds\fR
+Sets the timeout in seconds to wait for requests to complete.
+
+.TP
+\fBUNENCRYPTED\fR [ \fIon\FR | \fIoff\fR ]
+Disables use of secret to protect connection.
+
+.TP
+\fBURL\fR \fI<tacacs://name[:port]/>\fR
+Specifies the URL(s) of an TACACS server(s) to which the \fITACACS\fR library
+should connect. Each server's name can be specified as a domain-style name or
+an IP address literal. Optionally, the server's name can followed by a ':' and
+the port number of the TACACS service. If no port number is provided, the
+default port of 49 is used.
+
+.SH ENVIRONMENT VARIABLES
+.TP
+TACACSNOINIT
+disable all defaulting
+.TP
+TACACSCONF
+path of a configuration file
+.TP
+TACACSRC
+basename of tacacsrc file in $HOME
+.TP
+TACACS<option-name>
+Set <option-name> as from tacacs.conf
+
+.SH FILES
+.TP
+\fI@sysconfdir@/tacacs.conf
+system-wide TACACS configuration file
+.TP
+\fI$HOME/tacacsrc\fR, \fI$HOME/.tacacsrc\fR, \fI$HOME/$TACACSRC\fR, \fI$HOME/.$TACACSRC\fR
+user TACACS configuration file
+
+.SH SEE ALSO
+.BR tacplus (1),
+.BR tacacs.conf (5)
+
+.SH AUTHOR
+David M. Syzdek <david@syzdek.net>
+
+.SH ACKNOWLEDGEMENTS
+\fB@PACKAGE_NAME@\fR is developed and maintained by David M. Syzdek
+<david@syzdek.net>.
+
+.\" end of man page

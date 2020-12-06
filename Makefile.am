@@ -106,6 +106,7 @@ endif
 if TACPLUS_LIBTACACS
    pkglib_LTLIBRARIES			+= lib/libtacacs.la
    include_HEADERS			+= include/tacplusproxy.h
+   man_MANS				+= doc/tacacs.conf.5
    pkginclude_HEADERS			+= include/tacplusproxy/cdefs.h
    pkginclude_HEADERS			+= include/tacplusproxy/tac_plus.h
    pkginclude_HEADERS			+= include/tacplusproxy/tacacs.h
@@ -145,6 +146,7 @@ EXTRA_DIST				= $(noinst_HEADERS) \
 					  NEWS.md \
 					  README.md \
 					  TODO.md \
+					  doc/tacacs.conf.5.in \
 					  lib/libtacacs/libtacacs.sym
 CLEANFILES				= \
 					  $(builddir)/a.out   $(srcdir)/a.out \
@@ -263,6 +265,9 @@ include $(srcdir)/contrib/bindletools/build-aux/makefile-version.am
 
 # custom targets
 .PHONY:
+
+doc/tacacs.conf.5: Makefile $(srcdir)/doc/tacacs.conf.5.in
+	@$(do_subst_dt)
 
 
 # local targets
