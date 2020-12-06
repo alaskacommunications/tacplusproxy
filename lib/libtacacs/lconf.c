@@ -46,6 +46,42 @@
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>
+#include <errno.h>
+#include <regex.h>
+
+
+#undef  RC_CONF_REGEX
+#define RC_CONF_REGEX  "^[[:space:]]*"         /* ignore leading white space */ \
+                       "([-_a-z0-9]+)"         /* option name */\
+                       "[[:space:]]+"          /* ignore white space delimitor */ \
+                       "("                     \
+                          "on|off|"            /* boolean value */ \
+                          "[0-9]+|"            /* numerical value */ \
+                          "\"[^\"]+\"|"        /* double quoted value */ \
+                          "'[^']+'|"           /* single quoted value */ \
+                          "[^\'\"[:space:]]+"  /* unquoted value */ \
+                       ")"                     \
+                       "[[:space:]]*"          /* ignore trailing white space */ \
+                       "(#.*){0,1}$"           /* ignore trailing comment */
+
+#undef  RC_CONF_MAX_MATCHES
+#define RC_CONF_MAX_MATCHES   5
+
+
+/////////////////
+//             //
+//  Datatypes  //
+//             //
+/////////////////
+#pragma mark - Datatypes
+
+typedef struct my_conf_parser
+{
+   regex_t                    reg;
+   char *                     line;
+   size_t                     linecap;
+   regmatch_t *               matches;
+} MyConfParser;
 
 
 //////////////////
@@ -58,6 +94,27 @@
 _TACPP_F int
 tacacs_conf_defaults(
        TACACS *                        td );
+
+_TACPP_F int
+tacacs_conf_file(
+       TACACS *                        td );
+
+_TACPP_F int
+tacacs_conf_file_free(
+       TACACS *                        td,
+       MyConfParser *                  parser );
+
+_TACPP_F int
+tacacs_conf_file_parse(
+       TACACS *                        td,
+       MyConfParser *                  parser,
+       const char *                    filename );
+
+_TACPP_F int
+tacacs_conf_parse(
+       TACACS *                        td,
+       int                             field,
+       const char *                    value );
 
 _TACPP_F int
 tacacs_conf_variables(
@@ -73,15 +130,18 @@ tacacs_conf_variables(
 
 int tacacs_conf( TACACS * td )
 {
-   int        rc;
-   char *     str;
+   int           rc;
+   char *        str;
 
    assert(td != NULL);
+
+   if ((rc = tacacs_conf_defaults(td)) != TACACS_SUCCESS)
+      return(rc);
 
    if ((str = getenv("TACACSNOINIT")) != NULL)
       return(TACACS_SUCCESS);
 
-   if ((rc = tacacs_conf_defaults(td)) != TACACS_SUCCESS)
+   if ((rc = tacacs_conf_file(td)) != TACACS_SUCCESS)
       return(rc);
 
    if ((rc = tacacs_conf_variables(td)) != TACACS_SUCCESS)
@@ -135,70 +195,237 @@ int tacacs_conf_defaults( TACACS * td)
 }
 
 
-int tacacs_conf_variables( TACACS * td )
+int tacacs_conf_file(TACACS * td)
 {
-   int       rc;
-   int       i;
-   char *    val;
+   int                 rc;
+   size_t              size;
+   char *              home;
+   char *              tacacsconf;
+   char *              tacacsrc;
+   char                path[256];
+   MyConfParser        parser;
 
    assert(td != NULL);
 
-   if ((val = getenv("TACACSKEEPALIVE_IDLE")) != NULL)
+
+   bzero(&parser, sizeof(MyConfParser));
+
+
+   // compile regex
+   if ((rc = regcomp(&parser.reg, RC_CONF_REGEX, REG_EXTENDED|REG_ICASE)) != 0)
+      return(TACACS_EUNKNOWN);
+
+
+   // allocate buffer for matches
+   size = sizeof(regmatch_t) * (parser.reg.re_nsub + 1);
+   if ((parser.matches = malloc(size)) == NULL)
    {
-      i = atoi(val);
-      if ((rc = tacacs_set_option(td, TACACS_OPT_KEEPALIVE_IDLE, &i)) != TACACS_SUCCESS)
-         return(rc);
+      tacacs_conf_file_free(td, &parser);
+      return(TACACS_ENOMEM);
    };
-   if ((val = getenv("TACACSKEEPALIVE_INTERVAL")) != NULL)
+   bzero(parser.matches, size);
+
+
+   home       = getenv("HOME");
+   tacacsconf = getenv("TACACSCONF");
+   tacacsrc   = getenv("TACACSRC");
+
+
+   snprintf(path, sizeof(path), "%s/tacacs.conf", SYSCONFDIR);
+   tacacs_conf_file_parse(td, &parser, path);
+
+
+   if ((home))
    {
-      i = atoi(val);
-      if ((rc = tacacs_set_option(td, TACACS_OPT_KEEPALIVE_INTERVAL, &i)) != TACACS_SUCCESS)
-         return(rc);
+      snprintf(path, sizeof(path), "%s/tacacsrc", home);
+      tacacs_conf_file_parse(td, &parser, path);
+
+      snprintf(path, sizeof(path), "%s/.tacacsrc", home);
+      tacacs_conf_file_parse(td, &parser, path);
    };
-   if ((val = getenv("TACACSKEEPALIVE_PROBES")) != NULL)
+
+
+   if ((tacacsconf))
+      tacacs_conf_file_parse(td, &parser, tacacsconf);
+
+
+   if ( ((home)) && ((tacacsrc)) )
    {
-      i = atoi(val);
-      if ((rc = tacacs_set_option(td, TACACS_OPT_KEEPALIVE_PROBES, &i)) != TACACS_SUCCESS)
-         return(rc);
+      snprintf(path, sizeof(path), "%s/%s", home, tacacsrc);
+      tacacs_conf_file_parse(td, &parser, path);
+
+      snprintf(path, sizeof(path), "%s/.%s", home, tacacsrc);
+      tacacs_conf_file_parse(td, &parser, path);
    };
-   if ((val = getenv("TACACSNETWORK_TIMEOUT")) != NULL)
+
+
+   // free regex
+   tacacs_conf_file_free(td, &parser);
+
+   return(TACACS_SUCCESS);
+}
+
+
+int tacacs_conf_file_free( TACACS * td, MyConfParser * parser )
+{
+   assert(td     != NULL);
+   assert(parser != NULL);
+
+   if ((parser->line))
+      free(parser->line);
+
+   if ((parser->matches))
+      free(parser->matches);
+
+   regfree(&parser->reg);
+
+   bzero(parser, sizeof(MyConfParser));
+
+   return(TACACS_SUCCESS);
+}
+
+
+int tacacs_conf_file_parse( TACACS * td, MyConfParser * parser,
+   const char * filename )
+{
+   int         rc;
+   FILE *      fs;
+   ssize_t     len;
+   size_t      lineno;
+   size_t      nmatch;
+   char *      field;
+   char *      val;
+
+   assert(td       != NULL);
+   assert(filename != NULL);
+
+
+   // open file for reading
+   if ((fs = fopen(filename, "r")) == NULL)
    {
-      i = atoi(val);
-      if ((rc = tacacs_set_option(td, TACACS_OPT_NETWORK_TIMEOUT, &i)) != TACACS_SUCCESS)
-         return(rc);
+      fprintf(stderr, "%s: %s\n", filename, strerror(errno));
+      return(TACACS_EUNKNOWN);
    };
-   if ((val = getenv("TACACSTIMEOUT")) != NULL)
+
+
+   // resets file stats
+   lineno = 0;
+   nmatch = parser->reg.re_nsub+1;
+
+
+   // loops through file, one line at a time
+   while((len = getline(&parser->line, &parser->linecap, fs)) > 0)
    {
-      i = atoi(val);
-      if ((rc = tacacs_set_option(td, TACACS_OPT_TIMEOUT, &i)) != TACACS_SUCCESS)
-         return(rc);
+      // increment line number and truncate newline
+      lineno++;
+      parser->line[len-1] = '\0';
+
+      // checks line against regular expression
+      if ((rc = regexec(&parser->reg, parser->line, nmatch, parser->matches, 0)) != 0)
+         continue;
+
+      // isoloate field
+      parser->line[parser->matches[1].rm_eo] = '\0';
+      field = &parser->line[parser->matches[1].rm_so];
+
+      // isoloate value
+      parser->line[parser->matches[2].rm_eo] = '\0';
+      val = &parser->line[parser->matches[2].rm_so];
+      if (val[0] == '"')
+      {
+         parser->line[parser->matches[2].rm_eo-1] = '\0';
+         val = &parser->line[parser->matches[2].rm_so+1];
+      };
+
+      // store values
+      if (!(strcmp(field,      "keepalive_idle")))
+         tacacs_conf_parse(td, TACACS_OPT_KEEPALIVE_IDLE,     val);
+      else if (!(strcmp(field, "keepalive_interval")))
+         tacacs_conf_parse(td, TACACS_OPT_KEEPALIVE_INTERVAL, val);
+      else if (!(strcmp(field, "keepalive_probes")))
+         tacacs_conf_parse(td, TACACS_OPT_KEEPALIVE_PROBES,   val);
+      else if (!(strcmp(field, "network_timeout")))
+         tacacs_conf_parse(td, TACACS_OPT_NETWORK_TIMEOUT,    val);
+      else if (!(strcmp(field, "timeout")))
+         tacacs_conf_parse(td, TACACS_OPT_TIMEOUT,            val);
+      else if (!(strcmp(field, "secret")))
+         tacacs_conf_parse(td, TACACS_OPT_SECRET,             val);
+      else if (!(strcmp(field, "restart")))
+         tacacs_conf_parse(td, TACACS_OPT_RESTART,            val);
+      else if (!(strcmp(field, "unencrypted")))
+         tacacs_conf_parse(td, TACACS_OPT_UNENCRYPTED,        val);
+      else if (!(strcmp(field, "url")))
+         tacacs_conf_parse(td, TACACS_OPT_URL,                val);
    };
-   if ((val = getenv("TACACSSECRET")) != NULL)
+
+
+   // close file
+   fclose(fs);
+
+   return(TACACS_SUCCESS);
+}
+
+
+int tacacs_conf_parse( TACACS * td, int field, const char * value )
+{
+   int i;
+
+   assert(td  != NULL);
+
+   if (!(value))
+      return(TACACS_SUCCESS);
+   if (!(value[0]))
+      return(TACACS_SUCCESS);
+
+   switch(field)
    {
-      if ((rc = tacacs_set_option(td, TACACS_OPT_SECRET, val)) != TACACS_SUCCESS)
-         return(rc);
-   };
-   if ((val = getenv("TACACSRESTART")) != NULL)
-   {
-      i = TACACS_OPT_OFF;
-      if (!(strcasecmp(val, "on")))
+      case TACACS_OPT_KEEPALIVE_IDLE:
+      case TACACS_OPT_KEEPALIVE_INTERVAL:
+      case TACACS_OPT_KEEPALIVE_PROBES:
+      case TACACS_OPT_NETWORK_TIMEOUT:
+      case TACACS_OPT_TIMEOUT:
+      i = atoi(value);
+      return(tacacs_set_option(td, field, &i));
+
+
+      case TACACS_OPT_SECRET:
+      case TACACS_OPT_URL:
+      return(tacacs_set_option(td, field, value));
+
+
+      case TACACS_OPT_RESTART:
+      case TACACS_OPT_UNENCRYPTED:
+      if (!(strcasecmp(value, "on")))
          i = TACACS_OPT_ON;
-      if ((rc = tacacs_set_option(td, TACACS_OPT_RESTART, &i)) != TACACS_SUCCESS)
-         return(rc);
-   };
-   if ((val = getenv("TACACSUNENCRYPTED")) != NULL)
-   {
-      i = TACACS_OPT_ON;
-      if (!(strcasecmp(val, "off")))
+      else if  (!(strcasecmp(value, "off")))
          i = TACACS_OPT_OFF;
-      if ((rc = tacacs_set_option(td, TACACS_OPT_UNENCRYPTED, &i)) != TACACS_SUCCESS)
-         return(rc);
+      else
+         return(TACACS_EUNKNOWN);
+      return(tacacs_set_option(td, field, &i));
+
+
+      default:
+      break;
    };
-   if ((val = getenv("TACACSURL")) != NULL)
-   {
-      if ((rc = tacacs_set_option(td, TACACS_OPT_URL, val)) != TACACS_SUCCESS)
-         return(rc);
-   };
+
+
+   return(TACACS_EUNKNOWN);
+}
+
+
+int tacacs_conf_variables( TACACS * td )
+{
+   assert(td != NULL);
+
+   tacacs_conf_parse(td, TACACS_OPT_KEEPALIVE_IDLE,     getenv("TACACSKEEPALIVE_IDLE"));
+   tacacs_conf_parse(td, TACACS_OPT_KEEPALIVE_INTERVAL, getenv("TACACSKEEPALIVE_INTERVAL"));
+   tacacs_conf_parse(td, TACACS_OPT_KEEPALIVE_PROBES,   getenv("TACACSKEEPALIVE_PROBES"));
+   tacacs_conf_parse(td, TACACS_OPT_NETWORK_TIMEOUT,    getenv("TACACSNETWORK_TIMEOUT"));
+   tacacs_conf_parse(td, TACACS_OPT_TIMEOUT,            getenv("TACACSTIMEOUT"));
+   tacacs_conf_parse(td, TACACS_OPT_SECRET,             getenv("TACACSSECRET"));
+   tacacs_conf_parse(td, TACACS_OPT_RESTART,            getenv("TACACSRESTART"));
+   tacacs_conf_parse(td, TACACS_OPT_UNENCRYPTED,        getenv("TACACSUNENCRYPTED"));
+   tacacs_conf_parse(td, TACACS_OPT_URL,                getenv("TACACSURL"));
 
    return(TACACS_SUCCESS);
 }
