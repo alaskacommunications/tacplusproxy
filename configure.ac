@@ -72,8 +72,6 @@ AC_PROG_CC
 #AC_PROG_OBJC
 AC_PROG_CXX
 AM_PROG_CC_C_O
-AC_PROG_LEX
-AC_PROG_YACC
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 AC_USE_SYSTEM_EXTENSIONS # replaces AC_AIX AC_GNU_SOURCE AC_MINIX
@@ -103,6 +101,7 @@ AC_PROG_AWK
 AC_PROG_EGREP
 AC_PROG_FGREP
 AM_PROG_LEX
+AC_PROG_YACC
 AC_PROG_LN_S
 AC_PROG_MKDIR_P
 AC_PROG_SED
@@ -155,6 +154,7 @@ AC_SEARCH_LIBS([socket],               socket,,AC_MSG_ERROR([missing required fu
 AC_CHECK_HEADER_STDBOOL
 AC_CHECK_HEADERS([arpa/inet.h],,       [AC_MSG_ERROR([missing required header])])
 AC_CHECK_HEADERS([fcntl.h],,           [AC_MSG_ERROR([missing required header])])
+AC_CHECK_HEADERS([limits.h],,          [AC_MSG_ERROR([missing required header])])
 AC_CHECK_HEADERS([termios.h],,         [AC_MSG_ERROR([missing required header])])
 AC_CHECK_HEADERS([getopt.h],,          [AC_MSG_ERROR([missing required header])])
 AC_CHECK_HEADERS([signal.h],,          [AC_MSG_ERROR([missing required header])])
