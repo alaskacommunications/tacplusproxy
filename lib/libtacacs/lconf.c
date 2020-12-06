@@ -302,10 +302,7 @@ int tacacs_conf_file_parse( TACACS * td, MyConfParser * parser,
 
    // open file for reading
    if ((fs = fopen(filename, "r")) == NULL)
-   {
-      fprintf(stderr, "%s: %s\n", filename, strerror(errno));
       return(TACACS_EUNKNOWN);
-   };
 
 
    // resets file stats
