@@ -143,6 +143,10 @@ int tacacs_get_option( TACACS * td, int option, void * outvalue )
 
    switch(option)
    {
+      case TACACS_OPT_FLAGS:
+      *((uint64_t *)outvalue) = td->flags;
+      return(TACACS_SUCCESS);
+
       case TACACS_OPT_KEEPALIVE_IDLE:
       return(tacacs_get_option_int(td, outvalue, td->keepalive_idle));
 

@@ -92,6 +92,7 @@
 #define TACACS_OPT_TIMEOUT             8
 #define TACACS_OPT_UNENCRYPTED         9
 #define TACACS_OPT_SECRET             10
+#define TACACS_OPT_FLAGS              11
 
 
 #define TACACS_OPT_OFF                 0

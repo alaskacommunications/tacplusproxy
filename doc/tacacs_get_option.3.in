@@ -48,6 +48,12 @@ TACACS (libtacacs, -ltacacs)
 
 .SH DESCRIPTION
 .TP
+\fBTACACS_OPT_FLAGS\fR
+Gets the internal flags set on the TACACS instance. This is a diagnostic option
+for the project maintainers. \fBoutvalue\fR must be \fBuint64_t *\fR and must
+not be \fINULL\fR.
+
+.TP
 \fBTACACS_OPT_KEEPALIVE_IDLE\fR
 Sets/gets the number of seconds a connection needs to remain idle before TCP
 starts sending keepalive probes. \fBinvalue\fR must be \fBconst int *\fR, while

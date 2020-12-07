@@ -284,6 +284,7 @@ int my_debug( TACPLUSCFG * cfg )
 {
    int        i;
    char *     str;
+   uint64_t   u64;
 
    printf("%-20s %s\n", "Library Version:", tacacs_version() );
    printf("%-20s %s\n", "Library API:",     tacacs_api_version() );
@@ -314,6 +315,9 @@ int my_debug( TACPLUSCFG * cfg )
 
    tacacs_get_option(cfg->td, TACACS_OPT_URL, &str);
    my_debug_str( "URL:", str );
+
+   tacacs_get_option(cfg->td, TACACS_OPT_FLAGS, &u64);
+   printf("%-20s 0x%08" PRIx64 "\n", "Internal Flags:", u64);
 
    return(0);
 }
