@@ -316,6 +316,9 @@ int my_debug( TACPLUSCFG * cfg )
    tacacs_get_option(cfg->td, TACACS_OPT_URL, &str);
    my_debug_str( "URL:", str );
 
+   tacacs_get_option(cfg->td, TACACS_OPT_SOCKET, &i);
+   my_debug_int( "Socket:", i );
+
    tacacs_get_option(cfg->td, TACACS_OPT_FLAGS, &u64);
    printf("%-20s 0x%08" PRIx64 "\n", "Internal Flags:", u64);
 
