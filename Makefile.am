@@ -107,6 +107,7 @@ if TACPLUS_LIBTACACS
    pkglib_LTLIBRARIES			+= lib/libtacacs.la
    include_HEADERS			+= include/tacplusproxy.h
    man_MANS				+= doc/tacacs.conf.5
+   man_MANS				+= doc/tacacs_get_option.3
    pkginclude_HEADERS			+= include/tacplusproxy/cdefs.h
    pkginclude_HEADERS			+= include/tacplusproxy/tac_plus.h
    pkginclude_HEADERS			+= include/tacplusproxy/tacacs.h
@@ -147,6 +148,7 @@ EXTRA_DIST				= $(noinst_HEADERS) \
 					  README.md \
 					  TODO.md \
 					  doc/tacacs.conf.5.in \
+					  doc/tacacs_get_option.3.in \
 					  lib/libtacacs/libtacacs.sym
 CLEANFILES				= \
 					  $(builddir)/a.out   $(srcdir)/a.out \
@@ -269,6 +271,9 @@ include $(srcdir)/contrib/bindletools/build-aux/makefile-version.am
 doc/tacacs.conf.5: Makefile $(srcdir)/doc/tacacs.conf.5.in
 	@$(do_subst_dt)
 
+doc/tacacs_get_option.3: Makefile $(srcdir)/doc/tacacs_get_option.3.in
+	@$(do_subst_dt)
+
 
 # local targets
 install-exec-local:
@@ -278,8 +283,14 @@ install-data-local:
 install-exec-hook:
 
 install-data-hook:
+	test -f $(DESTDIR)/$(mandir)/man3/tacacs_get_option.3 && \
+	   cd $(DESTDIR)/$(mandir)/man3 && \
+	   ln -fs tacacs_get_option.3 tacacs_set_option.3
 
 uninstall-local:
+
+uninstall-hook:
+	rm -f $(DESTDIR)/$(mandir)/man3/tacacs_set_option.3
 
 clean-local:
 

@@ -1,0 +1,139 @@
+.\"
+.\" TACACS+ Proxy Server and Utilities
+.\" Copyright (c) 2020 David M. Syzdek <david@syzdek.net>
+.\" All rights reserved.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions are
+.\" met:
+.\"
+.\"    1. Redistributions of source code must retain the above copyright
+.\"       notice, this list of conditions and the following disclaimer.
+.\"
+.\"    2. Redistributions in binary form must reproduce the above copyright
+.\"       notice, this list of conditions and the following disclaimer in the
+.\"       documentation and/or other materials provided with the distribution.
+.\"
+.\"    3. Neither the name of the copyright holder nor the names of its
+.\"       contributors may be used to endorse or promote products derived from
+.\"       this software without specific prior written permission.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+.\" IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+.\" THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+.\" PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+.\" CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+.\" EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+.\" PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+.\" PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+.\" LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+.\" NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+.\" SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+.\"
+.\" doc/tacacs.conf.5.in - man page for tacacs.conf
+.\"
+.TH "TACACS_GET_OPTION" "3" "@RELEASE_MONTH@" "@PACKAGE_NAME@" "Library Functions Manual"
+.SH NAME
+tacacs_get_option, tacacs_set_option - TACACS option handling routines
+
+.SH LIBRARY
+TACACS (libtacacs, -ltacacs)
+
+.SH SYNOPSIS
+\fB#include\fR \fB<tacplusproxy/tacacs.h>\fR
+
+\fBint\fR \fBtacacs_get_option(\fR \fBTACACS *\fR\fItd\fR, \fBint\fR \fIoption\fR, \fBvoid *\fR\fIoutvalue\fR);
+
+\fBint\fR \fBtacacs_set_option(\fR \fBTACACS *\fR\fItd\fR, \fBint\fR \fIoption\fR, \fBconst void *\fR\fIinvalue\fR);
+
+.SH DESCRIPTION
+.TP
+\fBTACACS_OPT_KEEPALIVE_IDLE\fR
+Sets/gets the number of seconds a connection needs to remain idle before TCP
+starts sending keepalive probes. \fBinvalue\fR must be \fBconst int *\fR, while
+\fBoutvalue\fR must be \fBint *\fR. \fBinvalue\fR and \fBoutvalue\fR must not
+be \fINULL\fR.
+
+.TP
+\fBTACACS_OPT_KEEPALIVE_INTERVAL\fR
+Sets/gets the interval in seconds between individual keepalive probes.
+\fBinvalue\fR must be \fBconst int *\fR, while \fBoutvalue\fR must be
+\fBint *\fR. \fBinvalue\fR and \fBoutvalue\fR must not be \fINULL\fR.
+
+.TP
+\fBTACACS_OPT_KEEPALIVE_PROBES\fR
+Sets/gets the maximum number of keepalive probes TCP should send with out
+receiving an ACK before dropping the connection. \fBinvalue\fR must be
+\fBconst int *\fR, while \fBoutvalue\fR must be \fBint *\fR. \fBinvalue\fR and
+\fBoutvalue\fR must not be \fINULL\fR.
+
+.TP
+\fBTACACS_OPT_NETWORK_TIMEOUT\fR
+Sets/gets the timeout (in seconds) after which the poll(2)/select(2) following
+a connect(2) returns in case of no activity. \fBinvalue\fR must be
+\fBconst int *\fR, while \fBoutvalue\fR must be \fBint *\fR. \fBinvalue\fR and
+\fBoutvalue\fR must not be \fINULL\fR.
+
+.TP
+\fBTACACS_OPT_RESTART\fR
+Determines whether the library should implicitly restart connections.
+\fBinvalue\fR must be \fBconst int *\fR; its value should either be
+\fBTACACS_OPT_OFF\fR or \fBTACACS_OPT_ON\fR. \fBoutvalue\fR must be \fBint *\fR.
+
+.TP
+\fBTACACS_OPT_SECRET\fR
+Sets/gets the shared secret used to obfuscate the body of the packets.
+\fBinvalue\fR must be \fBconst char *\fR. \fBoutvalue\fR must be \fBchar **\fR,
+and the caller is responsible of freeing the resulting string by calling
+\fBtacacs_memfree(3)\fR. \fBinvalue\fR and \fBoutvalue\fR must not be
+\fINULL\fR. Setting this option will also set \fBTACACS_OPT_UNENCRYPTED\fR to
+\fBTACACS_OPT_OFF\fR.
+
+.TP
+\fBTACACS_OPT_SOCKET\fR
+Sets/gets the socket used by the library. If setting the socket, the library
+will close the existing socket if it was opened by the library. The library
+will not close sockets set using this option. Set the socket to \fI-1\fR to
+have the library reset its TCP socket. \fBinvalue\fR must be \fBconst int *\fR,
+while \fBoutvalue\fR must be \fBint *\fR. \fBinvalue\fR and \fBoutvalue\fR
+must not be \fINULL\fR.
+
+.TP
+\fBTACACS_OPT_TIMEOUT\fR
+Sets/gets the timeout in seconds to wait for requests to complete.
+\fBinvalue\fR must be \fBconst int *\fR, while \fBoutvalue\fR must be
+\fBint *\fR. \fBinvalue\fR and \fBoutvalue\fR must not be \fINULL\fR.
+
+.TP
+\fBTACACS_OPT_UNENCRYPTED\fR
+Determines whether to obfuscate the body of the packet using the shared secret.
+\fBinvalue\fR must be \fBconst int *\fR; its value should either be
+\fBTACACS_OPT_OFF\fR or \fBTACACS_OPT_ON\fR. \fBoutvalue\fR must be
+\fBint *\fR. Setting a shared secret will set this option to
+\fBTACACS_OPT_OFF\fR.
+
+.TP
+\fBTACACS_OPT_URL\fR
+Sets/gets an URI to be contacted by the library when trying to establish a
+connection. \fBinvalue\fR must be \fBconst char *\fR. \fBoutvalue\fR must be
+\fBchar **\fR, and the caller is responsible of freeing the resulting string by
+calling \fBtacacs_memfree(3)\fR. \fBinvalue\fR and \fBoutvalue\fR must not be
+\fINULL\fR.
+
+.SH ERRORS
+On success, the functions return TACACS_SUCCESS, otherwise a specific error
+is returned.
+.SH SEE ALSO
+.BR tacacs (3),
+.BR tacacs_error (3),
+.B RFC 8907
+(http://www.rfc-editor.org),
+
+.SH AUTHOR
+David M. Syzdek <david@syzdek.net>
+
+.SH ACKNOWLEDGEMENTS
+\fB@PACKAGE_NAME@\fR is developed and maintained by David M. Syzdek
+<david@syzdek.net>.
+
+.\" end of man page
