@@ -181,7 +181,7 @@ tacacs_free_urldesc(
        TACACSURLDesc *                 tudp );
 
 _TACPP_F int
-tacacs_is_ldap_url(
+tacacs_is_tacacs_url(
        const char *                    url );
 
 _TACPP_F int

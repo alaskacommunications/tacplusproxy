@@ -72,7 +72,7 @@ void tacacs_free_urldesc( TACACSURLDesc * tudp)
 }
 
 
-int tacacs_is_ldap_url( const char * url )
+int tacacs_is_tacacs_url( const char * url )
 {
    size_t       p;
 
