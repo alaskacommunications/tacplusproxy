@@ -335,24 +335,24 @@ int tacacs_conf_file_parse( TACACS * td, MyConfParser * parser,
       };
 
       // store values
-      if (!(strcmp(field,      "keepalive_idle")))
-         tacacs_conf_parse(td, TACACS_OPT_KEEPALIVE_IDLE,     val);
-      else if (!(strcmp(field, "keepalive_interval")))
-         tacacs_conf_parse(td, TACACS_OPT_KEEPALIVE_INTERVAL, val);
-      else if (!(strcmp(field, "keepalive_probes")))
-         tacacs_conf_parse(td, TACACS_OPT_KEEPALIVE_PROBES,   val);
-      else if (!(strcmp(field, "network_timeout")))
-         tacacs_conf_parse(td, TACACS_OPT_NETWORK_TIMEOUT,    val);
-      else if (!(strcmp(field, "timeout")))
-         tacacs_conf_parse(td, TACACS_OPT_TIMEOUT,            val);
-      else if (!(strcmp(field, "secret")))
-         tacacs_conf_parse(td, TACACS_OPT_SECRET,             val);
-      else if (!(strcmp(field, "restart")))
-         tacacs_conf_parse(td, TACACS_OPT_RESTART,            val);
-      else if (!(strcmp(field, "unencrypted")))
-         tacacs_conf_parse(td, TACACS_OPT_UNENCRYPTED,        val);
-      else if (!(strcmp(field, "url")))
-         tacacs_conf_parse(td, TACACS_OPT_URL,                val);
+      if (!(strcasecmp(field,      "keepalive_idle")))
+         tacacs_conf_parse(td,     TACACS_OPT_KEEPALIVE_IDLE,     val);
+      else if (!(strcasecmp(field, "keepalive_interval")))
+         tacacs_conf_parse(td,      TACACS_OPT_KEEPALIVE_INTERVAL, val);
+      else if (!(strcasecmp(field, "keepalive_probes")))
+         tacacs_conf_parse(td,      TACACS_OPT_KEEPALIVE_PROBES,   val);
+      else if (!(strcasecmp(field, "network_timeout")))
+         tacacs_conf_parse(td,      TACACS_OPT_NETWORK_TIMEOUT,    val);
+      else if (!(strcasecmp(field, "timeout")))
+         tacacs_conf_parse(td,      TACACS_OPT_TIMEOUT,            val);
+      else if (!(strcasecmp(field, "secret")))
+         tacacs_conf_parse(td,      TACACS_OPT_SECRET,             val);
+      else if (!(strcasecmp(field, "restart")))
+         tacacs_conf_parse(td,      TACACS_OPT_RESTART,            val);
+      else if (!(strcasecmp(field, "unencrypted")))
+         tacacs_conf_parse(td,      TACACS_OPT_UNENCRYPTED,        val);
+      else if (!(strcasecmp(field, "url")))
+         tacacs_conf_parse(td,      TACACS_OPT_URL,                val);
    };
 
 
