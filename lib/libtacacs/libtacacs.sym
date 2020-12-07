@@ -37,6 +37,7 @@ tacacs_err2string
 # Memory Functions
 tacacs_get_option
 tacacs_initialize
+tacacs_memfree
 tacacs_set_option
 tacacs_unbind
 #

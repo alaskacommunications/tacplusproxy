@@ -156,6 +156,10 @@ tacacs_initialize(
        TACACS **                       tdp,
        const char *                    url );
 
+_TACPP_F void
+tacacs_memfree(
+       void *                          p );
+
 _TACPP_F int
 tacacs_set_option(
        TACACS *                        td,

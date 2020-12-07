@@ -264,6 +264,15 @@ int tacacs_initialize( TACACS ** tdp, const char * url )
 }
 
 
+void tacacs_memfree( void * p )
+{
+   if (!(p))
+      return;
+   free(p);
+   return;
+}
+
+
 int tacacs_set_option( TACACS * td, int option, const void * invalue )
 {
    assert(invalue  != NULL);
