@@ -332,6 +332,11 @@ int tacacs_conf_file_parse( TACACS * td, MyConfParser * parser,
       {
          parser->line[parser->matches[2].rm_eo-1] = '\0';
          val = &parser->line[parser->matches[2].rm_so+1];
+      }
+      else if (val[0] == '\'')
+      {
+         parser->line[parser->matches[2].rm_eo-1] = '\0';
+         val = &parser->line[parser->matches[2].rm_so+1];
       };
 
       // store values
