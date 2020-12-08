@@ -44,6 +44,7 @@ tacacs_unbind
 # URL functions
 tacacs_free_urldesc
 tacacs_is_tacacs_url
+tacacs_url_get_field
 tacacs_url_parse
 #
 # Version functions

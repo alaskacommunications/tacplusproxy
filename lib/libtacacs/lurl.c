@@ -72,6 +72,35 @@ void tacacs_free_urldesc( TACACSURLDesc * tudp)
 }
 
 
+int tacacs_url_get_field( TACACSURLDesc * tudp, int option, void * outvalue )
+{
+   assert(tudp     != NULL);
+   assert(outvalue != NULL);
+
+   switch(option)
+   {
+      case TACACS_TUD_SCHEME:
+      if ((*((char **)outvalue) = strdup(tudp->tud_scheme)) == NULL)
+         return(TACACS_ENOMEM);
+      return(TACACS_SUCCESS);
+
+      case TACACS_TUD_HOST:
+      if ((*((char **)outvalue) = strdup(tudp->tud_host)) == NULL)
+         return(TACACS_ENOMEM);
+      return(TACACS_SUCCESS);
+
+      case TACACS_TUD_PORT:
+      *((int *)outvalue) = tudp->tud_port;
+      return(TACACS_SUCCESS);
+
+      default:
+      break;
+   };
+
+   return(TACACS_SUCCESS);
+}
+
+
 int tacacs_is_tacacs_url( const char * url )
 {
    size_t       p;

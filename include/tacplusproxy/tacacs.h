@@ -118,6 +118,11 @@
 #define TACACS_FLG_LIBSOCKET           (0x00000001ULL << 32)  ///< socket opened by library
 
 
+#define TACACS_TUD_SCHEME              1
+#define TACACS_TUD_HOST                2
+#define TACACS_TUD_PORT                3
+
+
 /////////////////
 //             //
 //  Datatypes  //
@@ -194,6 +199,12 @@ tacacs_free_urldesc(
 _TACPP_F int
 tacacs_is_tacacs_url(
        const char *                    url );
+
+_TACPP_F int
+tacacs_url_get_field(
+       TACACSURLDesc *                 tudp,
+       int                             option,
+       void *                          outvalue );
 
 _TACPP_F int
 tacacs_url_parse(
