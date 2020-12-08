@@ -171,7 +171,7 @@ int main(int argc, char * argv[])
       return(1);
    };
    bzero(cfg, sizeof(TACPLUSCFG));
-   if ((rc = tacacs_initialize(&cfg->td, NULL)) != TACACS_SUCCESS)
+   if ((rc = tacacs_initialize(&cfg->td, NULL, 0)) != TACACS_SUCCESS)
    {
       fprintf(stderr, "%s: %s\n", prog_name, tacacs_err2string(rc));
       my_free_cfg(cfg);

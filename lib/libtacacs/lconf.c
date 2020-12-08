@@ -138,6 +138,8 @@ int tacacs_conf( TACACS * td )
    if ((rc = tacacs_conf_defaults(td)) != TACACS_SUCCESS)
       return(rc);
 
+   if ((td->flags & TACACS_FLG_NOINIT) == TACACS_FLG_NOINIT)
+      return(TACACS_SUCCESS);
    if ((str = getenv("TACACSNOINIT")) != NULL)
       return(TACACS_SUCCESS);
 

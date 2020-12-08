@@ -164,7 +164,8 @@ tacacs_get_option(
 _TACPP_F int
 tacacs_initialize(
        TACACS **                       tdp,
-       const char *                    url );
+       const char *                    url,
+       uint64_t                        flags );
 
 _TACPP_F void
 tacacs_memfree(

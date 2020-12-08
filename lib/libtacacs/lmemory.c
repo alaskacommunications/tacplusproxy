@@ -224,7 +224,7 @@ int tacacs_get_option_string( TACACS * td, char ** outvalue, const char * invalu
 }
 
 
-int tacacs_initialize( TACACS ** tdp, const char * url )
+int tacacs_initialize( TACACS ** tdp, const char * url, uint64_t flags )
 {
    int      rc;
    TACACS * td;
@@ -239,7 +239,8 @@ int tacacs_initialize( TACACS ** tdp, const char * url )
       return(TACACS_ENOMEM);
    };
    bzero(td, sizeof(TACACS));
-   td->s = -1;
+   td->s     = -1;
+   td->flags = (TACACS_FLG_MASK_USER & flags);
 
 
    // parse configurations
