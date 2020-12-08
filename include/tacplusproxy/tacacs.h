@@ -109,10 +109,13 @@
 #define TACACS_DFLT_URL                "tacacs://localhost/"
 
 
-#define TACACS_FLG_LIBSOCKET       0x01  ///< socket opened by library
-#define TACACS_FLG_SERVER          0x02  ///< library processing as server
-#define TACACS_FLG_RESTART         0x04
-#define TACACS_FLG_UNENCRYPTED     0x08
+#define TACACS_FLG_NOINIT              0x00000001ULL  ///< disable all defaulting
+#define TACACS_FLG_SERVER              0x00000002ULL  ///< library processing as server
+#define TACACS_FLG_RESTART             0x00000004ULL
+#define TACACS_FLG_UNENCRYPTED         0x00000008ULL
+#define TACACS_FLG_MASK_USER           0xFFFFFFFFULL
+
+#define TACACS_FLG_LIBSOCKET           (0x00000001ULL << 32)  ///< socket opened by library
 
 
 /////////////////
