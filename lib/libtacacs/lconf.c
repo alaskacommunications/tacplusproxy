@@ -370,7 +370,8 @@ int tacacs_conf_file_parse( TACACS * td, MyConfParser * parser,
 
 int tacacs_conf_parse( TACACS * td, int field, const char * value )
 {
-   int i;
+   int     i;
+   char *  endptr;
 
    assert(td  != NULL);
 
@@ -386,7 +387,11 @@ int tacacs_conf_parse( TACACS * td, int field, const char * value )
       case TACACS_OPT_KEEPALIVE_PROBES:
       case TACACS_OPT_NETWORK_TIMEOUT:
       case TACACS_OPT_TIMEOUT:
-      i = atoi(value);
+      i = (int)strtol(value, &endptr, 10);
+      if (value == endptr)
+         return(TACACS_EUNKNOWN);
+      if (endptr[0] != '\0')
+         return(TACACS_EUNKNOWN);
       return(tacacs_set_option(td, field, &i));
 
 
