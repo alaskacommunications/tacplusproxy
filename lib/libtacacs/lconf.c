@@ -51,18 +51,16 @@
 
 
 #undef  RC_CONF_REGEX
-#define RC_CONF_REGEX  "^[[:space:]]*"         /* ignore leading white space */ \
-                       "([-_a-z0-9]+)"         /* option name */\
-                       "[[:space:]]+"          /* ignore white space delimitor */ \
-                       "("                     \
-                          "on|off|"            /* boolean value */ \
-                          "[0-9]+|"            /* numerical value */ \
-                          "\"[^\"]+\"|"        /* double quoted value */ \
-                          "'[^']+'|"           /* single quoted value */ \
-                          "[^\'\"[:space:]]+"  /* unquoted value */ \
-                       ")"                     \
-                       "[[:space:]]*"          /* ignore trailing white space */ \
-                       "(#.*){0,1}$"           /* ignore trailing comment */
+#define RC_CONF_REGEX  "^[[:space:]]*"           /* ignore leading white space */ \
+                       "([-_a-z0-9]+)"           /* option name */\
+                       "[[:space:]]+"            /* ignore white space delimitor */ \
+                       "("                       /* */ \
+                          "\"[^\"]+\"|"             /* double quoted value */ \
+                          "'[^']+'|"                /* single quoted value */ \
+                          "[^\'\"[:space:]]+"       /* unquoted value */ \
+                       ")"                       /* */ \
+                       "[[:space:]]*"            /* ignore trailing white space */ \
+                       "([[:space:]]#.*){0,1}$"  /* ignore trailing comment */
 
 #undef  RC_CONF_MAX_MATCHES
 #define RC_CONF_MAX_MATCHES   5
