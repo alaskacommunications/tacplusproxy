@@ -109,6 +109,12 @@
 #define TACACS_DFLT_URL                "tacacs://localhost/"
 
 
+#define TACACS_FLG_LIBSOCKET       0x01  ///< socket opened by library
+#define TACACS_FLG_SERVER          0x02  ///< library processing as server
+#define TACACS_FLG_RESTART         0x04
+#define TACACS_FLG_UNENCRYPTED     0x08
+
+
 /////////////////
 //             //
 //  Datatypes  //
